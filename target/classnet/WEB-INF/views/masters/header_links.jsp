@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="windows-1252"%>
+<%@page contentType="text/html" isELIgnored="false" pageEncoding="windows-1252"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
