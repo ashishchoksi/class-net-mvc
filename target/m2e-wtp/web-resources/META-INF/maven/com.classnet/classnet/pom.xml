@@ -46,14 +46,14 @@
 
                 <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
                   
+                  
                 <dependency>
                     <groupId>javax.servlet</groupId>
                     <artifactId>servlet-api</artifactId>
                     <version>2.5</version>
                     <scope>provided</scope>
                 </dependency>
-				
-
+		
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -62,11 +62,12 @@
 		</dependency>
 
 				  
-         		<dependency>
+                <!-- miss-match with version                	
+                    <dependency>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-context</artifactId>
                     <version>4.1.8.RELEASE</version>
-                </dependency>
+                </dependency>-->
                 
                     
                 <dependency>
