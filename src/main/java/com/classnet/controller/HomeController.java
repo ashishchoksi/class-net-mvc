@@ -11,7 +11,11 @@ public class HomeController {
     
     // index page set
     @RequestMapping("/")
-    public String index(){
+    public String index(HttpServletRequest req){
+        
+        // session created
+        String id = (String)req.getSession().getAttribute("ssid");
+        System.out.println("id : " + id);
         // serive.getpage(): return
         return "index";
     }

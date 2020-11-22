@@ -1,4 +1,4 @@
-<%@page contentType="text/html" isELIgnored="false" pageEncoding="windows-1252"%>
+<%@page contentType="text/html" isELIgnored="false" isErrorPage="false" pageEncoding="windows-1252"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html>
@@ -29,10 +29,10 @@
     <link rel="stylesheet" href="${mres}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-	<!-- css files -->
-	<link href="${mres}/plugins/login-css/style.css" rel="stylesheet" type="text/css" media="all"/>
-	<!-- //css files -->
-	
+    <!-- css files -->
+    <link href="${mres}/plugins/login-css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <!-- //css files -->
+    
 </head>
 <body>
 
@@ -50,16 +50,17 @@
 			<div class="w3_info">
 				<h2>Login to your Account</h2>
 				<p>Enter your DAIICT email id.</p>
-				<form action="#" method="post">
+                                <h3 style="color:red;"> ${err_msg} </h3>
+				<form action="login" method="post">
 					<!-- <label>Email Address</label> -->
 					<div class="input-group">
 						<span class="fa fa-envelope" aria-hidden="true"></span>
-						<input type="email" placeholder="Enter Your DAIICT Email" required=""> 
+                                                <input name="email" type="email" placeholder="Enter Your DAIICT Email" required=""> 
 					</div>
 					<!-- <label>Password</label> -->
 					<div class="input-group">
 						<span class="fa fa-lock" aria-hidden="true"></span>
-						<input type="Password" placeholder="Enter Password" required="">
+                                                <input name="pass" type="Password" placeholder="Enter Password" required="">
 					</div> 
 					<!-- <div class="login-check">
 						 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Remember me</label>
