@@ -54,5 +54,7 @@ public class HomeController {
     @RequestMapping("/profile")
     public String profile(){
         return "profile";
-    }    
+    
+    }
+
 }

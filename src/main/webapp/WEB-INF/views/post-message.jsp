@@ -44,21 +44,22 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="interactive">
+                                    <form action="post-message" method="post">
                                         <h4 class="font-weight-normal ">
                                             <div class="form-group row">
                                                 <!-- col-form-label -->
                                                 <label for="inputEmail3" class="col-sm-auto col-form-label">Message
-                                                    Title </label>
+                                                    Title </label>  
                                                 <div class="col-sm-8">
                                                     <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Poll Title. Ex. Election Time"> -->
                                                     <input class="form-control form-control-lg" type="text"
-                                                        placeholder="Enter Poll Title. Ex. Election Time">
+                                                        placeholder="Enter Message Title" name="title">
                                                 </div>
                                             </div>
                                         </h4>
 
                                         <div class="alert alert-light" role="alert">
-
+											${error}
                                             <div class="col-lg-12">
 
                                                 <label>Message Detail
@@ -71,7 +72,7 @@
                                                 <div class="form-group">
                                                     <label>Message Content</label>
                                                     <textarea class="form-control" rows="3"
-                                                        placeholder="Enter Message detail"></textarea>
+                                                        placeholder="Enter Message detail" name="msgContent"></textarea>
                                                 </div>
 
                                                 <div class="form-group">
@@ -104,7 +105,8 @@
                                             </div>
 
                                         </div>
-                                        <button type="button" class="btn bg-gradient-success">Submit</button>
+                                        <button type="submit" class="btn bg-gradient-success">Submit</button>
+                                        </form>
                                     </div>
 
                                 </div>

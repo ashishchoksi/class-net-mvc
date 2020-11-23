@@ -21,7 +21,19 @@ public class Message {
 	
 	private String batch_id;
 
+	private int msg_type;
 	
+	public int getMsg_type() {
+		return msg_type;
+	}
+	public void setMsg_type(int msg_type) {
+		this.msg_type = msg_type;
+	}
+	public Message() {}
+	public Message(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -75,6 +87,7 @@ public class Message {
 		return is_document;
 	}
 
+	
 	public void setIs_document(boolean is_document) {
 		this.is_document = is_document;
 	}

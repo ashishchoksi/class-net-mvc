@@ -29,5 +29,4 @@ public class VisitorService {
         result = visdao.registration(email,name,program_id,student_type_id,ssid);        
         return result;
     }
-    
 }
