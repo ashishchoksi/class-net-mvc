@@ -48,4 +48,9 @@ public class HomeController {
         return "revoke-permission";
     }
     
+    @RequestMapping("/profile")
+    public String profile(){
+        return "profile";
+    } 
+    
 }

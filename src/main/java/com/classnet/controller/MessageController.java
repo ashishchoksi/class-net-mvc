@@ -66,5 +66,12 @@ public class MessageController {
     	return "post-message";
     }
     
+    @RequestMapping(path="/comment", method = RequestMethod.POST)
+    public String doComment(@RequestParam("comment") String comment, @RequestParam("mid") String message_id){
+        System.out.println("comment done " + comment + " " + message_id);
+        msgService.addComment(comment, message_id);
+        return "redirect:/view-message";
+    }
+    
     
 }

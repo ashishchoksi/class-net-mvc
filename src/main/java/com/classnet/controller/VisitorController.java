@@ -56,4 +56,30 @@ public class VisitorController {
         return "registration";
     }
     
+    @RequestMapping(path = "/registration", method = RequestMethod.POST)
+    public String doRegistration(@RequestParam("email") String email,@RequestParam("name") String name, Model model, HttpServletRequest request ) {
+    	String student_id = email.substring(0,9);
+    	String check_collage = email.substring(10,email.length());
+    	if(visService.registration_check(email)) {
+    		String str_id = student_id + " is Already registed";
+    		model.addAttribute("err_msg", str_id);
+    		return "registration";
+    	} else if(!(check_collage.equals("daiict.ac.in"))) {
+    		String str_id = check_collage + " is invalid collage";
+    		model.addAttribute("err_msg", str_id);
+    		return "registration";
+    	}
+    	else {
+    		final int student_type_id=1;
+    		final String program_id = student_id.substring(4,6);
+    		if(visService.registration(email, name, program_id, student_type_id, student_id)) {
+        		model.addAttribute("success_msg", "Your password is send to your registered email-id");
+        		return "registration";
+    		}else {
+        		model.addAttribute("err_msg", "There is some error in database please try again later");
+        		return "registration";
+    		}
+    	}
+    }
+    
 }

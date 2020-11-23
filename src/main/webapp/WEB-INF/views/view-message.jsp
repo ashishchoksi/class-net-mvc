@@ -105,20 +105,33 @@
                                             </span>
                                         </span>
                                     </p>
+                                    
+                                    
+                                    
                                     <!-- // comment-- -->
                                     <div class="row" style="display: none;" id="comment3">
                                         <div class="col">
                                             <div class="card">
                                                 <!-- <div class="row"> -->
                                                     <!-- <div class="col"> -->
+                                                    
+                                                    <!-- handle comment -->
+                                                    
+                                                    <form method="post" action="comment">
                                                         <nav id="navbar-example2" class="navbar navbar-light bg-light" style="margin-bottom: 10px;">
-                                                            <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                                                            <input class="form-control form-control-sm" type="text" placeholder="Type a comment" name="comment">
+                                                            <input type="hidden" name="mid" value="<%= m.getMessage_id() %>" />
                                                         </nav>
-                                                        
+                                                    </form>
+                                                    
                                                     <!-- </div> -->
                                                 <!-- </div> -->
                                                 <div class="row">
+                                                    
                                                     <div class="col scroll" >
+                                                        
+                                                        
+                                                        <!-- Single comment thread -->
                                                         <div class="user-block" style="padding-left: 5px;">
                                                             <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
                                                             <span class="username">
@@ -126,79 +139,13 @@
                                                                 <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                                                             </span>
                                                             <p class="description">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ea tempora dolore iure repellendus architecto, ipsam voluptas et voluptatum perferendis recusandae nostrum excepturi accusamus accusantium dolores numquam rem sapiente. Adipisci.
+                                                                comment content
                                                             </p>
                                                             <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
                                                         </div>
                                                         <!-- /.user-block -->    
-                                                        <div class="user-block" style="padding-left: 5px;">
-                                                            <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
-                                                            <span class="username">
-                                                                <a href="#">Jonathan Burke Jr.</a>
-                                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                            </span>
-                                                            <p class="description">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ea tempora dolore iure repellendus
-                                                                architecto, ipsam voluptas et voluptatum perferendis recusandae nostrum excepturi accusamus accusantium
-                                                                dolores numquam rem sapiente. Adipisci.
-                                                            </p>
-                                                            <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
-                                                        </div>
-                                                        <div class="user-block" style="padding-left: 5px;">
-                                                            <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
-                                                            <span class="username">
-                                                                <a href="#">Jonathan Burke Jr.</a>
-                                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                            </span>
-                                                            <p class="description">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ea tempora dolore iure repellendus architecto,
-                                                                ipsam voluptas et voluptatum perferendis recusandae nostrum excepturi accusamus accusantium dolores numquam rem
-                                                                sapiente. Adipisci.
-                                                            </p>
-                                                            <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
-                                                        </div>
-                                                        <!-- /.user-block -->
-                                                        <div class="user-block" style="padding-left: 5px;">
-                                                            <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
-                                                            <span class="username">
-                                                                <a href="#">Jonathan Burke Jr.</a>
-                                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                            </span>
-                                                            <p class="description">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ea tempora dolore iure repellendus
-                                                                architecto, ipsam voluptas et voluptatum perferendis recusandae nostrum excepturi accusamus accusantium
-                                                                dolores numquam rem sapiente. Adipisci.
-                                                            </p>
-                                                            <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
-                                                        </div>
-                                                        <div class="user-block" style="padding-left: 5px;">
-                                                            <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
-                                                            <span class="username">
-                                                                <a href="#">Jonathan Burke Jr.</a>
-                                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                            </span>
-                                                            <p class="description">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ea tempora dolore iure repellendus architecto,
-                                                                ipsam voluptas et voluptatum perferendis recusandae nostrum excepturi accusamus accusantium dolores numquam rem
-                                                                sapiente. Adipisci.
-                                                            </p>
-                                                            <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
-                                                        </div>
-                                                        <!-- /.user-block -->
-                                                        <div class="user-block" style="padding-left: 5px;">
-                                                            <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
-                                                            <span class="username">
-                                                                <a href="#">Jonathan Burke Jr.</a>
-                                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                                            </span>
-                                                            <p class="description">
-                                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque ea tempora dolore iure repellendus
-                                                                architecto, ipsam voluptas et voluptatum perferendis recusandae nostrum excepturi accusamus accusantium
-                                                                dolores numquam rem sapiente. Adipisci.
-                                                            </p>
-                                                            <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
-                                                        </div>
-                                                        <!-- //.user-block-->
+                                                        
+                                                        
                                                     </div>
                                                 </div>
                                             
@@ -207,6 +154,9 @@
                                         </div>
                                     </div>
                                     <!-- // commennt--  -->
+                                    
+                                    
+                                    
                                 </div>
                                 <!-- /.post -->
                             </div>

@@ -30,6 +30,9 @@ public class MessageService {
 		
 	}
 	
+	public void addComment(String comment, String message_id){
+        msgDao.addComment(comment, message_id);
+    }
 	
 	public int postMessage(String title, String msg_content) {
 		

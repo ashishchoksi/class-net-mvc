@@ -145,4 +145,30 @@ public class MessageDao {
 	
 		
 	}
+	
+	
+	public void addComment(String comment, String message_id){
+        
+        Connection con;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            
+            String ssid = (String) SessionResolver.getSession().getAttribute("ssid");
+            String sql = "insert into comment(message_id, ssid, comment_content) values(?,?,?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, message_id);
+            pstmt.setString(2, ssid);
+            pstmt.setString(3, comment);
+            int row=pstmt.executeUpdate();  
+            System.out.println("row inserted : " + row);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+	
+	
 }

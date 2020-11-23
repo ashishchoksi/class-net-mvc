@@ -50,20 +50,27 @@
 			<div class="w3_info">
 				<h2>Registration </h2>
                 <!-- <p>Enter your DAIICT email id.</p> -->
+                <h3 style="color:red;"> ${err_msg} </h3>
                 
-				<form action="#" method="post">
+				<form action="registration" method="post">
 					<!-- <label>Email Address</label> -->
 					<div class="input-group">
 						<span class="fa fa-envelope" aria-hidden="true"></span>
-						<input type="email" placeholder="Enter Your DAIICT Email" required=""> 
+						<input type="email" placeholder="Enter Your DAIICT Email" name="email" required=""> 
                     </div>
                     
-                   <p style="color: green;">Your password is send to your registered email-id</p>
+                    <div class="input-group">
+						<span class="fa fa-user" aria-hidden="true"></span>
+						<input type="text" placeholder="Enter Your Name" name="name" required=""> 
+                    </div>
+                    
+                    
+                   <p style="color: green;"> ${success_msg} </p>
 
 						<button class="btn btn-danger btn-block" type="submit">Register</button >                
 				</form>
 				<p class="account">By clicking login, you agree to our <a href="#">Terms & Conditions!</a></p>
-				<p class="account1">Already have a account ? <a href="./login.html">Login here</a></p>
+				<p class="account1">Already have a account ? <a href="/login">Login here</a></p>
 			</div>
 		</div>
 		<!-- //main content -->

@@ -17,4 +17,17 @@ public class VisitorService {
         return result;
     }
     
+    public boolean registration_check(String email) {
+        boolean result = false;
+        boolean result2 = false;
+        result = visdao.registration(email);      
+        return result ;
+    }
+    
+    public boolean registration(String email,String name,String program_id, int student_type_id,String ssid) {
+        boolean result = false;
+        result = visdao.registration(email,name,program_id,student_type_id,ssid);        
+        return result;
+    }
+    
 }
