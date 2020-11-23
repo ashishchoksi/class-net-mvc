@@ -21,10 +21,10 @@ public class HomeController {
         
         // session created
         String id = (String)req.getSession().getAttribute("ssid");
-         System.out.println("id : " + id);
+        System.out.println("id : " + id);
         
-         stdservice.setStudetSession(req);
-         Student std = (Student) req.getSession().getAttribute("studobj");        
+        stdservice.setStudetSession(req);
+        Student std = (Student) req.getSession().getAttribute("studobj");        
         //stdservice.setStudetSession(req);
         
         System.out.println("student : " + std);

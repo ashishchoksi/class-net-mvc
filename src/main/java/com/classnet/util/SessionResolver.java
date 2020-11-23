@@ -17,7 +17,7 @@ public class SessionResolver {
     public static HttpSession getSession() {
     	RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 	    
-		ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
+            ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
 	    
 	    HttpServletRequest request = attributes.getRequest();
 	    
