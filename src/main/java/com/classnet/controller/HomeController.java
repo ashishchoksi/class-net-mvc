@@ -1,12 +1,6 @@
 package com.classnet.controller;
 
-<<<<<<< Updated upstream
-import com.classnet.model.Student;
-import com.classnet.service.StudentService;
-import javax.jws.WebParam;
-=======
 //import javax.jws.WebParam;
->>>>>>> Stashed changes
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,5 +49,5 @@ public class HomeController {
     @RequestMapping("/profile")
     public String profile(){
         return "profile";
-    }
+    }    
 }

@@ -19,7 +19,7 @@ public class StudentService {
         String ssid = (String) session.getAttribute("ssid");
         
         Student std = (Student) session.getAttribute("studobj");
-        
+        //System.out.println("service");
         if(std == null) {
             Student student = sdao.getStudentById(ssid);
             SessionResolver.create(req, "studobj", student);

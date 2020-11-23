@@ -15,7 +15,7 @@
             <img src="${mres}/dist/img/user3-128x128.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="edit-profile.html" class="d-block">lopamudra</a>
+            <a href="profile" class="d-block">lopamudra</a>
           </div>
         </div>
 
