@@ -1,5 +1,6 @@
 package com.classnet.controller;
 
+import com.classnet.service.StudentService;
 import com.classnet.service.VisitorService;
 import com.classnet.util.SessionResolver;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,9 @@ public class VisitorController {
     
     @Autowired
     VisitorService visService;
+    
+    @Autowired
+    StudentService studService;
     
     @RequestMapping("/forgot-password")
     public String forgot_pass(){
@@ -37,12 +41,12 @@ public class VisitorController {
         if(result) {
             // login success
             
-            // create session
-            // create session of student id
+            // create session of student id & student obj
             String student_id = email.substring(0, 9);
             SessionResolver.create(request, "ssid", student_id);
-            
+            studService.setStudetSession(request);
             // redirect to index page
+            
             return "redirect:/";
         }
         
@@ -80,6 +84,7 @@ public class VisitorController {
         		return "registration";
     		}
     	}
+        
     }
     
 }

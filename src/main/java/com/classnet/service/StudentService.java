@@ -17,13 +17,8 @@ public class StudentService {
     public void setStudetSession(HttpServletRequest req){
         HttpSession session = req.getSession();  
         String ssid = (String) session.getAttribute("ssid");
-        
-        Student std = (Student) session.getAttribute("studobj");
-        //System.out.println("service");
-        if(std == null) {
-            Student student = sdao.getStudentById(ssid);
-            SessionResolver.create(req, "studobj", student);
-        }
+        Student student = sdao.getStudentById(ssid);
+        SessionResolver.create(req, "studobj", student);       
     }
     
 }
