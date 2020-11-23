@@ -1,5 +1,6 @@
 package com.classnet.dao;
 
+import com.classnet.model.Comment;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -125,6 +126,7 @@ public class MessageDao {
 	            	m.setBatch_id(rs.getString(8));
 	            	m.setTitle(rs.getString(9));
 	            	
+                        m.setComments( getCommentByMessageId(rs.getString(1)) );
 	            	msgs.add(m);
 	            	
 	            }
@@ -165,5 +167,36 @@ public class MessageDao {
             
         }
        
+        public ArrayList<Comment> getCommentByMessageId(String message_id){
+            ArrayList<Comment> comments = new ArrayList<Comment>();
+            
+            Connection con;
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DBConnection.getInstance().getConnection();
+                
+                String ssid = (String) SessionResolver.getSession().getAttribute("ssid");
+                String sql = "select * from comment where message_id = ?";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, message_id);
+	        ResultSet rs = pstmt.executeQuery();
+	        
+                while(rs.next()) {
+                    Comment comment = new Comment();
+                    comment.setComment_id( rs.getInt(1) );
+                    comment.setMessage_id( rs.getString(2) );
+                    comment.setSsid( rs.getString(3) );
+                    comment.setComment_content( rs.getString(4) );
+                    comments.add(comment);
+                }
+                
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return comments;
+        }
 	
 }

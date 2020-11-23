@@ -1,5 +1,6 @@
 
 <%@page import="com.classnet.model.Message"%>
+<%@page import="com.classnet.model.Comment"%>
 <%@page import="java.util.ArrayList"%>
 <%@include file="./masters/header_links.jsp" %>
 
@@ -100,8 +101,8 @@
                                     <p>
                                         <img src="${mres}/asset/icon/pin-empty.svg" alt="" style="width: 20px; height: 20px; margin-left: 5px; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);">
                                         <span class="float-right">
-                                            <span class="text-sm blackHover" style="cursor:pointer;" onclick="commentBox_visibility('comment3')">
-                                                <i class="far fa-comments mr-1"></i> Comments (5)
+                                            <span class="text-sm blackHover" style="cursor:pointer;" onclick="commentBox_visibility('<%=m.getMessage_id()%>')">
+                                                <i class="far fa-comments mr-1"></i> Comments (<%=m.getComments().size()%>)
                                             </span>
                                         </span>
                                     </p>
@@ -109,7 +110,7 @@
                                     
                                     
                                     <!-- // comment-- -->
-                                    <div class="row" style="display: none;" id="comment3">
+                                    <div class="row" style="display: none;" id="<%=m.getMessage_id()%>">
                                         <div class="col">
                                             <div class="card">
                                                 <!-- <div class="row"> -->
@@ -130,21 +131,24 @@
                                                     
                                                     <div class="col scroll" >
                                                         
+                                                        <% for( Comment c : m.getComments() ) { %>
                                                         
                                                         <!-- Single comment thread -->
                                                         <div class="user-block" style="padding-left: 5px;">
                                                             <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
                                                             <span class="username">
-                                                                <a href="#">Jonathan Burke Jr.</a>
+                                                                <a href="#"> <%=c.getSsid()%> </a>
                                                                 <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                                                             </span>
                                                             <p class="description">
-                                                                comment content
+                                                                <%=c.getComment_content()%>
                                                             </p>
                                                             <!-- <span class="description">Shared publicly - 7:30 PM today</span> -->
                                                         </div>
-                                                        <!-- /.user-block -->    
                                                         
+                                                        <% } %>
+                                                            
+                                                        <!-- /.user-block -->    
                                                         
                                                     </div>
                                                 </div>

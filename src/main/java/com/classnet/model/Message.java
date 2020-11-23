@@ -1,15 +1,16 @@
 package com.classnet.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Message {
 	
+        ArrayList<Comment> comments;
 	
 	private String message_id;
 	private Student posted_by;
 	private String title;
 	
-
 	private String content;
 	
 	private Date message_date;
@@ -115,7 +116,13 @@ public class Message {
 	public void setBatch_id(String batch_id) {
 		this.batch_id = batch_id;
 	}
-	
-	
+
+        public ArrayList<Comment> getComments() {            
+            return comments;
+        }
+
+        public void setComments(ArrayList<Comment> comments) {
+            this.comments = comments;
+        }
 	
 }	

@@ -54,7 +54,6 @@ public class MessageController {
         
         	model.addAttribute("msgs" , msgs);
     		
-    		
     		return "view-message";
     		
     	}
