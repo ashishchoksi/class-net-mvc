@@ -49,4 +49,33 @@
   <link rel="stylesheet" href="${mres}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="${mres}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   
+  
+  <style>
+        .blackHover:hover{
+            color: black;
+            background-image: url();
+        }
+        .scroll {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+    <script>
+        function pinHover(element) {
+            element.setAttribute('src', '${mres}/asset/icon/pin-fill.svg');
+        }
+
+        function pinUnhover(element) {
+            element.setAttribute('src', '${mres}/asset/icon/pin-empty.svg');
+        }
+        function commentBox_visibility(id) {
+                var e = document.getElementById(id);
+                if (e.style.display == 'block')
+                    e.style.display = 'none';
+                else
+                    e.style.display = 'block';
+            }
+    </script>
+  
+  
 </head>
