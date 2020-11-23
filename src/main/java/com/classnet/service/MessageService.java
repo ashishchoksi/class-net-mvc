@@ -14,15 +14,13 @@ public class MessageService {
 	@Autowired
 	MessageDao msgDao;
 	
-	
-	
 	public ArrayList<Message> getAllMessages(){
-		
 		ArrayList<Message> msgs = msgDao.getAllMessages();
-		
-		return msgs;
-		
-		
+		return msgs;		
 	}
 
+        public void addComment(String comment, String message_id){
+            msgDao.addComment(comment, message_id);
+        }
+        
 }
