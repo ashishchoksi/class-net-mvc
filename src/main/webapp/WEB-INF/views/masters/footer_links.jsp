@@ -4,7 +4,7 @@
     <!-- /.control-sidebar -->
     
     <footer class="main-footer">
-            <strong>© 2020-21 | Design by Class-Net Developers with the help of <a
+            <strong>ï¿½ 2020-21 | Design by Class-Net Developers with the help of <a
                 href="http://adminlte.io">AdminLTE.io</a></strong>
             <!-- All rights reserved. -->
             <div class="float-right d-none d-sm-inline-block">
@@ -51,6 +51,8 @@
         <script src="${mres}/dist/js/adminlte.js"></script>
         <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
         <script src="${mres}/dist/js/pages/dashboard.js"></script>
+        <!-- bs-custom-file-input -->
+        <script src="${mres}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="${mres}/dist/js/demo.js"></script>
   
@@ -77,6 +79,69 @@
         <script src="${mres}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
         <script src="${mres}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
         
+
+        <!-- post message JS -->
+        <script type="text/javascript">
+          var checkBox = document.getElementById("customSwitch1");
+          var row_check = document.getElementById("newRow");
+          var btn_check = document.getElementById("addRowMsg");
+          var default_row_check = document.getElementById("inputFormRow");
+  
+          row_check.hidden = true;
+          btn_check.hidden = true;
+          default_row_check.hidden = true;
+          checkBox.checked=false;
+  
+          $('.toastsDefaultInfo').click(function() {
+        $(document).Toasts('create', {
+          class: 'bg-info', 
+          title: 'Information',
+          body: 'If you wants to add document toggle want to add document button. want to add more than file ? click on add button'
+        })
+      });
+          // add row message
+          $("#addRowMsg").click(function () {
+              var html = '';
+              html += '<div id="inputFormRow">';
+              html += '<div class="input-group mb-3">';
+              html += '<div class="custom-file">';
+              html += '<input type="file" name="title[]" class="form-control">';
+              html += '<div class="input-group-append">';
+              html += '<button id="removeRowMsg" type="button" class="btn btn-danger">Remove</button>';
+              html += '</div>';
+              html += '</div>';
+  
+              $('#newRow').append(html);
+          });
+  
+          // remove row
+          $(document).on('click', '#removeRowMsg', function () {
+              $(this).closest('#inputFormRow').remove();
+          });
+  
+          function checkFunction() {
+  
+  
+              if (checkBox.checked == true) {
+                  row_check.hidden = false;
+                  btn_check.hidden = false;
+                  default_row_check.hidden = false;
+              } else {
+                  row_check.hidden = true;
+                  btn_check.hidden = true;
+                  default_row_check.hidden = true;
+              }
+          }
+  
+      </script>
+  
+      <script type="text/javascript">
+          $(document).ready(function () {
+              bsCustomFileInput.init();
+          });
+      </script>
+
+
   <!-- Page script -->
   <script>
     $(function () {
