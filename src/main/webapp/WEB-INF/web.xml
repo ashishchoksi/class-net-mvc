@@ -10,4 +10,13 @@
     <servlet-name>classnet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
+  
+  <listener>
+    <description>Servlet listener that exposes the request to the current thread</description>
+    <display-name>RequestContextListener</display-name>  
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
+	</listener>
+	
+	
 </web-app>

@@ -1,9 +1,12 @@
 package com.classnet.model;
 
 import java.util.Date;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Student {
 	
+
 	
 		private String ssid;
 		private String student_name;
@@ -14,7 +17,13 @@ public class Student {
 		private Date reg_date;
 		private Program program;
 		
-		
+		public Student(String ssid) {
+			this.ssid = ssid;
+			
+		}
+		public Student() {
+			
+		}
 		public String getSsid() {
 			return ssid;
 		}
@@ -63,6 +72,13 @@ public class Student {
 		public void setProgram(Program program) {
 			this.program = program;
 		}
+
+       
+
+    @Override
+    public String toString() {
+        return "Student{" + "ssid=" + ssid + ", student_name=" + student_name + ", email=" + email + ", password=" + password + ", type_id=" + type_id + ", status=" + status + ", reg_date=" + reg_date + ", program=" + program + '}';
+    }
 		
 	
 }

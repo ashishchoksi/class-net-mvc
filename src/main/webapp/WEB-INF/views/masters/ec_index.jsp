@@ -45,19 +45,19 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="view-message" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>View Messages</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./revoke.html" class="nav-link">
+                  <a href="post-message" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Deleted Messages</p>
+                    <p>Add Messages</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./assign.html" class="nav-link">
+                  <a href="#" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>My Messages</p>
                   </a>
