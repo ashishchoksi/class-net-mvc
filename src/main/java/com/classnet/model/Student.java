@@ -21,6 +21,9 @@ public class Student {
 			this.ssid = ssid;
 			
 		}
+		public Student() {
+			
+		}
 		public String getSsid() {
 			return ssid;
 		}

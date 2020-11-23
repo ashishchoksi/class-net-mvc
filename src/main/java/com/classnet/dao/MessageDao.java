@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,24 +21,30 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.classnet.model.Message;
 import com.classnet.model.Student;
 import com.classnet.util.DBConnection;
+import com.classnet.util.SessionResolver;
 
 @Repository
 public class MessageDao {
 
 	private Connection con;
+	
+	@Autowired
+	StudentDao sdao;
+	
+	
+	HashMap<String,Student> students ;
 	public ArrayList<Message> getAllMessages(){
 		ArrayList<Message> msgs = new ArrayList<Message>();
-		//String id = (String)req.getSession().getAttribute("ssid");
-		RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
-	    ServletRequestAttributes attributes = (ServletRequestAttributes) requestAttributes;
-	    HttpServletRequest request = attributes.getRequest();
-	    HttpSession httpSession = request.getSession(true); 
+		
+		
+	    
+	    HttpSession httpSession = SessionResolver.getSession(); 
 	    
 	    // TODO keep check if session is NULL
 	    String id =(String) httpSession.getAttribute("ssid");
 	    System.out.println("id = " + id);
 	    
-	    
+	    students = new HashMap<String,Student>();
 	    
 		try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -52,9 +60,23 @@ public class MessageDao {
 	            
 	            while(rs.next()) {
 	            	Message m = new Message();
-	            	
+	            	Student s1;
 	            	m.setMessage_id(rs.getString(1));
-	            	m.setPosted_by(new Student(rs.getString(2)));
+	            	
+	            	
+	            	String ssid = rs.getString(2);
+	            	//m.setPosted_by(new Student(rs.getString(2)));
+	            	if(!students.containsKey(ssid)) {
+	            		
+	            		s1 = sdao.getStudentById(ssid);
+	            		
+	            	}
+	            	else {
+	            		s1 = students.get(ssid);
+	            	}
+	            	
+	            	m.setPosted_by(s1);
+	            	
 	            	m.setContent(rs.getString(3));
 	            	m.setMessage_date(rs.getDate(4));
 	            	m.setIs_document(rs.getBoolean(5));
