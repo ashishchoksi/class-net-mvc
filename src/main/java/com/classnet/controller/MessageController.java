@@ -38,4 +38,9 @@ public class MessageController {
         return "view-message";
     }
     
+    @RequestMapping("/post-message")
+    public String post_message(){
+        return "post-message";
+    }
+    
 }

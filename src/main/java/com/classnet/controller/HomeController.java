@@ -1,7 +1,10 @@
 package com.classnet.controller;
 
+import com.classnet.model.Student;
+import com.classnet.service.StudentService;
 import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,13 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
     
+    @Autowired
+    StudentService stdservice;
+    
     // index page set
     @RequestMapping("/")
     public String index(HttpServletRequest req){
         
         // session created
         String id = (String)req.getSession().getAttribute("ssid");
-        System.out.println("id : " + id);
+         System.out.println("id : " + id);
+        
+         stdservice.setStudetSession(req);
+         Student std = (Student) req.getSession().getAttribute("studobj");        
+        //stdservice.setStudetSession(req);
+        
+        System.out.println("student : " + std);
+        
         // serive.getpage(): return
         return "index";
     }
