@@ -1,7 +1,13 @@
 package com.classnet.model;
 
+
+
 public class Program {
 
+	@Override
+	public String toString() {
+		return "Program [program_id=" + program_id + ", program_name=" + program_name + ", duration=" + duration + "]";
+	}
 	private String program_id;
 	private String program_name;
 	private int duration;

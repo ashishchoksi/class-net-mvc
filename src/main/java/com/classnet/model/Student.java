@@ -14,7 +14,18 @@ public class Student {
 		private Date reg_date;
 		private Program program;
 		
+		public Student(String ssid) {
+			this.ssid = ssid;
+			
+		}
 		
+		@Override
+		public String toString() {
+			return "Student [ssid=" + ssid + ", student_name=" + student_name + ", email=" + email + ", password="
+					+ password + ", type_id=" + type_id + ", status=" + status + ", reg_date=" + reg_date + ", program="
+					+ program + "]";
+		}
+
 		public String getSsid() {
 			return ssid;
 		}
