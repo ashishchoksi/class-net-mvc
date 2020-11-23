@@ -1,6 +1,7 @@
 package com.classnet.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,48 @@ public class MessageDao {
 	
 	
 	HashMap<String,Student> students ;
+	
+	
+	public int postMessage(Message msg) {
+		
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            //Statement st = con.createStatement();
+            
+            
+            String sql = "insert into message values(?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, msg.getMessage_id());
+            pstmt.setString(2, msg.getPosted_by().getSsid());
+            pstmt.setString(3, msg.getContent());
+            pstmt.setDate(4,new Date(msg.getMessage_date().getTime()));
+            pstmt.setInt(5, msg.isIs_document()==false ? 0 : 1);
+            pstmt.setInt(6, msg.isStatus()==false ? 0 : 1);
+            pstmt.setBoolean(7, msg.isPriority());
+            pstmt.setString(8,msg.getBatch_id());
+            pstmt.setString(9,msg.getTitle());
+            pstmt.setInt(10, msg.getMsg_type());
+            
+            
+           int rows = pstmt.executeUpdate();
+           return rows;
+            
+            
+            
+            
+            
+	
+	 } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     } catch (SQLException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     }
+		
+		
+		return 0;
+	}
+	
 	public ArrayList<Message> getAllMessages(){
 		ArrayList<Message> msgs = new ArrayList<Message>();
 		
