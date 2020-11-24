@@ -38,8 +38,20 @@ public class MessageController {
     	//mav.add
 
     	model.addAttribute("msgs" , msgs);
-    	
+    	model.addAttribute("msg_type" , 1);
         return "view-message";
+    }
+    
+    @RequestMapping(value="/view-message",params= {"msgID"})
+    public String view_message(Model model, @RequestParam("msgID") String msgID) {
+    	
+    	ArrayList<Message> msgs;
+    	
+    	msgs = msgService.getMsgsByType(msgID);
+    	
+    	model.addAttribute("msgs" , msgs);
+    	model.addAttribute("msg_type",Integer.parseInt(msgID));
+    	return "view-message";
     }
     
     @RequestMapping(value="/post-message",method = RequestMethod.POST)
