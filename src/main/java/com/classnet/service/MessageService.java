@@ -24,6 +24,11 @@ public class MessageService {
 		return msgs;		
 	}
 	
+	public ArrayList<Message> getMsgsByType(String msgID){
+		ArrayList<Message> msgs = msgDao.getMsgsByType(msgID);
+		return msgs;		
+	}
+	
 	public void addComment(String comment, String message_id){
             msgDao.addComment(comment, message_id);
         }
