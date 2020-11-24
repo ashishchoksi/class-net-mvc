@@ -6,7 +6,8 @@ import java.util.Date;
 public class Message {
 	
         ArrayList<Comment> comments;
-	
+	ArrayList<String> documents;
+        
 	private String message_id;
 	private Student posted_by;
 	private String title;

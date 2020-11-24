@@ -77,7 +77,7 @@
 
                                                 <div class="form-group">
                                                     <div class="custom-control custom-switch custom-switch-on-success">
-                                                        <input type="checkbox" class="custom-control-input"
+                                                        <input type="checkbox" name="isdoc" class="custom-control-input"
                                                             id="customSwitch1" onclick="checkFunction()">
 
                                                         <label class="custom-control-label" for="customSwitch1">Want to

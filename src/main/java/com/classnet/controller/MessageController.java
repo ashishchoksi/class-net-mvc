@@ -43,9 +43,19 @@ public class MessageController {
     }
     
     @RequestMapping(value="/post-message",method = RequestMethod.POST)
-    public String post_message(@RequestParam("title") String title , @RequestParam("msgContent") String msg_content,Model model){
+    public String post_message(@RequestParam("title") String title , @RequestParam("msgContent") String msg_content, @RequestParam(value = "isdoc", required = false) String isdoc, @RequestParam(value = "title[]", required = false) String[] docs, Model model){
     	
-    	if(msgService.postMessage(title,msg_content) > 0) {
+        // getting document array from form
+        if( isdoc == null ) {
+            System.out.println("not checked");
+        }
+        else {
+            System.out.println("checked " + docs.length);
+            for(String names : docs) if(names.length() > 0)
+                System.out.println(names);
+        }
+        
+    	if(false && msgService.postMessage(title,msg_content) > 0) {
     		
     		
     		ArrayList<Message> msgs;
