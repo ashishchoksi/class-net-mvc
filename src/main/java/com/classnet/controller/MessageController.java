@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.classnet.model.Message;
 import com.classnet.service.MessageService;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
 import javax.servlet.http.HttpSession;
@@ -76,8 +77,9 @@ public class MessageController {
                         continue;
                     String file_name = new Date().getTime() + "_" +file.getOriginalFilename();
                     file_names.add(file_name);
-                    String path = s.getServletContext().getRealPath("/WEB-INF/resources/student_docs/") + file_name;
-                    String path2 = s.getServletContext().getRealPath("/")+"WEB-INF";
+                    
+                    String path = s.getServletContext().getRealPath("/WEB-INF/resources/student_docs/") + file_name;           
+                    
                     try {
                             System.out.println("path : " + path);
                             byte[] data = file.getBytes();
