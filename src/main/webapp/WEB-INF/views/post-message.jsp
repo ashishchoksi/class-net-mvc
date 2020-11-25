@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div id="interactive">
-                                    <form action="post-message" method="post">
+                                    <form action="post-message" method="post" enctype="multipart/form-data">
                                         <h4 class="font-weight-normal ">
                                             <div class="form-group row">
                                                 <!-- col-form-label -->
