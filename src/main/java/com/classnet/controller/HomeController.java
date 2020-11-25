@@ -20,6 +20,8 @@ public class HomeController {
     
     @Autowired
     StudentService stdservice;
+    boolean isError=false;
+    int count_page=0;
     
     // index page set
     @RequestMapping("/")
@@ -59,16 +61,23 @@ public class HomeController {
         if(stdservice.check_is_login(request)) {
             Student student = stdservice.get_student_info(request);
             if(student == null) {
-                return "login";
+                return "redirect:/login";
+            }
+            if(count_page!=0) {
+                if(isError)
+                    model.addAttribute("err_msg", "There is something error!");
+                else
+                    model.addAttribute("success_msg", "profile updated successfully.");
             }
             model.addAttribute("ssid", student.getSsid());
             model.addAttribute("email", student.getEmail());
             model.addAttribute("name", student.getStudent_name());
             model.addAttribute("pgm", student.getProgram().getProgram_name());
 //            System.out.println(student.getEmail() + " " + student.getStudent_name()+ " " + student.getSsid());
+            count_page=0;
             return "profile";
         } else {
-            return "login";
+            return "redirect:/login";
         }
         
     }
@@ -76,27 +85,33 @@ public class HomeController {
     
     @RequestMapping(path = "/profilePassword", method = RequestMethod.POST)
     public String doprofilePassword(@RequestParam("old_pass") String old_pass,@RequestParam("new_pass") String new_pass, @RequestParam("conf_new_pass") String re_new_pass, Model model, HttpServletRequest request ) {
-    	if(stdservice.check_student_password(old_pass, request)){
+    	count_page++;
+        if(stdservice.check_student_password(old_pass, request)){
             if(new_pass.equals(re_new_pass)) {
                 if(new_pass.length() < 6){
-                    model.addAttribute("err_msg", new String("Please Enter Valid Password"));
-                    return "profile";
+//                    model.addAttribute("err_msg", new String("Please Enter Valid Password"));
+                    isError=true;
+                    return "redirect:/profile";
                 } else {
                     if(stdservice.update_password_student(new_pass,request)) {
-                        model.addAttribute("success_msg", new String("Passsword updated successfully!"));
-                        return "profile";
+//                        model.addAttribute("success_msg", new String("Passsword updated successfully!"));
+                        isError=false;
+                        return "redirect:/profile";
                     } else {
-                        model.addAttribute("err_msg", new String("There is something wrong! please try again later"));
-                        return "profile";
+//                        model.addAttribute("err_msg", new String("There is something wrong! please try again later"));
+                        isError=true;
+                        return "redirect:/profile";
                     }
                 }
             } else {
-                model.addAttribute("err_msg", new String("please match failed!"));
-                return "profile";
+//                model.addAttribute("err_msg", new String("please match failed!"));
+                isError=true;
+                return "redirect:/profile";
             }
         } else {
-            model.addAttribute("err_msg", new String("Password is incorrect"));
-            return "profile";
+//            model.addAttribute("err_msg", new String("Password is incorrect"));
+            isError=true;
+            return "redirect:/profile";
         }
         
     }
@@ -112,13 +127,22 @@ public class HomeController {
     
     @RequestMapping(path = "/profileUpdate", method = RequestMethod.POST)
     public String doprofileUpdate(@RequestParam("name") String name,Model model, HttpServletRequest request ) {
-    	if(stdservice.set_student_name(name, request)) {
-            model.addAttribute("name", name);
-            return "profile";
+        count_page++;
+        if(name.length() < 3) {
+            model.addAttribute("err_msg", "invalid");
+            isError=true;
+            return "redirect:/profile";
+        }
+        else if(stdservice.set_student_name(name, request)) {
+//            model.addAttribute("name", name);
+//            model.addAttribute("success_msg", new String("User name updated successfully!"));
+            isError=false;
+            return "redirect:/profile";
         }
         else {
-            model.addAttribute("err_msg", new String("There is something wrong! please try again later"));
-            return "redirect:profile";
+//            model.addAttribute("err_msg", "There is something wrong! please try again later");
+            isError=true;
+            return "redirect:/profile";
         }
         
     }

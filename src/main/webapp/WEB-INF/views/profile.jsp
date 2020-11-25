@@ -20,7 +20,9 @@
             </section>
             <section class="content">
                 <div class="container-fluid">
+
                     <div class="row">
+
                         <div class="col-md-3">
 
                             <div class="card card-primary card-outline">
@@ -51,8 +53,57 @@
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <h3 style="color:red;"> ${err_msg} </h3><!-- error message -->
-                            <h3 style="color:green;"> ${success_msg} </h3><!-- success message -->
+                            <% if((String)request.getAttribute("success_msg") != null) { %>
+                            <div class="alert alert-success alert-dismissible">
+                                ${success_msg}
+                                <button type="button" class="close" data-dismiss="alert" alia-label=""Close>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <% } if((String)request.getAttribute("err_msg") != null) { %>
+                            <div class="alert alert-danger alert-dismissible">
+                                ${err_msg}
+                                <button type="button" class="btn btn-danger btn-sm " data-toggle="modal" data-target="#modal-default">
+                                    <i class="fas fa-info"></i>
+                                </button>
+                                <button type="button" class="close" data-dismiss="alert" alia-label=""Close>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <% } %>
+<!--                            <h3 style="color:red;"> ${err_msg} </h3> error message 
+                            <h3 style="color:green;"> ${success_msg} </h3> success message -->
+
+                            <div class="modal fade" id="modal-default">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Reasons for error to occur</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>Change Password section</h4>
+                                            <b>1. </b><p>Password Length must grater than 5 characters</p>
+                                            <b>2. </b><p>New password and confirm password miss match</p>
+                                            <b>3. </b><p>Old Password is incorrect</p>
+                                            <br>
+                                            <h4>Update Profile section</h4>
+                                            <b>1. </b><p>Invalid name</p>
+                                            
+                                            <b style="color: red">There is some problem from our side!</b>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+
                             <div class="card">
                                 <div class="card-header p-2">
                                     <ul class="nav nav-pills">
@@ -69,19 +120,19 @@
                                                 <div class="form-group row">
                                                     <label for="inputOldPassword" class="col-sm-3 col-form-label">Old password</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" class="form-control" name="old_pass" id="inputOldPassword" placeholder="Old password">
+                                                        <input type="password" class="form-control" name="old_pass" id="inputOldPassword" placeholder="Old password" required="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="inputNewPassword" class="col-sm-3 col-form-label">New password</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" class="form-control" name="new_pass" id="inputNewPassword" placeholder="New password">
+                                                        <input type="password" class="form-control" name="new_pass" id="inputNewPassword" placeholder="New password" required="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="inputReNewPassword" class="col-sm-3 col-form-label">Confirm new password</label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" class="form-control" name="conf_new_pass" id="inputReNewPassword" placeholder="Retype new password">
+                                                        <input type="password" class="form-control" name="conf_new_pass" id="inputReNewPassword" placeholder="Retype new password" required="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
