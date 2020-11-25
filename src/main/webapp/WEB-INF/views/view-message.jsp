@@ -85,8 +85,9 @@
                 
          			//out.println(msgs.get(0));
                 	
-         			
+         			//out.print(msgs.size());
          			for(Message m : msgs){
+         				//out.println(m.getDocuments().size());
                 %>
                 <div class="card">
                     <div class="card-body">
@@ -105,9 +106,10 @@
                                     </div>
                                     <!-- /.user-block -->
                                     <p>
+                                    	
                                         <%=m.getContent()%>
                                         <% if(m.getDocuments().size() > 0) %><br/><br/> Documents <br/>
-                                        <% for(String s : m.getDocuments()) { 
+                                        <%  for(String s : m.getDocuments()) { 
                                             String path = "resources/student_docs/"+s;
                                         %>
                                         <a href="<%=path%>"><%=s%></a>

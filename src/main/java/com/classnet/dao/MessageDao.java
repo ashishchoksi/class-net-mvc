@@ -284,6 +284,8 @@ public class MessageDao {
 	            	m.setTitle(rs.getString(9));
 	            	
                         m.setComments( getCommentByMessageId(rs.getString(1)) );
+                       
+                        m.setDocuments( getDocumentByMessage(rs.getString(1)) );
 	            	msgs.add(m);
 	            	
 	            }
