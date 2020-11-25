@@ -77,6 +77,7 @@ public class MessageController {
                     String file_name = new Date().getTime() + "_" +file.getOriginalFilename();
                     file_names.add(file_name);
                     String path = s.getServletContext().getRealPath("/WEB-INF/resources/student_docs/") + file_name;
+                    String path2 = s.getServletContext().getRealPath("/")+"WEB-INF";
                     try {
                             System.out.println("path : " + path);
                             byte[] data = file.getBytes();

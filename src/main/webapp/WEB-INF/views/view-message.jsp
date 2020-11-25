@@ -106,9 +106,9 @@
                                     <!-- /.user-block -->
                                     <p>
                                         <%=m.getContent()%>
-                                        <% if(m.getDocuments().size() > 0) %><br/> files <br/>
+                                        <% if(m.getDocuments().size() > 0) %><br/><br/> Documents <br/>
                                         <% for(String s : m.getDocuments()) { 
-                                            String path = session.getServletContext().getRealPath("/WEB-INF/resources/student_docs/")+s;
+                                            String path = "resources/student_docs/"+s;
                                         %>
                                         <a href="<%=path%>"><%=s%></a>
                                             <br>
