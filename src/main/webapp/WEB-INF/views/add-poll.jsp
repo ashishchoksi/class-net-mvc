@@ -4,14 +4,14 @@
     <div class="wrapper">
 
         <%@include file="./masters/ec_index.jsp" %>
-        
+
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        
+
                         <div class="col-sm-12">
                             <!-- <div class="card">
                                 <div class="card-header">
@@ -21,18 +21,18 @@
                             <!-- /.card -->
                             <h1 class="font-weight-bold">Create Poll</h1>
                         </div>
-                        
+
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
 
             <section class="content">
                 <div class="container-fluid">
-                    
+                    <form action="#">
                     <div class="row">
                         <div class="col-12">
                             <!-- interactive chart -->
-                            
+
                             <!-- <h5>Poll: 1</h5> -->
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
@@ -49,20 +49,20 @@
                                                 <!-- col-form-label -->
                                                 <label for="inputEmail3" class="col-sm-auto col-form-label">Poll Title </label> 
                                                 <div class="col-sm-8">
-                                                  <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Poll Title. Ex. Election Time"> -->
-                                                  <input class="form-control form-control-lg" type="text" placeholder="Enter Poll Title. Ex. Election Time">
+                                                    <!-- <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Poll Title. Ex. Election Time"> -->
+                                                    <input class="form-control form-control-lg" type="text" name="pollTitle" id="inputEmail3" placeholder="Enter Poll Title. Ex. Election Time">
                                                 </div>
-                                              </div>
+                                            </div>
                                         </h4>
 
                                         <div class="alert alert-light" role="alert">
 
                                             <div class="col-lg-12">
-                                                
+
                                                 <label>Options
                                                     <button type="button" class="btn btn-info btn-sm" id="toastsDefaultInfoPoll">
                                                         <i class="fas fa-info"></i>
-                                                      </button>
+                                                    </button>
                                                     <!--<button type="button" class="btn btn-warning btn-sm toastrDefaultInfo"><i class="fas fa-info"></i></button>-->
                                                 </label>
 
@@ -74,15 +74,29 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                    
+
                                                 <div id="newRowpoll"></div>
                                                 <button id="addRowpoll" type="button" class="btn btn-info">Add</button>
                                             </div>
 
+                                            <div class="form-group col-lg-6">
+                                                <label for="reservationtime">Date and time range:</label>
+
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="far fa-clock"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control float-right" name="startEndDate" id="reservationtime">
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                            <!-- /.form group -->
+
+
                                         </div>
                                         <button type="button" class="btn bg-gradient-success">Submit</button>
                                     </div>
-                                    
+
                                 </div>
                                 <!-- /.card-body-->
                             </div>
@@ -92,13 +106,13 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
-
+                </form>
 
                 </div><!-- /.container-fluid -->
             </section>
 
         </div>
         <!-- /.content-wrapper -->
-        
-        
+
+
         <%@include file="./masters/footer_links.jsp" %>
