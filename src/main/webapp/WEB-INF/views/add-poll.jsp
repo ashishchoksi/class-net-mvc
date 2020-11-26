@@ -60,10 +60,13 @@
                                             <div class="col-lg-12">
                                                 
                                                 <label>Options
-                                                    <button type="button" class="btn btn-warning btn-sm toastrDefaultInfo"><i class="fas fa-info"></i></button>
+                                                    <button type="button" class="btn btn-info btn-sm" id="toastsDefaultInfoPoll">
+                                                        <i class="fas fa-info"></i>
+                                                      </button>
+                                                    <!--<button type="button" class="btn btn-warning btn-sm toastrDefaultInfo"><i class="fas fa-info"></i></button>-->
                                                 </label>
 
-                                                <div id="inputFormRow">
+                                                <div id="inputFormRowPoll">
                                                     <div class="input-group mb-3">
                                                         <input type="text" name="title[]" class="form-control m-input" placeholder="Enter Option" autocomplete="off">
                                                         <div class="input-group-append">                
@@ -72,8 +75,8 @@
                                                     </div>
                                                 </div>
                                     
-                                                <div id="newRow"></div>
-                                                <button id="addRow" type="button" class="btn btn-info">Add</button>
+                                                <div id="newRowpoll"></div>
+                                                <button id="addRowpoll" type="button" class="btn btn-info">Add</button>
                                             </div>
 
                                         </div>
