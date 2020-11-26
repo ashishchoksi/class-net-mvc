@@ -6,7 +6,8 @@ import java.util.Date;
 public class Message {
 	
         ArrayList<Comment> comments;
-	
+	ArrayList<String> documents;
+        
 	private String message_id;
 	private Student posted_by;
 	private String title;
@@ -124,5 +125,13 @@ public class Message {
         public void setComments(ArrayList<Comment> comments) {
             this.comments = comments;
         }
-	
+
+        public ArrayList<String> getDocuments() {
+            return documents;
+        }
+
+        public void setDocuments(ArrayList<String> documents) {
+            this.documents = documents;
+        }
+
 }	

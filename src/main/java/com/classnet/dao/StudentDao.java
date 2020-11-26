@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Repository;
@@ -50,5 +51,52 @@ public class StudentDao {
         
         return student;
     }
-   
+    
+    public boolean student_update_password(String passowrd,String ssid) { 
+     Connection con;
+     try {
+         Class.forName("com.mysql.cj.jdbc.Driver");
+         con = DBConnection.getInstance().getConnection();
+         
+         String sql = "UPDATE `student_detail` SET `password`=? WHERE `ssid`=?;";
+         PreparedStatement pstmt = con.prepareStatement(sql);
+         pstmt.setString(2, ssid);
+         pstmt.setString(1, passowrd);
+         pstmt.execute();         
+//         return true;
+     } catch (ClassNotFoundException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (SQLException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (Exception e) {
+	return false;
+	}
+     return true;
+ }
+ 
+   public boolean student_update_name(String name,String ssid) { 
+     Connection con;
+     try {
+         Class.forName("com.mysql.cj.jdbc.Driver");
+         con = DBConnection.getInstance().getConnection();
+         
+         String sql = "UPDATE `student_detail` SET `student_name`=? WHERE `ssid`=?;";
+         PreparedStatement pstmt = con.prepareStatement(sql);
+         pstmt.setString(2, ssid);
+         pstmt.setString(1, name);
+         pstmt.execute();         
+//         return true;
+     } catch (ClassNotFoundException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (SQLException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (Exception e) {
+	return false;
+	}
+     return true;
+ }
 }

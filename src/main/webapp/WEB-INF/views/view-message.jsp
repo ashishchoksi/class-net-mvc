@@ -1,7 +1,8 @@
 
+<%@page import="java.util.HashMap"%>
 <%@page import="com.classnet.model.Message"%>
 <%@page import="com.classnet.model.Comment"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.*"%>
 <%@include file="./masters/header_links.jsp" %>
 
 <body class="hold-transition sidebar-mini">
@@ -30,6 +31,15 @@
             </section>
 
             <!-- Main content -->
+            <% HashMap<Integer,String> msg_types = new HashMap<Integer,String>() ; 
+            	
+            msg_types.put(1,"All Messages");
+            msg_types.put(2,"CR Messages");
+            msg_types.put(3,"Election Messages");
+            msg_types.put(4,"SPC Messages");
+            msg_types.put(5,"Acad Messages");
+            String msg_type = msg_types.get((Integer)request.getAttribute("msg_type")).toString();
+            %>
             <div class="col">
                 <div class="card">
                     <div class="card-header">
@@ -38,14 +48,14 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        All Messages
+                                       <%= msg_type %>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">All Messages</a>
-                                        <a class="dropdown-item" href="#">CR Messages</a>
-                                        <a class="dropdown-item" href="#">SPC Messages</a>
-                                        <a class="dropdown-item" href="#">Ele. Messages</a>
-                                        <a class="dropdown-item" href="#">My Pin Messages</a>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message">All Messages</a>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=2" class="active">CR Messages</a>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=4">SPC Messages</a>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=3">Election Messages</a>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=5">Acad Messages</a>
                                     </div>
                                 </div>
                             </div>
@@ -75,8 +85,9 @@
                 
          			//out.println(msgs.get(0));
                 	
-         			
+         			//out.print(msgs.size());
          			for(Message m : msgs){
+         				//out.println(m.getDocuments().size());
                 %>
                 <div class="card">
                     <div class="card-body">
@@ -95,7 +106,15 @@
                                     </div>
                                     <!-- /.user-block -->
                                     <p>
+                                    	
                                         <%=m.getContent()%>
+                                        <% if(m.getDocuments().size() > 0) %><br/><br/> Documents <br/>
+                                        <%  for(String s : m.getDocuments()) { 
+                                            String path = "resources/student_docs/"+s;
+                                        %>
+                                        <a href="<%=path%>"><%=s%></a>
+                                            <br>
+                                        <% } %>
                                     </p>
             
                                     <p>
@@ -181,3 +200,11 @@
         </div>
        
         <%@include file="./masters/footer_links.jsp" %>
+        
+        <!-- <select class="dropdown-menu btn btn-primary dropdown-toggle">
+                                        <option><a class="dropdown-item" href="/view-message">All Messages</a></option>
+                                        <option><a class="dropdown-item" href="/view-message?msgID=2" class="active">CR Messages</a></option>
+                                        <option><a class="dropdown-item" href="/view-message?msgID=4">SPC Messages</a></option>
+                                        <option><a class="dropdown-item" href="/view-message?msgID=3">Election Messages</a></option>
+                                        <option><a class="dropdown-item" href="/view-message?msgID=5">Acad Messages</a></option>
+                                    </select> -->

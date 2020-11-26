@@ -12,18 +12,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.classnet.model.Message;
 import com.classnet.service.MessageService;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
+import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class MessageController {
     
     @Autowired
     MessageService msgService;
-	
+    
     @RequestMapping("/view-message")
     public String view_message(Model model){
-    	
     	
     	ArrayList<Message> msgs;
     	
@@ -38,23 +42,72 @@ public class MessageController {
     	//mav.add
 
     	model.addAttribute("msgs" , msgs);
-    	
+    	model.addAttribute("msg_type" , 1);
         return "view-message";
     }
     
-    @RequestMapping(value="/post-message",method = RequestMethod.POST)
-    public String post_message(@RequestParam("title") String title , @RequestParam("msgContent") String msg_content,Model model){
+    @RequestMapping(value="/view-message",params= {"msgID"})
+    public String view_message(Model model, @RequestParam("msgID") String msgID) {
     	
-    	if(msgService.postMessage(title,msg_content) > 0) {
-    		
-    		
+    	ArrayList<Message> msgs;
+    	
+    	msgs = msgService.getMsgsByType(msgID);
+    	
+    	model.addAttribute("msgs" , msgs);
+    	model.addAttribute("msg_type",Integer.parseInt(msgID));
+    	return "view-message";
+    }
+    
+    @RequestMapping(value="/post-message",method = RequestMethod.POST)
+    public String post_message(@RequestParam("title") String title , @RequestParam("msgContent") String msg_content, @RequestParam(value = "isdoc", required = false) String isdoc, @RequestParam("title[]") MultipartFile[] files , Model model, HttpSession s){
+    	
+        boolean issuccess = false;
+        ArrayList<String> file_names = new ArrayList<String>();
+        // getting document array from form
+        if( isdoc == null ) {
+            System.out.println("not checked");
+            issuccess = true;
+        }
+        else {
+            System.out.println("length : " + files.length);
+            
+            for (int i = 0; i < files.length; i++) {
+                    MultipartFile file = files[i];
+                    if(file.getSize() == 0)
+                        continue;
+                    String file_name = new Date().getTime() + "_" +file.getOriginalFilename();
+                    file_names.add(file_name);
+                    
+                    String path = s.getServletContext().getRealPath("/WEB-INF/resources/student_docs/") + file_name;           
+                    
+                    try {
+                            System.out.println("path : " + path);
+                            byte[] data = file.getBytes();
+                            FileOutputStream fos = new FileOutputStream(path);
+                            fos.write(data);
+                            fos.close();
+                            System.out.println("uploaded success !");
+                    } catch (Exception e) {
+                            System.out.println("Error ! " + e.getMessage());
+                            issuccess = false;
+                    }
+            }
+            issuccess = true;
+        }
+        
+        
+        // if issuccess = true go on
+        // 
+    	if(issuccess && msgService.postMessage(file_names, title, msg_content) > 0) {
+    		    		
     		ArrayList<Message> msgs;
         	
         	msgs = msgService.getAllMessages(); //wat abt specific types of messages
         
         	model.addAttribute("msgs" , msgs);
     		
-    		return "view-message";
+                System.out.println("just before view-message");
+    		return "redirect:/view-message";
     		
     	}
     	model.addAttribute("error","Error posting message");

@@ -24,11 +24,16 @@ public class MessageService {
 		return msgs;		
 	}
 	
+	public ArrayList<Message> getMsgsByType(String msgID){
+		ArrayList<Message> msgs = msgDao.getMsgsByType(msgID);
+		return msgs;		
+	}
+	
 	public void addComment(String comment, String message_id){
             msgDao.addComment(comment, message_id);
         }
 	
-	public int postMessage(String title, String msg_content) {
+	public int postMessage( ArrayList<String> file_names, String title, String msg_content) {
 		
 		Date date = new Date();
 		
@@ -48,7 +53,8 @@ public class MessageService {
 		msg.setPriority(true);
 		msg.setBatch_id(student.getSsid().substring(0,6));
 		msg.setMsg_type(student.getType_id());
-		
+		msg.setDocuments(file_names);
+                
 		if(msgDao.postMessage(msg) > 0) return 1;
 			
 		return 0;
