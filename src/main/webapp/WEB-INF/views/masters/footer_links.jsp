@@ -78,10 +78,23 @@
         <script src="${mres}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
         <script src="${mres}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
         <script src="${mres}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <!--<script src="${mres}/plugins/jquery-validation/additional-methods.min.js"></script>-->
         
-
+        
+        
         <!-- post message JS -->
         <script type="text/javascript">
+            
+            // poll toster
+      $('#toastsDefaultInfoPoll').click(function() {
+        $(document).Toasts('create', {
+          class: 'bg-info', 
+          title: 'Information',
+          body: 'Click on Add button for adding more options. Remove button will remove selected row with entered data'
+        })
+      });
+      
+      
           var checkBox = document.getElementById("customSwitch1");
           var row_check = document.getElementById("newRow");
           var btn_check = document.getElementById("addRowMsg");
@@ -92,6 +105,7 @@
           default_row_check.hidden = true;
           checkBox.checked=false;
   
+        // message toster
           $('.toastsDefaultInfo').click(function() {
         $(document).Toasts('create', {
           class: 'bg-info', 
@@ -99,6 +113,8 @@
           body: 'If you wants to add document toggle want to add document button. want to add more than file ? click on add button'
         })
       });
+      
+      
           // add row message
           $("#addRowMsg").click(function () {
               var html = '';
@@ -248,9 +264,9 @@
   <!-- page script add-poll -->
   <script type="text/javascript">
         // add row
-        $("#addRow").click(function () {
+        $("#addRowpoll").click(function () {
             var html = '';
-            html += '<div id="inputFormRow">';
+            html += '<div id="inputFormRowPoll">';
             html += '<div class="input-group mb-3">';
             html += '<input type="text" name="title[]" class="form-control m-input" placeholder="Enter option" autocomplete="on">';
             html += '<div class="input-group-append">';
@@ -258,12 +274,12 @@
             html += '</div>';
             html += '</div>';
     
-            $('#newRow').append(html);
+            $('#newRowpoll').append(html);
         });
     
         // remove row
         $(document).on('click', '#removeRow', function () {
-            $(this).closest('#inputFormRow').remove();
+            $(this).closest('#inputFormRowPoll').remove();
         });
     </script>
     

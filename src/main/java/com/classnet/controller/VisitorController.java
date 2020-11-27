@@ -1,10 +1,12 @@
 package com.classnet.controller;
 
+import com.classnet.service.EmailService;
 import com.classnet.service.StudentService;
 import com.classnet.service.VisitorService;
 import com.classnet.util.SessionResolver;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ public class VisitorController {
     @Autowired
     StudentService studService;
     
+    
     @RequestMapping("/forgot-password")
     public String forgot_pass(){
         return "forgot-password";
@@ -28,6 +31,32 @@ public class VisitorController {
     @RequestMapping("/login")
     public String login(){
         return "login";
+    }
+    
+    @RequestMapping(path = "/forgot-password", method = RequestMethod.POST)
+    public String do_forgot_pass(@RequestParam("email") String email, Model model, HttpServletRequest request ){
+        String student_id = email.substring(0,9);
+    	String check_collage = email.substring(10,email.length());
+        if(!(check_collage.equals("daiict.ac.in"))) {
+    		String str_id = check_collage + " is invalid collage";
+    		model.addAttribute("err_msg", str_id);
+    		return "forgot-password";
+    	}
+        else if(!visService.registration_check(email)) {
+    		String str_id = email + " id not registered";
+    		model.addAttribute("err_msg", str_id);
+    		return "forgot-password";
+    	} 
+    	else {
+    		if(visService.forgotPass(email, student_id)) {
+        		model.addAttribute("success_msg", "Your new password is send to your registered email-id");
+        		return "forgot-password";
+    		}else {
+        		model.addAttribute("err_msg", "There is some error in database please try again later");
+        		return "forgot-password";
+    		}
+    	}
+        
     }
     
     // For post request RequestMapping Look like this
@@ -62,7 +91,7 @@ public class VisitorController {
     
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
     public String doRegistration(@RequestParam("email") String email,@RequestParam("name") String name, Model model, HttpServletRequest request ) {
-    	String student_id = email.substring(0,9);
+        String student_id = email.substring(0,9);
     	String check_collage = email.substring(10,email.length());
     	if(visService.registration_check(email)) {
     		String str_id = student_id + " is Already registed";
@@ -88,3 +117,5 @@ public class VisitorController {
     }
     
 }
+
+

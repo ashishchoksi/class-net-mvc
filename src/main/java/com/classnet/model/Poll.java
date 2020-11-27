@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Poll{
 	
-    private String poll_id;
+    private int poll_id;
     private String poll_title;
     private Date poll_date;
     private Date start_date;
@@ -19,10 +19,10 @@ public class Poll{
  
     public Poll() {    }
 
-    public String getPollid() {
+    public int getPollid() {
             return poll_id;
     }
-    public void setPollid(String pollid) {
+    public void setPollid(int pollid) {
             this.poll_id = pollid;
     }
     public String getPollTitle() {

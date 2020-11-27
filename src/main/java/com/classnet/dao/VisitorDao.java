@@ -72,12 +72,11 @@ public class VisitorDao {
     }
     
 
- public boolean registration(String email_id,String student_name,String program_id, int student_type_id,String ssid) { 
+ public boolean registration(String email_id,String student_name,String program_id, int student_type_id,String ssid,String password) { 
      Connection con;
      try {
          Class.forName("com.mysql.cj.jdbc.Driver");
          con = DBConnection.getInstance().getConnection();
-         String password = UUID.randomUUID().toString().replaceAll("-", "");
          String sql = "INSERT INTO `student_detail`(`ssid`, `student_name`, `email_id`, `student_type_id`, `password`, `program_id`) VALUES (?,?,?,?,?,?)";
          PreparedStatement pstmt = con.prepareStatement(sql);
          pstmt.setString(1, ssid);
@@ -100,6 +99,53 @@ public class VisitorDao {
      return true;
  }
  
+ public boolean registration_delete_user(String email_id,String password) { 
+     Connection con;
+     try {
+         Class.forName("com.mysql.cj.jdbc.Driver");
+         con = DBConnection.getInstance().getConnection();
+         String sql = "DELETE FROM `student_detail` WHERE `email_id`=? AND `password`=?";
+         PreparedStatement pstmt = con.prepareStatement(sql);
+         pstmt.setString(1, email_id);
+         pstmt.setString(2, password);
+         pstmt.execute();         
+//         return true;
+     } catch (ClassNotFoundException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (SQLException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (Exception e) {
+	return false;
+	}
+     return true;
+ }
+ 
+ public boolean forgotPassUpdatePass(String email_id,String ssid,String password) { 
+     Connection con;
+     try {
+         Class.forName("com.mysql.cj.jdbc.Driver");
+         con = DBConnection.getInstance().getConnection();
+         String sql = "UPDATE `student_detail` SET `password`=? WHERE `ssid`=? AND `email_id`=?";
+         PreparedStatement pstmt = con.prepareStatement(sql);
+         pstmt.setString(2, ssid);
+         pstmt.setString(3, email_id);
+         pstmt.setString(1, password);
+         
+         pstmt.execute();         
+//         return true;
+     } catch (ClassNotFoundException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (SQLException ex) {
+         Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+         return false;
+     } catch (Exception e) {
+		return false;
+	}
+     return true;
+ }
 
  // 
     public void abc(){
