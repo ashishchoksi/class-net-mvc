@@ -1,6 +1,7 @@
 package com.classnet.model;
 
 import java.util.Date;
+import java.util.HashMap; 
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,10 @@ public class Poll{
     private Date start_date;
     private Date end_date;
     private int status;
-    private ArrayList<int> poll_option_id;
-    private ArrayList<String> poll_option_data;
+    private String batch_id;
+    private String ssid;
+    private HashMap<int,String> poll_option_data;
+    private HashMap<int,String> poll_ans_count;
     
  
     public Poll() {    }
@@ -55,17 +58,29 @@ public class Poll{
     public void setPollDate(Date poll_date) {
             this.poll_date = poll_date;
     }
-    public ArrayList<String> getPollOptionData() {
+    public String getPollSsid() {
+            return ssid;
+    }
+    public void setPollSsid(String ssid) {
+            this.ssid = ssid;
+    }
+    public String getPollBatchId() {
+            return batch_id;
+    }
+    public void setPollBatchId(String batch_id) {
+            this.batch_id = batch_id;
+    }
+    public HashMap<int,String> getPollOptionData() {
         return poll_option_data;
     }
-    public void setPollOptionData(ArrayList<String> poll_option_data) {
+    public void setPollOptionData(HashMap<int,String> poll_option_data) {
         this.poll_option_data = poll_option_data;
     }
-    public ArrayList<int> getPollOptionId() {
-        return poll_option_id;
+    public HashMap<int,String> getPollAnsCount() {
+        return poll_ans_count;
     }
-    public void setPollOptionId(ArrayList<int> poll_option_id) {
-        this.poll_option_id = poll_option_id;
+    public void setPollAnsCount(HashMap<int,String> poll_ans_count) {
+        this.poll_ans_count = poll_ans_count;
     }
 
 

@@ -36,39 +36,31 @@ public class PollDao {
 	HashMap<String,Student> students ;
 	
 	
-	public int postMessage(Message msg) {
+	public int addPoll(Poll poll) {
 		
 		try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DBConnection.getInstance().getConnection();
             //Statement st = con.createStatement();
             
+
+            HttpSession httpSession = SessionResolver.getSession(); 
             
-            String sql = "insert into message values(?,?,?,?,?,?,?,?,?,?)";
+            // TODO keep check if session is NULL
+            String id =(String) httpSession.getAttribute("ssid");
+            System.out.println("id = " + id);
+            
+            String sql = "insert into poll values(?,?,?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, msg.getMessage_id());
-            pstmt.setString(2, msg.getPosted_by().getSsid());
-            pstmt.setString(3, msg.getContent());
-            pstmt.setDate(4,new Date(msg.getMessage_date().getTime()));
-            pstmt.setInt(5, msg.isIs_document()==false ? 0 : 1);
-            pstmt.setInt(6, msg.isStatus()==false ? 0 : 1);
-            pstmt.setBoolean(7, msg.isPriority());
-            pstmt.setString(8,msg.getBatch_id());
-            pstmt.setString(9,msg.getTitle());
-            pstmt.setInt(10, msg.getMsg_type());
+            pstmt.setString(1, poll.getPollid());
+            pstmt.setString(2, poll.getPollTitle());
+            pstmt.setString(3, new Date(poll.getPollDate()));
+            pstmt.setDate(4,poll.getStatus());
+            pstmt.setInt(5, new Date(poll.getStartDate()));
+            pstmt.setInt(6, new Date(poll.getEndDate()));
+            pstmt.setBoolean(7, poll.getPollSsid());
+            pstmt.setString(8,poll.getBatch_id());
             int rows = pstmt.executeUpdate();
-            
-            ArrayList<String> file_names = msg.getDocuments();
-            
-            if(file_names.size() > 0) {
-                for(String file : file_names ){
-                    String sqlQ = "insert into message_document( message_id, document_url ) values(?, ?)";
-                    PreparedStatement pstmtQ = con.prepareStatement(sqlQ);
-                    pstmtQ.setString(1, msg.getMessage_id());
-                    pstmtQ.setString(2, file);
-                    pstmtQ.executeUpdate();
-                }
-            }
             
             return rows;
             
@@ -79,6 +71,83 @@ public class PollDao {
             Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
      }
 		
+		return 0;
+	}
+
+    public int addPollOption(Poll poll) {
+		
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            //Statement st = con.createStatement();
+            
+
+            HttpSession httpSession = SessionResolver.getSession(); 
+            
+            // TODO keep check if session is NULL
+            String id =(String) httpSession.getAttribute("ssid");
+            System.out.println("id = " + id);
+            
+            HashMap<int,String> poll_option_data = new HashMap<>();
+
+            poll_option_data = getPollOptionData();
+            int rows=0;
+            for (poll_option_data.Entry<int, String> e : poll_option_data.entrySet()){
+            
+                String sql = "insert into poll_option values(?,?,?)";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(2, poll.getPollid());
+                pstmt.setString(1, e.getKey());
+                pstmt.setString(3, e.getValue());
+                rows += pstmt.executeUpdate();
+            }
+            return rows;
+            
+	
+	 } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     } catch (SQLException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     }
+		
+		return 0;
+	}
+
+    public int addPollAns(Poll poll) {
+		
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            //Statement st = con.createStatement();
+            
+
+            HttpSession httpSession = SessionResolver.getSession(); 
+            
+            // TODO keep check if session is NULL
+            String id =(String) httpSession.getAttribute("ssid");
+            System.out.println("id = " + id);
+            
+            HashMap<int,String> poll_ans_data = new HashMap<>();
+
+            poll_ans_data = getPollAnsCount();
+            int rows=0;
+            for (poll_ans_data.Entry<int, String> e : poll_ans_data.entrySet()){
+            
+                String sql = "insert into poll_answer values(?,?,?)";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, poll.getPollid());
+                pstmt.setString(2, e.getKey());
+                pstmt.setString(3, e.getPollSsid());
+                rows += pstmt.executeUpdate();
+            }
+            return rows;
+            
+	
+	 } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     } catch (SQLException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     }
 		
 		return 0;
 	}
@@ -87,7 +156,7 @@ public class PollDao {
         try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            con = DBConnection.getInstance().getConnection();
-                String sql = "UPDATE poll SET status = 1 WHERE CURRENT_TIMESTAMP > end_date;";
+                String sql = "UPDATE poll SET status = 0 WHERE CURRENT_TIMESTAMP > end_date;";
                 PreparedStatement pstmt = con.prepareStatement(sql);
 	            int rows = pstmt.executeUpdate();
 
@@ -101,7 +170,7 @@ public class PollDao {
     }
 	
 	public ArrayList<Poll> getAllRemainingPoll(){
-            ArrayList<Poll> msgs = new ArrayList<Poll>();
+            ArrayList<Poll> poll = new ArrayList<Poll>();
 	    
 	    HttpSession httpSession = SessionResolver.getSession(); 
 	    
@@ -109,7 +178,7 @@ public class PollDao {
 	    String id =(String) httpSession.getAttribute("ssid");
 	    System.out.println("id = " + id);
 	    
-	    students = new HashMap<String,Student>();
+	    //students = new HashMap<String,Student>();
 	    
 		try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
@@ -118,7 +187,7 @@ public class PollDao {
 	            
 	            changeStatus();
 	            
-                String sql = "select * from poll where batch_id = ?";
+                String sql = "select * from poll where batch_id = ? and status = 1";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
 	            ResultSet rs = pstmt.executeQuery();
@@ -127,35 +196,30 @@ public class PollDao {
 
 	            	Poll p = new Poll();
 	            	
-                    p.set
+                    p.setPollid(rs.getInt(1));
+                    p.setPollTitles(rs.getString(2));
+                    p.setPollDate(rs.getDate(3));
+                    p.setStatus(rs.getInt(4));
+                    p.setStartDate(rs.getDate(5));
+                    p.setEndDate(rs.getDate(6));
+                    p.setPollSsid(rs.getString(7));
 
-	            	.setMessage_id(rs.getString(1));
-	            	
-	            	String ssid = rs.getString(2);
-	            	//m.setPosted_by(new Student(rs.getString(2)));
-	            	if(!students.containsKey(ssid)) {
-	            		s1 = sdao.getStudentById(ssid);	            		
-	            	}
-	            	else {
-	            		s1 = students.get(ssid);
-	            	}
-	            	
-	            	m.setPosted_by(s1);	            	
-	            	m.setContent(rs.getString(3));
-	            	m.setMessage_date(rs.getDate(4));
-	            	m.setIs_document(rs.getBoolean(5));
-	            	m.setStatus(rs.getBoolean(6));
-	            	m.setPriority(rs.getBoolean(7));
-	            	m.setBatch_id(rs.getString(8));
-	            	m.setTitle(rs.getString(9));	            	
-                        m.setComments( getCommentByMessageId(rs.getString(1)) );
-                        m.setDocuments( getDocumentByMessage(rs.getString(1)) );
-	            	msgs.add(m);
-	            	
-	            }
-	            
-	            
-	            
+	            	//get option data of particular poll;
+                    String sql2 = "select * from poll_option where poll_id = ?";
+	                PreparedStatement pstmt2 = con.prepareStatement(sql2);
+	                pstmt2.setString(1, p.getPollid());
+	                ResultSet rs2 = pstmt2.executeQuery();
+                
+                    HashMap<int,String> poll_option_data = new HashMap<>();
+
+                    while(rs2.next()){
+                        poll_option_data.put(rs2.getInt(1),rs2.getString(3));    
+                    }
+                    
+                    p.setPollOptionData(poll_option_data);
+
+	            	poll.add(p);
+	            }       
 		
 		 } catch (ClassNotFoundException ex) {
 	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,155 +227,73 @@ public class PollDao {
 	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
 	     }
 		 
-		 return msgs;
+		 return poll;
 	
-		
 	}
-        public void addComment(String comment, String message_id){
-            
-            Connection con;
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DBConnection.getInstance().getConnection();
-                
-                String ssid = (String) SessionResolver.getSession().getAttribute("ssid");
-                String sql = "insert into comment(message_id, ssid, comment_content) values(?,?,?)";
-                PreparedStatement pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, message_id);
-                pstmt.setString(2, ssid);
-                pstmt.setString(3, comment);
-                int row=pstmt.executeUpdate();  
-                System.out.println("row inserted : " + row);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        }
-       
-        public ArrayList<Comment> getCommentByMessageId(String message_id){
-            ArrayList<Comment> comments = new ArrayList<Comment>();
-            
-            Connection con;
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DBConnection.getInstance().getConnection();
-                
-                String ssid = (String) SessionResolver.getSession().getAttribute("ssid");
-                String sql = "select * from comment where message_id = ?";
-                PreparedStatement pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, message_id);
-	        ResultSet rs = pstmt.executeQuery();
-	        
-                while(rs.next()) {
-                    Comment comment = new Comment();
-                    comment.setComment_id( rs.getInt(1) );
-                    comment.setMessage_id( rs.getString(2) );
-                    comment.setSsid( ssid );
-                    comment.setComment_content( rs.getString(4) );
-                    comments.add(comment);
-                }
-                
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            return comments;
-        }
-        
-        
-        public ArrayList<String> getDocumentByMessage(String message_id){
-            ArrayList<String> docs = new ArrayList<String>();
-            
-            Connection con;
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                con = DBConnection.getInstance().getConnection();
-                
-                String sql = "select * from message_document where message_id = ?";
-                PreparedStatement pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, message_id);
-	        ResultSet rs = pstmt.executeQuery();
-	        
-                while(rs.next()) {
-                    docs.add(rs.getString(3));                    
-                }
-                
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            return docs;
-        }
-        
-        // --------------- GET MSG BY TYPE ------------------
-        
-        public ArrayList<Message> getMsgsByType(String msgID){
-            ArrayList<Message> msgs = new ArrayList<Message>();
+
+    public ArrayList<Poll> getAllFinshedPoll(){
+            ArrayList<Poll> poll = new ArrayList<Poll>();
 	    
 	    HttpSession httpSession = SessionResolver.getSession(); 
 	    
 	    // TODO keep check if session is NULL
 	    String id =(String) httpSession.getAttribute("ssid");
-	    //System.out.println("id = " + id);
+	    System.out.println("id = " + id);
 	    
-	    students = new HashMap<String,Student>();
-	    
-	    int msg_id = Integer.parseInt(msgID);
+	    //students = new HashMap<String,Student>();
 	    
 		try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            con = DBConnection.getInstance().getConnection();
 	            //Statement st = con.createStatement();
 	            
-	            
-	            String sql = "select * from message where batch_id = ? and message_type = ?";
+                String sql = "select * from poll where batch_id = ? and status = 0";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
-	            pstmt.setInt(2, msg_id);
 	            ResultSet rs = pstmt.executeQuery();
 	            
 	            while(rs.next()) {
-	            	Message m = new Message();
-	            	Student s1;
-	            	m.setMessage_id(rs.getString(1));
+
+	            	Poll p = new Poll();
 	            	
-	            	
-	            	String ssid = rs.getString(2);
-	            	//m.setPosted_by(new Student(rs.getString(2)));
-	            	if(!students.containsKey(ssid)) {
-	            		
-	            		s1 = sdao.getStudentById(ssid);
-	            		
-	            	}
-	            	else {
-	            		s1 = students.get(ssid);
-	            	}
-	            	
-	            	m.setPosted_by(s1);
-	            	
-	            	m.setContent(rs.getString(3));
-	            	m.setMessage_date(rs.getDate(4));
-	            	m.setIs_document(rs.getBoolean(5));
-	            	m.setStatus(rs.getBoolean(6));
-	            	m.setPriority(rs.getBoolean(7));
-	            	m.setBatch_id(rs.getString(8));
-	            	m.setTitle(rs.getString(9));
-	            	
-                        m.setComments( getCommentByMessageId(rs.getString(1)) );
-                       
-                        m.setDocuments( getDocumentByMessage(rs.getString(1)) );
-	            	msgs.add(m);
-	            	
-	            }
-	            
-	            
-	            
+                    p.setPollid(rs.getInt(1));
+                    p.setPollTitles(rs.getString(2));
+                    p.setPollDate(rs.getDate(3));
+                    p.setStatus(rs.getInt(4));
+                    p.setStartDate(rs.getDate(5));
+                    p.setEndDate(rs.getDate(6));
+                    p.setPollSsid(rs.getString(7));
+
+	            	//get option data of particular poll;
+                    String sql2 = "select * from poll_option where poll_id = ?";
+	                PreparedStatement pstmt2 = con.prepareStatement(sql2);
+	                pstmt2.setString(1, p.getPollid());
+	                ResultSet rs2 = pstmt2.executeQuery();
+                
+                    HashMap<int,String> poll_option_data = new HashMap<>();
+
+                    while(rs2.next()){
+                        poll_option_data.put(rs2.getInt(1),rs2.getString(3));    
+                    }
+                    
+                    p.setPollOptionData(poll_option_data);
+
+                    //get total count of submited ans option of particular poll;
+                    String sql3 = "select poll_option_id, count(poll_option_id) from poll_answer where poll_id = ? group by poll_option_id";
+	                PreparedStatement pstmt3 = con.prepareStatement(sql3);
+	                pstmt3.setString(1, p.getPollid());
+	                ResultSet rs3 = pstmt3.executeQuery();
+                
+                    HashMap<int,String> poll_ans_count = new HashMap<>();
+
+                    while(rs3.next()){
+                        poll_ans_count.put(rs2.getInt(1),rs2.getString(2));    
+                    }
+                    
+                    p.setPollAnsCount(poll_ans_count);
+
+	            	poll.add(p);
+	            }       
 		
 		 } catch (ClassNotFoundException ex) {
 	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -319,9 +301,55 @@ public class PollDao {
 	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
 	     }
 		 
-		 return msgs;
+		 return poll;
 	
-		
 	}
-	
-}
+
+    public ArrayList<Poll> getAllMyPoll(){
+            ArrayList<Poll> poll = new ArrayList<Poll>();
+	    
+	    HttpSession httpSession = SessionResolver.getSession(); 
+	    
+	    // TODO keep check if session is NULL
+	    String id =(String) httpSession.getAttribute("ssid");
+	    System.out.println("id = " + id);
+	    
+	    //students = new HashMap<String,Student>();
+	    
+		try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            con = DBConnection.getInstance().getConnection();
+	            //Statement st = con.createStatement();
+	            
+                String sql = "select * from poll where batch_id = ? and ssid = ?";
+	            PreparedStatement pstmt = con.prepareStatement(sql);
+	            pstmt.setString(1, id.substring(0,6));
+                pstmt.setString(2, id);
+
+	            ResultSet rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+
+	            	Poll p = new Poll();
+	            	
+                    p.setPollid(rs.getInt(1));
+                    p.setPollTitles(rs.getString(2));
+                    p.setPollDate(rs.getDate(3));
+                    p.setStatus(rs.getInt(4));
+                    p.setStartDate(rs.getDate(5));
+                    p.setEndDate(rs.getDate(6));
+                    p.setPollSsid(rs.getString(7));
+
+	            	poll.add(p);
+	            }       
+		
+		 } catch (ClassNotFoundException ex) {
+	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+	     } catch (SQLException ex) {
+	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+	     }
+		 
+		 return poll;
+	}
+
+    
