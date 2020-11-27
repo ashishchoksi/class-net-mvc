@@ -59,7 +59,7 @@
                                             alt="user image">
                                         <span class="username">
                                             <a href="#"><%=m.getTitle()%></a>
-                                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                            <a href="delete-message?msgId=<%=m.getMessage_id()%>" class="float-right btn-tool">Delete</a>
                                         </span>
                                         <span class="description">Posted By - <%=m.getPosted_by().getSsid()%> (<%=m.getPosted_by().getStudent_name() %>) on <%=m.getMessage_date() %></span>
                                     </div>

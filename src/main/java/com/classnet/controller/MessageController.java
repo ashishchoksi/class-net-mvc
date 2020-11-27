@@ -46,6 +46,12 @@ public class MessageController {
         return "view-message";
     }
     
+    @RequestMapping("/delete-message")
+    public String delete_message(@RequestParam("msgId") String message_id){
+        System.out.println("delete " + message_id);
+        msgService.delete_message(message_id);
+        return "redirect:/my-message";
+    }
     
     @RequestMapping("/my-message")
     public String my_message(Model model){

@@ -183,6 +183,23 @@ public class MessageDao {
              return msgs;	
 	}
         
+        public void delete_message(String message_id){
+            Connection con;
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DBConnection.getInstance().getConnection();
+                
+                String sql = "update message set status = 0 where message_id = ?";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, message_id);
+                int row=pstmt.executeUpdate();  
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         public void addComment(String comment, String message_id){
             
             Connection con;

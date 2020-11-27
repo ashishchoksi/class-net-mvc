@@ -34,6 +34,10 @@ public class MessageService {
 		return msgs;		
 	}
 	
+        public void delete_message(String msgid) {
+            msgDao.delete_message(msgid);
+        }
+        
 	public void addComment(String comment, String message_id){
             msgDao.addComment(comment, message_id);
         }
