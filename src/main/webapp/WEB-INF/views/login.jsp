@@ -68,8 +68,8 @@
 						<button class="btn btn-danger btn-block" type="submit">Login</button >                
 				</form>
 				<p class="account">By clicking login, you agree to our <a href="#">Terms & Conditions!</a></p>
-				<p class="account1">Don't have an account? <a href="./registration.html">Register here</a></p>
-				<p class="account1">Forgot your password? <a href="./forgot-pass.html">Forgot Password</a></p>
+				<p class="account1">Don't have an account? <a href="./registration">Register here</a></p>
+				<p class="account1">Forgot your password? <a href="./forgot-password">Forgot Password</a></p>
 			</div>
 		</div>
 		<!-- //main content -->
