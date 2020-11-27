@@ -38,59 +38,15 @@
             msg_types.put(3,"Election Messages");
             msg_types.put(4,"SPC Messages");
             msg_types.put(5,"Acad Messages");
-            msg_types.put(10,"Pinned Messages");
             String msg_type = msg_types.get((Integer)request.getAttribute("msg_type")).toString();
             %>
             <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-3">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                       <%= msg_type %>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message">All Messages</a>
-                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=2" class="active">CR Messages</a>
-                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=4">SPC Messages</a>
-                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=3">Election Messages</a>
-                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=5">Acad Messages</a>
-                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=10">Pinned Messages</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-7">
-                            <!-- <form class="navbar-white navbar-light form-inline ml-3">
-                                <div class="input-group input-group-sm" style="margin:3px auto; width:auto">
-                                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-navbar" type="submit">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form> -->
-                            <h3>${pinned}<h3>
-                            <button type="submit" class="btn btn-danger" style="margin: auto; display: block;">View Deleted Message</button>
-                            </div>
-                            <div class="col-2">
-                                <!-- <img src="./asset/icon/pin-empty.svg" alt="pin" style="width: 32px; height: 32px; float: right; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);"> -->
-                                <button type="submit" class="btn btn-primary" style="float: right;">Post Message</button>
-                            </div>
-                        </div>
-                        
-                    </div><!-- /.card-header -->
-                </div>
+                
                 
                 <% ArrayList<Message> msgs = (ArrayList<Message>)request.getAttribute("msgs"); 
                 
-         			//out.println(msgs.get(0));
-                	
-         			//out.print(msgs.size());
          			for(Message m : msgs){
-         				//out.println(m.getDocuments().size());
+         	
                 %>
                 <div class="card">
                     <div class="card-body">
@@ -103,7 +59,7 @@
                                             alt="user image">
                                         <span class="username">
                                             <a href="#"><%=m.getTitle()%></a>
-                                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                            <a href="delete-message?msgId=<%=m.getMessage_id()%>" class="float-right btn-tool">Delete</a>
                                         </span>
                                         <span class="description">Posted By - <%=m.getPosted_by().getSsid()%> (<%=m.getPosted_by().getStudent_name() %>) on <%=m.getMessage_date() %></span>
                                     </div>
@@ -121,10 +77,7 @@
                                     </p>
             
                                     <p>
-                                       <a href ="<%= request.getContextPath()%>/pin-message?msgID=<%=m.getMessage_id()%>">
                                         <img src="${mres}/asset/icon/pin-empty.svg" alt="" style="width: 20px; height: 20px; margin-left: 5px; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);">
-                                       </a>
-                                       
                                         <span class="float-right">
                                             <span class="text-sm blackHover" style="cursor:pointer;" onclick="commentBox_visibility('<%=m.getMessage_id()%>')">
                                                 <i class="far fa-comments mr-1"></i> Comments (<%=m.getComments().size()%>)
