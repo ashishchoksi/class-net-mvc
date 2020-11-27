@@ -24,6 +24,11 @@ public class MessageService {
 		return msgs;		
 	}
 	
+        public ArrayList<Message> getMyMessages(){
+		ArrayList<Message> msgs = msgDao.getMyMessages();
+		return msgs;		
+	}
+        
 	public ArrayList<Message> getMsgsByType(String msgID){
 		ArrayList<Message> msgs = msgDao.getMsgsByType(msgID);
 		return msgs;		

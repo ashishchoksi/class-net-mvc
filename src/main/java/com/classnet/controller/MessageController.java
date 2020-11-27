@@ -46,6 +46,16 @@ public class MessageController {
         return "view-message";
     }
     
+    
+    @RequestMapping("/my-message")
+    public String my_message(Model model){
+    	ArrayList<Message> msgs;
+    	msgs = msgService.getMyMessages(); //wat abt specific types of messages
+    	model.addAttribute("msgs" , msgs);
+    	model.addAttribute("msg_type" , 1);
+        return "my-message";
+    }
+    
     @RequestMapping(value="/view-message",params= {"msgID"})
     public String view_message(Model model, @RequestParam("msgID") String msgID) {
     	
