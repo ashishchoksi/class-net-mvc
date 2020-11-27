@@ -1,4 +1,5 @@
 
+<%@page import="com.classnet.model.Student"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="com.classnet.model.Message"%>
 <%@page import="com.classnet.model.Comment"%>
@@ -31,8 +32,12 @@
             </section>
 
             <!-- Main content -->
-            <% HashMap<Integer,String> msg_types = new HashMap<Integer,String>() ; 
-            	
+            <% 
+            
+            Student stu = (Student) request.getSession().getAttribute("studobj");
+            //out.print(stu);
+            HashMap<Integer,String> msg_types = new HashMap<Integer,String>() ; 
+            msg_types.put(0,"Deleted Messages");
             msg_types.put(1,"All Messages");
             msg_types.put(2,"CR Messages");
             msg_types.put(3,"Election Messages");
@@ -58,6 +63,10 @@
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=3">Election Messages</a>
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=5">Acad Messages</a>
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=10">Pinned Messages</a>
+                                    	<% if (stu.getType_id() != 1){ %>
+                                    	
+                                    	<a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=0">Deleted Messages</a>
+                                    	<%} %>
                                     </div>
                                 </div>
                             </div>
