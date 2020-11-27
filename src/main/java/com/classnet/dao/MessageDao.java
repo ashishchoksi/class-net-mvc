@@ -365,14 +365,15 @@ public class MessageDao {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            con = DBConnection.getInstance().getConnection();
 	            
-	            String sql = "insert into pins values(?,?)";
+	            String sql = "insert into student_pin values(?,?)";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
-	            pstmt.setString(1, msgID);
-	            pstmt.setString(2, ssid);
+	            pstmt.setString(1, ssid);
+	            pstmt.setString(2, msgID);
 	            
 	             row = pstmt.executeUpdate();
         	}
         	catch(Exception e) {
+                        System.out.println("error : " + e.getMessage());
         		e.printStackTrace();
         	}
         	
