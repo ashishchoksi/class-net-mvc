@@ -24,11 +24,17 @@ public class MessageService {
 		return msgs;		
 	}
 	
+        public ArrayList<Message> getMyMessages(){
+		ArrayList<Message> msgs = msgDao.getMyMessages();
+		return msgs;		
+	}
+        
 	public ArrayList<Message> getMsgsByType(String msgID){
 		ArrayList<Message> msgs = msgDao.getMsgsByType(msgID);
 		return msgs;		
 	}
 	
+
 	public ArrayList<Message> getPinnedMessages(String uid){
 		ArrayList<Message> msgs = msgDao.getPinnedMessages(uid);
 		return msgs;
@@ -40,6 +46,11 @@ public class MessageService {
 		return false;
 	}
 	
+
+        public void delete_message(String msgid) {
+            msgDao.delete_message(msgid);
+        }
+
 	public void addComment(String comment, String message_id){
             msgDao.addComment(comment, message_id);
         }

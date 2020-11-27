@@ -48,6 +48,22 @@ public class MessageController {
         return "view-message";
     }
     
+    @RequestMapping("/delete-message")
+    public String delete_message(@RequestParam("msgId") String message_id){
+        System.out.println("delete " + message_id);
+        msgService.delete_message(message_id);
+        return "redirect:/my-message";
+    }
+    
+    @RequestMapping("/my-message")
+    public String my_message(Model model){
+    	ArrayList<Message> msgs;
+    	msgs = msgService.getMyMessages(); //wat abt specific types of messages
+    	model.addAttribute("msgs" , msgs);
+    	model.addAttribute("msg_type" , 1);
+        return "my-message";
+    }
+    
     @RequestMapping(value="/view-message",params= {"msgID"})
     public String view_message(Model model, @RequestParam("msgID") String msgID) {
     	
