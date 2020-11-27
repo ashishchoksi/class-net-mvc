@@ -303,5 +303,102 @@ public class MessageDao {
 	
 		
 	}
+        
+        //----------------------- ADD PIN ------------------------
+        
+        public int addPin(String msgID, String ssid) {
+        	int row = 0;
+        	try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            con = DBConnection.getInstance().getConnection();
+	            
+	            String sql = "insert into pins values(?,?)";
+	            PreparedStatement pstmt = con.prepareStatement(sql);
+	            pstmt.setString(1, msgID);
+	            pstmt.setString(2, ssid);
+	            
+	             row = pstmt.executeUpdate();
+        	}
+        	catch(Exception e) {
+        		e.printStackTrace();
+        	}
+        	
+        	return row;
+        }
+        
+        
+        //---------------------- GET PINNED MSGS-------------------
+        public ArrayList<Message> getPinnedMessages(String uid){
+            ArrayList<Message> msgs = new ArrayList<Message>();
+	    
+	    //HttpSession httpSession = SessionResolver.getSession(); 
+	    
+	    // TODO keep check if session is NULL
+	    //String id =(String) httpSession.getAttribute("ssid");
+	    //System.out.println("id = " + id);
+	    String id = uid;
+	    students = new HashMap<String,Student>();
+	    
+	    //int msg_id = Integer.parseInt(msgID);
+	    
+		try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            con = DBConnection.getInstance().getConnection();
+	            //Statement st = con.createStatement();
+	            
+	            
+	            String sql = "select * from message where batch_id = ? and message_id in (select message_id from pins where student_id = ?)";
+	            PreparedStatement pstmt = con.prepareStatement(sql);
+	            pstmt.setString(1, id.substring(0,6));
+	            pstmt.setString(2, id);
+	            ResultSet rs = pstmt.executeQuery();
+	            
+	            while(rs.next()) {
+	            	Message m = new Message();
+	            	Student s1;
+	            	m.setMessage_id(rs.getString(1));
+	            	
+	            	
+	            	String ssid = rs.getString(2);
+	            	//m.setPosted_by(new Student(rs.getString(2)));
+	            	if(!students.containsKey(ssid)) {
+	            		
+	            		s1 = sdao.getStudentById(ssid);
+	            		
+	            	}
+	            	else {
+	            		s1 = students.get(ssid);
+	            	}
+	            	
+	            	m.setPosted_by(s1);
+	            	
+	            	m.setContent(rs.getString(3));
+	            	m.setMessage_date(rs.getDate(4));
+	            	m.setIs_document(rs.getBoolean(5));
+	            	m.setStatus(rs.getBoolean(6));
+	            	m.setPriority(rs.getBoolean(7));
+	            	m.setBatch_id(rs.getString(8));
+	            	m.setTitle(rs.getString(9));
+	            	
+                        m.setComments( getCommentByMessageId(rs.getString(1)) );
+                       
+                        m.setDocuments( getDocumentByMessage(rs.getString(1)) );
+	            	msgs.add(m);
+	            	
+	            }
+	            
+	            
+	            
+		
+		 } catch (ClassNotFoundException ex) {
+	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+	     } catch (SQLException ex) {
+	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+	     }
+		 
+		 return msgs;
+	
+		
+	}
 	
 }

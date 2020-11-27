@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.classnet.model.Message;
 import com.classnet.service.MessageService;
+import com.classnet.util.SessionResolver;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
@@ -49,9 +51,16 @@ public class MessageController {
     @RequestMapping(value="/view-message",params= {"msgID"})
     public String view_message(Model model, @RequestParam("msgID") String msgID) {
     	
-    	ArrayList<Message> msgs;
+    	ArrayList<Message> msgs = null;
     	
-    	msgs = msgService.getMsgsByType(msgID);
+    	if(msgID.equals("10"))
+    	{
+    		HttpSession sess = SessionResolver.getSession();
+    		if(sess!=null)
+    		msgs =msgService.getPinnedMessages((String)sess.getAttribute("ssid"));
+    	}
+    	else
+    		msgs = msgService.getMsgsByType(msgID);
     	
     	model.addAttribute("msgs" , msgs);
     	model.addAttribute("msg_type",Integer.parseInt(msgID));
@@ -125,6 +134,22 @@ public class MessageController {
         System.out.println("comment done " + comment + " " + message_id);
         msgService.addComment(comment, message_id);
         return "redirect:/view-message";
+    }
+    
+    @RequestMapping(value="/pin-message",params= {"msgID"})
+    public String pinMessage(@RequestParam("msgID") String msgID,Model model) {
+    	
+    	HttpSession sess = SessionResolver.getSession();
+    	if(sess!=null)
+    	if(msgService.addPin(msgID , (String)sess.getAttribute("ssid")))
+    	{
+    		model.addAttribute("pinned","Message Pinned");
+    	}
+    	else {
+    		model.addAttribute("pinned","Message not Pinned");
+    	}
+    	
+    	return "redirect:/view-message";
     }
     
 }

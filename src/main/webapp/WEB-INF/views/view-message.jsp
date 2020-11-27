@@ -38,6 +38,7 @@
             msg_types.put(3,"Election Messages");
             msg_types.put(4,"SPC Messages");
             msg_types.put(5,"Acad Messages");
+            msg_types.put(10,"Pinned Messages");
             String msg_type = msg_types.get((Integer)request.getAttribute("msg_type")).toString();
             %>
             <div class="col">
@@ -56,6 +57,7 @@
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=4">SPC Messages</a>
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=3">Election Messages</a>
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=5">Acad Messages</a>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=10">Pinned Messages</a>
                                     </div>
                                 </div>
                             </div>
@@ -70,6 +72,7 @@
                                     </div>
                                 </div>
                             </form> -->
+                            <h3>${pinned}<h3>
                             <button type="submit" class="btn btn-danger" style="margin: auto; display: block;">View Deleted Message</button>
                             </div>
                             <div class="col-2">
@@ -118,7 +121,10 @@
                                     </p>
             
                                     <p>
+                                       <a href ="<%= request.getContextPath()%>/pin-message?msgID=<%=m.getMessage_id()%>">
                                         <img src="${mres}/asset/icon/pin-empty.svg" alt="" style="width: 20px; height: 20px; margin-left: 5px; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);">
+                                       </a>
+                                       
                                         <span class="float-right">
                                             <span class="text-sm blackHover" style="cursor:pointer;" onclick="commentBox_visibility('<%=m.getMessage_id()%>')">
                                                 <i class="far fa-comments mr-1"></i> Comments (<%=m.getComments().size()%>)
