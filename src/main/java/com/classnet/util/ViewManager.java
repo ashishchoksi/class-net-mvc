@@ -8,9 +8,7 @@ public class ViewManager {
     public static boolean isAuth(){
         HttpSession session = SessionResolver.getSession();
         Student std = (Student)session.getAttribute("studobj");
-        if(std == null)
-            return false;
-        return true;
+        return std != null;
     }
     
     public static String getSideBar() {
