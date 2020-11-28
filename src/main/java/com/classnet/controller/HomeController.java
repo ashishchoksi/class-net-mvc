@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.classnet.model.Student;
 import com.classnet.service.StudentService;
+import java.util.ArrayList;
 //import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -47,13 +48,41 @@ public class HomeController {
     }
     
     @RequestMapping("/assign-permission")
-    public String assign_permission(){        
-        return "assign-permission";
+    public String assign_permission(HttpServletRequest request, Model model){  
+        if(stdservice.check_is_login(request)) {
+            ArrayList<Student> students;	
+            students = stdservice.getNotAssignedStudents();  //get all students who has not assigned any role
+            model.addAttribute("students" , students);
+            return "assign-permission";
+        }
+        else {
+            return "redirect:/login";
+        }
+    }
+    
+    @RequestMapping(value="/assign-role",method = RequestMethod.POST)
+    public String assignRole(@RequestParam("student_id") String ssid, @RequestParam("role_id") String rid, Model model, HttpSession s ){ //HttpServletRequest request,
+        stdservice.assignRole(ssid, rid);
+        return "redirect:/assign-permission";
     }
     
     @RequestMapping("/revoke-permission")
-    public String revoke_permission(){
-        return "revoke-permission";
+    public String revoke_permission(HttpServletRequest request, Model model){  
+        if(stdservice.check_is_login(request)) {
+            if(request.getParameter("id")!=null){
+                stdservice.revokeRole(request.getParameter("id"));
+                return "redirect:/revoke-permission";
+            }
+            else{
+                ArrayList<Student> students;	
+                students = stdservice.getAssignedStudents();  //get all students who has assigned any role
+                model.addAttribute("students" , students);
+                return "revoke-permission";
+            }
+        }
+        else {
+            return "redirect:/login";
+        }
     }
     
     @RequestMapping("/profile")
@@ -79,7 +108,6 @@ public class HomeController {
         } else {
             return "redirect:/login";
         }
-        
     }
     
     

@@ -316,12 +316,15 @@ public class MessageDao {
 	            	sql = "select * from message where batch_id = ? and status = ?";
 	            	
 	            }
-	            else sql = "select * from message where batch_id = ? and message_type = ?";
+	            else sql = "select * from message where batch_id = ? and message_type = ? and status = ?";
 	            
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
 	            
 	            pstmt.setInt(2, msg_id == 0 ? 0 : msg_id); //if msg id 0 serch for deleted msgs
+	            
+	            if(msg_id!=0)
+	            	pstmt.setInt(3, 1);
 	            
 	            ResultSet rs = pstmt.executeQuery();
 	            
@@ -417,7 +420,7 @@ public class MessageDao {
 	            //Statement st = con.createStatement();
 	            
 	            
-	            String sql = "select * from message where batch_id = ? and message_id in (select message_id from pins where student_id = ?)";
+	            String sql = "select * from message where batch_id = ? and message_id in (select message_id from student_pin where ssid = ?)";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
 	            pstmt.setString(2, id);

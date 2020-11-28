@@ -3,6 +3,7 @@ package com.classnet.service;
 import com.classnet.dao.StudentDao;
 import com.classnet.model.Student;
 import com.classnet.util.SessionResolver;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,4 +65,21 @@ public class StudentService {
         }
     }
     
+    public ArrayList<Student> getNotAssignedStudents(){  //get students who has not assigned any role
+        ArrayList<Student> students = sdao.getNotAssignedStudents();
+        return students;		
+    }
+    
+    public void assignRole(String ssid, String role_id){
+        sdao.assignRole(ssid,role_id);
+    }
+    
+    public void revokeRole(String ssid){
+        sdao.revokeRole(ssid);
+    }
+    
+    public ArrayList<Student> getAssignedStudents(){  //get students who has assigned any role
+        ArrayList<Student> students = sdao.getAssignedStudents();
+        return students;		
+    }
 }
