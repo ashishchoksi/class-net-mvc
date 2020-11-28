@@ -81,7 +81,7 @@
                                     </div>
                                 </div>
                             </form> -->
-                            <h3>${pinned}<h3>
+                            <h3>${pinned}</h3>
                             <button type="submit" class="btn btn-danger" style="margin: auto; display: block;">View Deleted Message</button>
                             </div>
                             <div class="col-2">
@@ -124,7 +124,7 @@
                                         <%  for(String s : m.getDocuments()) { 
                                             String path = "resources/student_docs/"+s;
                                         %>
-                                        <a href="<%=path%>"><%=s%></a>
+                                        <a href="<%=path%>" target="_blank"><%=s%></a>
                                             <br>
                                         <% } %>
                                     </p>
