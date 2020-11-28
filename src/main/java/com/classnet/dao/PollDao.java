@@ -38,7 +38,7 @@ public class PollDao {
 	
 	
 	public int addPoll(Poll poll) {
-		
+        int poll_id;
 		try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DBConnection.getInstance().getConnection();
@@ -51,19 +51,26 @@ public class PollDao {
             String id =(String) httpSession.getAttribute("ssid");
             System.out.println("id = " + id);
             
-            String sql = "insert into poll values(?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO `poll`(`poll_title`, `poll_date`, `status`, `start_date`, `end_date`, `ssid`, `batch_id`) VALUES (?,CURRENT_TIMESTAMP,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, poll.getPollid());
-            pstmt.setString(2, poll.getPollTitle());
-            pstmt.setDate(3,new Date(poll.getPollDate().getTime()));
-            pstmt.setInt(4,poll.getStatus());
-            pstmt.setDate(5,new Date(poll.getStartDate().getTime()));
-            pstmt.setDate(6,new Date(poll.getEndDate().getTime()));
-            pstmt.setString(7, poll.getPollSsid());
-            pstmt.setString(8,poll.getPollBatchId());
+            
+            pstmt.setString(1, poll.getPollTitle());
+            pstmt.setInt(2,poll.getStatus());
+            pstmt.setDate(3,new Date(poll.getStartDate().getTime()));
+            pstmt.setDate(4,new Date(poll.getEndDate().getTime()));
+            pstmt.setString(5, poll.getPollSsid());
+            pstmt.setString(6,poll.getPollBatchId());
             int rows = pstmt.executeUpdate();
             
-            return rows;
+            String sql2 = "SELECT poll_id FROM `poll` ORDER BY poll_date DESC LIMIT 1"
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+            ResultSet rs2 = pstmt2.executeQuery();
+	            
+	        while(rs2.next()) {
+                poll_id = rs2.getInt(1);
+            }
+            System.out.println('created poll id = '+poll_id);
+            return poll_id;
             
 	
 	 } catch (ClassNotFoundException ex) {
@@ -94,12 +101,11 @@ public class PollDao {
             poll_option_data = poll.getPollOptionData();
             int rows=0;
             for (Entry<Integer,String> e : poll_option_data.entrySet()){
-            
-                String sql = "insert into poll_option values(?,?,?)";
+    
+                String sql = "INSERT INTO `poll_option`(`poll_id`, `poll_option_data`) VALUES (?,?)";
                 PreparedStatement pstmt = con.prepareStatement(sql);
-                pstmt.setInt(2, poll.getPollid());
-                pstmt.setInt(1, e.getKey());
-                pstmt.setString(3, e.getValue());
+                pstmt.setInt(1, poll.getPollid());
+                pstmt.setString(2, e.getValue());
                 rows += pstmt.executeUpdate();
             }
             return rows;
@@ -127,22 +133,44 @@ public class PollDao {
             // TODO keep check if session is NULL
             String id =(String) httpSession.getAttribute("ssid");
             System.out.println("id = " + id);
-            
-            HashMap<Integer,Integer> poll_ans_data = new HashMap<>();
-
-            poll_ans_data = poll.getPollAnsCount();
-            int rows=0;
-            for (Entry<Integer, Integer> e : poll_ans_data.entrySet()){
-            
-                String sql = "insert into poll_answer values(?,?,?)";
+        
+            String sql = "insert into poll_answer values(?,?,?)";
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setInt(1, poll.getPollid());
-                pstmt.setInt(2, e.getKey());
-                pstmt.setString(3, poll.getPollSsid());
-                rows += pstmt.executeUpdate();
+                pstmt.setInt(2, poll.getPollAns());
+                pstmt.setString(3, id);
+                int rows = pstmt.executeUpdate();
             }
             return rows;
             
+	
+	 } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     } catch (SQLException ex) {
+            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+     }
+		
+		return 0;
+	}
+
+    public int deletePoll(int poll_id) {
+		
+		try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            //Statement st = con.createStatement();
+            
+
+            HttpSession httpSession = SessionResolver.getSession(); 
+            
+            // TODO keep check if session is NULL
+            String id =(String) httpSession.getAttribute("ssid");
+            System.out.println("id = " + id);
+            String sql = "UPDATE poll SET status = 2 WHERE poll_id  = ? ;";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, poll_id);
+            int rows = pstmt.executeUpdate();
+            return rows;
 	
 	 } catch (ClassNotFoundException ex) {
             Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -322,7 +350,7 @@ public class PollDao {
 	            con = DBConnection.getInstance().getConnection();
 	            //Statement st = con.createStatement();
 	            
-                String sql = "select * from poll where batch_id = ? and ssid = ?";
+                String sql = "select * from poll where batch_id = ? and ssid = ? and status <> 2";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
                 pstmt.setString(2, id);
