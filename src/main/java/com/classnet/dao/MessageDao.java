@@ -35,7 +35,7 @@ public class MessageDao {
 	
 	HashMap<String,Student> students ;
 	
-	
+	// ------------------------- POST MESSAGE -------------------
 	public int postMessage(Message msg) {
 		
 		try {
@@ -83,6 +83,7 @@ public class MessageDao {
 		return 0;
 	}
 	
+	// ------------------------- get ALL messages ----------------------------
 	public ArrayList<Message> getAllMessages(){
             ArrayList<Message> msgs = new ArrayList<Message>();	    
 	    HttpSession httpSession = SessionResolver.getSession(); 
@@ -95,9 +96,10 @@ public class MessageDao {
 		try {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            con = DBConnection.getInstance().getConnection();
-	            String sql = "select * from message where batch_id = ?";
+	            String sql = "select * from message where batch_id = ? and status = ?";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
-	            pstmt.setString(1, id.substring(0,6));	            
+	            pstmt.setString(1, id.substring(0,6));	   
+	            pstmt.setInt(2, 1);
 	            ResultSet rs = pstmt.executeQuery();
 	            
 	            while(rs.next()) {
@@ -133,6 +135,7 @@ public class MessageDao {
              return msgs;	
 	}
         
+	// ------------------------- GET MY MESSAGES ---------------------
         public ArrayList<Message> getMyMessages(){
             ArrayList<Message> msgs = new ArrayList<Message>();	    
 	    HttpSession httpSession = SessionResolver.getSession(); 
@@ -183,6 +186,8 @@ public class MessageDao {
              return msgs;	
 	}
         
+        
+        // -------------------------- DELETE MSG -----------------------------
         public void delete_message(String message_id){
             Connection con;
             try {
@@ -200,6 +205,8 @@ public class MessageDao {
             }
         }
         
+        
+        // ----------------- ADD COMMENT --------------------
         public void addComment(String comment, String message_id){
             
             Connection con;
@@ -222,7 +229,9 @@ public class MessageDao {
             }
             
         }
-       
+        
+        
+        // --- GET COMMENT BY MSG ID ------------------
         public ArrayList<Comment> getCommentByMessageId(String message_id){
             ArrayList<Comment> comments = new ArrayList<Comment>();
             
@@ -255,7 +264,7 @@ public class MessageDao {
             return comments;
         }
         
-        
+        // ---- GET DOC BY MSG ------------------------
         public ArrayList<String> getDocumentByMessage(String message_id){
             ArrayList<String> docs = new ArrayList<String>();
             
@@ -302,11 +311,18 @@ public class MessageDao {
 	            con = DBConnection.getInstance().getConnection();
 	            //Statement st = con.createStatement();
 	            
+	            String sql = "";
+	            if(msg_id==0) {
+	            	sql = "select * from message where batch_id = ? and status = ?";
+	            	
+	            }
+	            else sql = "select * from message where batch_id = ? and message_type = ?";
 	            
-	            String sql = "select * from message where batch_id = ? and message_type = ?";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
-	            pstmt.setInt(2, msg_id);
+	            
+	            pstmt.setInt(2, msg_id == 0 ? 0 : msg_id); //if msg id 0 serch for deleted msgs
+	            
 	            ResultSet rs = pstmt.executeQuery();
 	            
 	            while(rs.next()) {
@@ -365,14 +381,15 @@ public class MessageDao {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            con = DBConnection.getInstance().getConnection();
 	            
-	            String sql = "insert into pins values(?,?)";
+	            String sql = "insert into student_pin values(?,?)";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
-	            pstmt.setString(1, msgID);
-	            pstmt.setString(2, ssid);
+	            pstmt.setString(1, ssid);
+	            pstmt.setString(2, msgID);
 	            
 	             row = pstmt.executeUpdate();
         	}
         	catch(Exception e) {
+                        System.out.println("error : " + e.getMessage());
         		e.printStackTrace();
         	}
         	
