@@ -16,12 +16,11 @@ public class Poll{
     private int status;
     private String batch_id;
     private String ssid;
-    private HashMap<int,String> poll_option_data;
-    private HashMap<int,String> poll_ans_count;
+    private HashMap<Integer,String> poll_option_data;
+    private HashMap<Integer,Integer> poll_ans_count;
     
- 
-    public Poll() {    }
-
+    public Poll() {}
+    
     public int getPollid() {
             return poll_id;
     }
@@ -70,16 +69,16 @@ public class Poll{
     public void setPollBatchId(String batch_id) {
             this.batch_id = batch_id;
     }
-    public HashMap<int,String> getPollOptionData() {
+    public HashMap<Integer,String> getPollOptionData() {
         return poll_option_data;
     }
-    public void setPollOptionData(HashMap<int,String> poll_option_data) {
+    public void setPollOptionData(HashMap<Integer,String> poll_option_data) {
         this.poll_option_data = poll_option_data;
     }
-    public HashMap<int,String> getPollAnsCount() {
+    public HashMap<Integer,Integer> getPollAnsCount() {
         return poll_ans_count;
     }
-    public void setPollAnsCount(HashMap<int,String> poll_ans_count) {
+    public void setPollAnsCount(HashMap<Integer,Integer> poll_ans_count) {
         this.poll_ans_count = poll_ans_count;
     }
 

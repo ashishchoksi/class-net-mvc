@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,14 +53,14 @@ public class PollDao {
             
             String sql = "insert into poll values(?,?,?,?,?,?,?,?)";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, poll.getPollid());
+            pstmt.setInt(1, poll.getPollid());
             pstmt.setString(2, poll.getPollTitle());
-            pstmt.setString(3, new Date(poll.getPollDate()));
-            pstmt.setDate(4,poll.getStatus());
-            pstmt.setInt(5, new Date(poll.getStartDate()));
-            pstmt.setInt(6, new Date(poll.getEndDate()));
-            pstmt.setBoolean(7, poll.getPollSsid());
-            pstmt.setString(8,poll.getBatch_id());
+            pstmt.setDate(3,new Date(poll.getPollDate().getTime()));
+            pstmt.setInt(4,poll.getStatus());
+            pstmt.setDate(5,new Date(poll.getStartDate().getTime()));
+            pstmt.setDate(6,new Date(poll.getEndDate().getTime()));
+            pstmt.setString(7, poll.getPollSsid());
+            pstmt.setString(8,poll.getPollBatchId());
             int rows = pstmt.executeUpdate();
             
             return rows;
@@ -88,16 +89,16 @@ public class PollDao {
             String id =(String) httpSession.getAttribute("ssid");
             System.out.println("id = " + id);
             
-            HashMap<int,String> poll_option_data = new HashMap<>();
+            HashMap<Integer,String> poll_option_data = new HashMap<>();
 
-            poll_option_data = getPollOptionData();
+            poll_option_data = poll.getPollOptionData();
             int rows=0;
-            for (poll_option_data.Entry<int, String> e : poll_option_data.entrySet()){
+            for (Entry<Integer,String> e : poll_option_data.entrySet()){
             
                 String sql = "insert into poll_option values(?,?,?)";
                 PreparedStatement pstmt = con.prepareStatement(sql);
-                pstmt.setString(2, poll.getPollid());
-                pstmt.setString(1, e.getKey());
+                pstmt.setInt(2, poll.getPollid());
+                pstmt.setInt(1, e.getKey());
                 pstmt.setString(3, e.getValue());
                 rows += pstmt.executeUpdate();
             }
@@ -127,17 +128,17 @@ public class PollDao {
             String id =(String) httpSession.getAttribute("ssid");
             System.out.println("id = " + id);
             
-            HashMap<int,String> poll_ans_data = new HashMap<>();
+            HashMap<Integer,Integer> poll_ans_data = new HashMap<>();
 
-            poll_ans_data = getPollAnsCount();
+            poll_ans_data = poll.getPollAnsCount();
             int rows=0;
-            for (poll_ans_data.Entry<int, String> e : poll_ans_data.entrySet()){
+            for (Entry<Integer, Integer> e : poll_ans_data.entrySet()){
             
                 String sql = "insert into poll_answer values(?,?,?)";
                 PreparedStatement pstmt = con.prepareStatement(sql);
-                pstmt.setString(1, poll.getPollid());
-                pstmt.setString(2, e.getKey());
-                pstmt.setString(3, e.getPollSsid());
+                pstmt.setInt(1, poll.getPollid());
+                pstmt.setInt(2, e.getKey());
+                pstmt.setString(3, poll.getPollSsid());
                 rows += pstmt.executeUpdate();
             }
             return rows;
@@ -197,7 +198,7 @@ public class PollDao {
 	            	Poll p = new Poll();
 	            	
                     p.setPollid(rs.getInt(1));
-                    p.setPollTitles(rs.getString(2));
+                    p.setPollTitle(rs.getString(2));
                     p.setPollDate(rs.getDate(3));
                     p.setStatus(rs.getInt(4));
                     p.setStartDate(rs.getDate(5));
@@ -207,10 +208,10 @@ public class PollDao {
 	            	//get option data of particular poll;
                     String sql2 = "select * from poll_option where poll_id = ?";
 	                PreparedStatement pstmt2 = con.prepareStatement(sql2);
-	                pstmt2.setString(1, p.getPollid());
+	                pstmt2.setInt(1, p.getPollid());
 	                ResultSet rs2 = pstmt2.executeQuery();
                 
-                    HashMap<int,String> poll_option_data = new HashMap<>();
+                    HashMap<Integer,String> poll_option_data = new HashMap<>();
 
                     while(rs2.next()){
                         poll_option_data.put(rs2.getInt(1),rs2.getString(3));    
@@ -257,7 +258,7 @@ public class PollDao {
 	            	Poll p = new Poll();
 	            	
                     p.setPollid(rs.getInt(1));
-                    p.setPollTitles(rs.getString(2));
+                    p.setPollTitle(rs.getString(2));
                     p.setPollDate(rs.getDate(3));
                     p.setStatus(rs.getInt(4));
                     p.setStartDate(rs.getDate(5));
@@ -267,10 +268,10 @@ public class PollDao {
 	            	//get option data of particular poll;
                     String sql2 = "select * from poll_option where poll_id = ?";
 	                PreparedStatement pstmt2 = con.prepareStatement(sql2);
-	                pstmt2.setString(1, p.getPollid());
+	                pstmt2.setInt(1, p.getPollid());
 	                ResultSet rs2 = pstmt2.executeQuery();
                 
-                    HashMap<int,String> poll_option_data = new HashMap<>();
+                    HashMap<Integer,String> poll_option_data = new HashMap<>();
 
                     while(rs2.next()){
                         poll_option_data.put(rs2.getInt(1),rs2.getString(3));    
@@ -281,13 +282,13 @@ public class PollDao {
                     //get total count of submited ans option of particular poll;
                     String sql3 = "select poll_option_id, count(poll_option_id) from poll_answer where poll_id = ? group by poll_option_id";
 	                PreparedStatement pstmt3 = con.prepareStatement(sql3);
-	                pstmt3.setString(1, p.getPollid());
+	                pstmt3.setInt(1, p.getPollid());
 	                ResultSet rs3 = pstmt3.executeQuery();
                 
-                    HashMap<int,String> poll_ans_count = new HashMap<>();
+                    HashMap<Integer,Integer> poll_ans_count = new HashMap<>();
 
                     while(rs3.next()){
-                        poll_ans_count.put(rs2.getInt(1),rs2.getString(2));    
+                        poll_ans_count.put(rs2.getInt(1),rs2.getInt(2));    
                     }
                     
                     p.setPollAnsCount(poll_ans_count);
@@ -333,7 +334,7 @@ public class PollDao {
 	            	Poll p = new Poll();
 	            	
                     p.setPollid(rs.getInt(1));
-                    p.setPollTitles(rs.getString(2));
+                    p.setPollTitle(rs.getString(2));
                     p.setPollDate(rs.getDate(3));
                     p.setStatus(rs.getInt(4));
                     p.setStartDate(rs.getDate(5));
@@ -352,4 +353,4 @@ public class PollDao {
 		 return poll;
 	}
 
-    
+} 
