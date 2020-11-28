@@ -116,6 +116,11 @@ public class VisitorController {
         
     }
     
+    @RequestMapping("/error")
+    public String error_page(){
+        return "error";
+    }
+    
 }
 
 
