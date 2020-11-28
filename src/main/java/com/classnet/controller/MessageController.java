@@ -156,8 +156,10 @@ public class MessageController {
     public String pinMessage(@RequestParam("msgID") String msgID,Model model) {
     	
     	HttpSession sess = SessionResolver.getSession();
-    	if(sess!=null)
-    	if(msgService.addPin(msgID , (String)sess.getAttribute("ssid")))
+        String ssid = (String)sess.getAttribute("ssid");
+//    	if(ssid != null)
+    	
+        if(msgService.addPin(msgID , ssid))
     	{
     		model.addAttribute("pinned","Message Pinned");
     	}
