@@ -3,13 +3,17 @@ package com.classnet.dao;
 import com.classnet.model.Program;
 import com.classnet.model.Student;
 import com.classnet.util.DBConnection;
+import com.classnet.util.SessionResolver;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -41,12 +45,11 @@ public class StudentDao {
                 student.setStatus( rs.getInt("status") );
                 student.setType_id( rs.getInt("student_type_id") );
                 student.setProgram(program);
-            }
-            
+            }    
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return student;
@@ -99,4 +102,93 @@ public class StudentDao {
 	}
      return true;
  }
+    
+    public ArrayList<Student> getNotAssignedStudents(){
+        Connection con;
+        ArrayList<Student> students = new ArrayList<Student>();	    
+        HttpSession httpSession = SessionResolver.getSession(); 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            String sql = "select * from student_detail where student_type_id=1";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                Student s=new Student();
+                s.setSsid(rs.getString("ssid"));
+                s.setStudent_name(rs.getString("student_name")); 
+                System.out.println(s.getSsid()+" "+s.getStudent_name());
+                students.add(s);
+            }	            
+        } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }		 
+        return students;	
+    }
+    
+    public void assignRole(String ssid, String role_id){ //assign role
+        Connection con;
+        HttpSession httpSession = SessionResolver.getSession(); 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            String sql = "update student_detail set student_type_id=? where ssid=?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, role_id);
+            pstmt.setString(2, ssid);
+            pstmt.execute();
+        } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }		 
+    }
+    
+    public void revokeRole(String ssid){ //revoke role
+        Connection con;
+        HttpSession httpSession = SessionResolver.getSession(); 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            String sql = "update student_detail set student_type_id=1 where ssid=?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, ssid);
+            pstmt.execute();
+        } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }		 
+    }
+    
+    public ArrayList<Student> getAssignedStudents(){
+        Connection con;
+        ArrayList<Student> students = new ArrayList<Student>();	    
+        HttpSession httpSession = SessionResolver.getSession(); 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            String sql = "select * from student_detail where student_type_id!=1";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                Student s=new Student();
+                s.setSsid(rs.getString("ssid"));
+                s.setStudent_name(rs.getString("student_name")); 
+                s.setType_id(rs.getInt("student_type_id"));
+                System.out.println(s.getSsid()+" "+s.getStudent_name());
+                students.add(s);
+            }	            
+        } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }		 
+        return students;	
+    }
+
 }
