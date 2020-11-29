@@ -47,7 +47,9 @@
                                                     <tr>
                                                         <td><%=s.getSsid()%></td>
                                                         <td><%=s.getStudent_name()%></td>
-                                                        <td><%= s.getType_id()==2?"Class Representative":(s.getType_id()==3?"Election Representative":(s.getType_id()==4?"Student Placement Counsel":"Academic Committee")) %></td>
+                                                        
+                                                        <td><%=s.getStu_type().getStudent_type_name() %></td>
+                                                        
                                                         <td> <a href="revoke-permission?id=<%=s.getSsid()%>" class="text-danger">Revoke</a> </td>
                                                     </tr>
                                             <%   
@@ -71,3 +73,10 @@
             </section>
         </div>    
         <%@include file="./masters/footer_links.jsp" %>
+        
+        
+        
+        
+         <!--  s.getType_id()==2?"Class Representative":(s.getType_id()==3?"Election Representative":(s.getType_id()==4?"SPC member":"Academic Committee")) %>
+        -->
+                                                        

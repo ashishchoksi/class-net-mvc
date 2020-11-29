@@ -17,5 +17,9 @@ public class StudentType {
 	public void setStudent_type_name(String student_type_name) {
 		this.student_type_name = student_type_name;
 	}
+	@Override
+	public String toString() {
+		return "StudentType [student_type_id=" + student_type_id + ", student_type_name=" + student_type_name + "]";
+	}
 	
 }
