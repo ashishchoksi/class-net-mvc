@@ -2,6 +2,7 @@ package com.classnet.dao;
 
 import com.classnet.model.Program;
 import com.classnet.model.Student;
+import com.classnet.model.StudentType;
 import com.classnet.util.DBConnection;
 import com.classnet.util.SessionResolver;
 import java.sql.Connection;
@@ -14,15 +15,22 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class StudentDao {
    
+	@Autowired
+	StudentTypeDao stdao;
+	
+	HashMap<Integer, StudentType> stu_types;
+	
     public Student getStudentById(String ssid){
         Student student = new Student();
         Program program = new Program();
-        
+        stu_types = stdao.getAllStudentTypes();
         Connection con;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -35,6 +43,7 @@ public class StudentDao {
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next()){
+            	StudentType s = new StudentType();
                 program.setProgram_id( rs.getString("program_id") );
                 program.setProgram_name( rs.getString("program_name") );
                 program.setDuration( rs.getInt("duration") );
@@ -43,7 +52,10 @@ public class StudentDao {
                 student.setStudent_name( rs.getString("student_name") );
                 student.setPassword( rs.getString("password") );
                 student.setStatus( rs.getInt("status") );
-                student.setType_id( rs.getInt("student_type_id") );
+                //student.setType_id( rs.getInt("student_type_id") );
+                
+                // setting student type
+                student.setStu_type(stu_types.get(rs.getInt("student_type_id")));
                 student.setProgram(program);
             }    
         } catch (ClassNotFoundException ex) {
@@ -168,6 +180,7 @@ public class StudentDao {
         Connection con;
         ArrayList<Student> students = new ArrayList<Student>();	    
         HttpSession httpSession = SessionResolver.getSession(); 
+        stu_types = stdao.getAllStudentTypes();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DBConnection.getInstance().getConnection();
@@ -179,7 +192,9 @@ public class StudentDao {
                 Student s=new Student();
                 s.setSsid(rs.getString("ssid"));
                 s.setStudent_name(rs.getString("student_name")); 
-                s.setType_id(rs.getInt("student_type_id"));
+                //s.setType_id(rs.getInt("student_type_id"));
+                
+                s.setStu_type(stu_types.get(rs.getInt("student_type_id")));
                 System.out.println(s.getSsid()+" "+s.getStudent_name());
                 students.add(s);
             }	            

@@ -10,12 +10,19 @@ public class Student {
     private String student_name;
     private String email;
     private String password;
-    private int type_id;
+    //private int type_id;
     private int status;
     private Date reg_date;
     private Program program;
-
-    public Student(String ssid) {
+    private StudentType stu_type;
+    
+    public StudentType getStu_type() {
+		return stu_type;
+	}
+	public void setStu_type(StudentType stu_type) {
+		this.stu_type = stu_type;
+	}
+	public Student(String ssid) {
             this.ssid = ssid;
 
     }
@@ -46,12 +53,12 @@ public class Student {
     public void setPassword(String password) {
             this.password = password;
     }
-    public int getType_id() {
+    /*public int getType_id() {
             return type_id;
     }
     public void setType_id(int type_id) {
             this.type_id = type_id;
-    }
+    }*/
     public int getStatus() {
             return status;
     }
@@ -70,11 +77,14 @@ public class Student {
     public void setProgram(Program program) {
             this.program = program;
     }
+	@Override
+	public String toString() {
+		return "Student [ssid=" + ssid + ", student_name=" + student_name + ", email=" + email + ", password="
+				+ password + ", status=" + status + ", reg_date=" + reg_date + ", program=" + program + ", stu_type="
+				+ stu_type + "]";
+	}
 
-    @Override
-    public String toString() {
-        return "Student{" + "ssid=" + ssid + ", student_name=" + student_name + ", email=" + email + ", password=" + password + ", type_id=" + type_id + ", status=" + status + ", reg_date=" + reg_date + ", program=" + program + '}';
-    }
+    
 		
 	
 }

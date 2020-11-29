@@ -63,7 +63,7 @@
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=3">Election Messages</a>
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=5">Acad Messages</a>
                                         <a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=10">Pinned Messages</a>
-                                    	<% if (stu.getType_id() != 1){ %>
+                                    	<% if (stu.getStu_type().getStudent_type_id() != 1){ %>
                                     	
                                     	<a class="dropdown-item" href="<%= request.getContextPath()%>/view-message?msgID=0">Deleted Messages</a>
                                     	<%} %>
