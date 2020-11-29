@@ -74,7 +74,7 @@ public class MessageService {
 		msg.setStatus(true);
 		msg.setPriority(true);
 		msg.setBatch_id(student.getSsid().substring(0,6));
-		msg.setMsg_type(student.getType_id());
+		msg.setMsg_type(student.getStu_type().getStudent_type_id());
 		msg.setDocuments(file_names);
                 
 		if(msgDao.postMessage(msg) > 0) return 1;
