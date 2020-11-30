@@ -1,4 +1,3 @@
-<%@page import="java.util.HashMap"%>
 <%@page import="com.classnet.model.Student"%>
 <%@page import="java.util.*"%>
 

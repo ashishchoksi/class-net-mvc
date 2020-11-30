@@ -206,4 +206,30 @@ public class StudentDao {
         return students;	
     }
 
+    public ArrayList<Student> getStudentCount(){
+        Connection con;
+        ArrayList<Student> students = new ArrayList<Student>();	    
+        HttpSession httpSession = SessionResolver.getSession(); 
+        stu_types = stdao.getAllStudentTypes();
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            String sql = "SELECT count(*) COUNT, SUBSTR(ssid, 1, 4) BATCH, program_name FROM `student_detail` sd join program p on p.program_id = sd.program_id group by BATCH, sd.program_id";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            while(rs.next()) {
+                Student s=new Student();
+                s.setSsid(rs.getString("BATCH"));
+                s.setStudent_name(rs.getString("program_name")); 
+                s.setPassword(rs.getString("COUNT"));
+                students.add(s);
+            }	            
+        } catch (ClassNotFoundException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+                Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+        }		 
+        return students;	
+    }
 }
