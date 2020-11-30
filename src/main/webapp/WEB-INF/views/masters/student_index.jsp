@@ -15,7 +15,7 @@
             <img src="${mres}/dist/img/user3-128x128.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="edit-profile.html" class="d-block">lopamudra</a>
+            <a href="profile" class="d-block">lopamudra</a>
           </div>
         </div>
 
@@ -27,7 +27,7 @@
                with font-awesome or any other icon font library -->
 
             <li class="nav-item">
-              <a href="pages/widgets.html" class="nav-link active">
+              <a href="view-message" class="nav-link active">
                 <i class="nav-icon fas fa-envelope"></i>
                 <p>
                   Messages
@@ -36,7 +36,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="/classnet/view-poll" class="nav-link">
+              <a href="view-poll" class="nav-link">
                 <i class="nav-icon fas fa-poll"></i>
                 <p>
                   Poll
