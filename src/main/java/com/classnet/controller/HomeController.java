@@ -39,7 +39,7 @@ public class HomeController {
         System.out.println("student : " + std);
         
         // serive.getpage(): return
-        return "index_student";
+        return "index";
     }
     
     @RequestMapping("/student-info")
