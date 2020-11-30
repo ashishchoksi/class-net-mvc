@@ -38,7 +38,7 @@ public class PollDao {
 	
 	
 	public int addPoll(Poll poll) {
-        int poll_id;
+        int poll_id =0;
 		try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DBConnection.getInstance().getConnection();
@@ -62,14 +62,14 @@ public class PollDao {
             pstmt.setString(6,poll.getPollBatchId());
             int rows = pstmt.executeUpdate();
             
-            String sql2 = "SELECT poll_id FROM `poll` ORDER BY poll_date DESC LIMIT 1"
+            String sql2 = "SELECT poll_id FROM `poll` ORDER BY poll_date DESC LIMIT 1";
             PreparedStatement pstmt2 = con.prepareStatement(sql2);
             ResultSet rs2 = pstmt2.executeQuery();
 	            
 	        while(rs2.next()) {
                 poll_id = rs2.getInt(1);
             }
-            System.out.println('created poll id = '+poll_id);
+            System.out.println("created poll id = "+poll_id);
             return poll_id;
             
 	
@@ -140,7 +140,7 @@ public class PollDao {
                 pstmt.setInt(2, poll.getPollAns());
                 pstmt.setString(3, id);
                 int rows = pstmt.executeUpdate();
-            }
+           
             return rows;
             
 	
@@ -336,6 +336,7 @@ public class PollDao {
 
     public ArrayList<Poll> getAllMyPoll(){
             ArrayList<Poll> poll = new ArrayList<Poll>();
+            System.out.println("my poll DAo in");
 	    
 	    HttpSession httpSession = SessionResolver.getSession(); 
 	    

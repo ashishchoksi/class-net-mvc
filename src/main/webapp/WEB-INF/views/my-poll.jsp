@@ -1,4 +1,9 @@
- <%@include file="./masters/header_links.jsp" %>
+<!-- <%@page import="com.classnet.model.Student"%> -->
+<%@page import="java.util.HashMap"%>
+<%@page import="com.classnet.model.Poll"%>
+<%@page import="java.util.*"%>
+
+<%@include file="./masters/header_links.jsp" %>
  
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -35,35 +40,56 @@
                                     <th>Created Date</th>
                                     <th>Poll Question</th>
                                     <th>Action</th>
-                                    <th>End Time</th>
+                                    <th>Status</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-
+                                  <% ArrayList<Poll> poll = (ArrayList<Poll>)request.getAttribute("myPoll"); 
+                                       
+                                      
+                                           			//out.println(msgs.get(0));
+                                                  	
+                                                 //out.print(msgs.size());
+                                                 int i=1;
+                                                if(poll != null) 
+                                           			for(Poll p : poll){
+                                           				//out.println(m.getDocuments().size());
+                                                  %>
                                   <tr>
-                                    <td>1</td>
-                                    <td>20-12-2020</td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                    <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-sm" >Delete</span></td>
-                                    <td><span class="tag tag-success">12hr Left</span></td>
+                                    <td><%= i %> </td>
+                                    <td><%= p.getPollDate() %></td>
+                                    <td><%= p.getPollTitle() %></td>
+                                      <td>
+                                    <form action="my-poll" method="post">
+                                    <input type="hidden" name="poll_id" value="<%= p.getPollid() %>">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-sm" >Delete</span></td> 
+									</form>
+									<!--<td><button type="submit" class="btn btn-danger" formaction="my-poll?poll_id=">Delete</span></td>-->
+									
+                                    <%  if(p.getStatus()==0){ %>
+                                      <td><span class="tag tag-success">Finished</span></td>
+                                    <%  } else { %>
+                                      <td><span class="tag tag-success">Active</span></td>
+                                    <% } %>
                                   </tr>
+                                  <% i+=1; } %>
                                   
                                   <div class="modal fade" id="modal-sm">
                                     <div class="modal-dialog modal-sm">
                                       <div class="modal-content">
                                         <div class="modal-header">
-                                          <h4 class="modal-title">Sure ?</h4>
+                                          <h4 class="modal-title">Delete Poll</h4>
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                           </button>
                                         </div>
                                         <div class="modal-body">
                                           <p>Are you sure you want to delete this poll?</p>
-                                          <p><b>Remember:</b> All record are also Deleted.</p>
+                                          
                                         </div>
                                         <div class="modal-footer justify-content-between">
                                           <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-                                          <button type="button" class="btn btn-danger">Yes</button>
+                                          <button type="submit" class="btn btn-danger" >Yes</button>
                                         </div>
                                       </div>
                                       <!-- /.modal-content -->

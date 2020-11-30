@@ -43,30 +43,30 @@ public class PollController {
         return "view-poll";
     }
 
-    @RequestMapping("/view-poll",method = RequestMethod.POST)
+    @RequestMapping(value="/view-poll",method = RequestMethod.POST)
     public String view_poll(Model m,@RequestParam("poll_id") int poll_id,@RequestParam("poll_option_id") int poll_option_id){
         
         if(pService.addPollAns(poll_id,poll_option_id)==0)
-            m.addAttribute('error',"error in add answer opertion");
+            m.addAttribute("error","error in add answer opertion");
         
         return "redirect:/view-poll";
     }
     
     @RequestMapping("/my-poll")
     public String my_poll(Model m){
-        ArrayList<Poll> myPoll;
-
+        ArrayList<Poll> myPoll=null;
+        System.out.println("my poll controller in");
         myPoll = pService.getAllMyPoll();
 
         m.addAttribute("myPoll",myPoll);
         return "my-poll";
     }
 
-    @RequestMapping("/my-poll",method = RequestMethod.POST)
+    @RequestMapping(value="/my-poll",method = RequestMethod.POST)
     public String my_poll(Model m,@RequestParam("poll_id") int poll_id){
         
-        if(pService.deletePoll(poll_id)==0)
-            m.addAttribute('error',"error in delete poll");
+        if(pService.deletePoll(poll_id) == 0)
+            m.addAttribute("error","error in delete poll");
         
         return "redirect:/my-poll";
     }
@@ -77,11 +77,11 @@ public class PollController {
         return "add-poll";
     }
 
-    @RequestMapping("/add-poll",method = RequestMethod.POST)
+    @RequestMapping(value="/add-poll",method = RequestMethod.POST)
     public String add_poll(Model m, @RequestParam("poll_title") String poll_title, @RequestParam("start_date") Date start_date, @RequestParam("end_date") Date end_date, @RequestParam("options[]") ArrayList<String> poll_options){
         
         if(pService.addPoll(poll_title,start_date,end_date,poll_options)==0)
-            m.addAttribute('error',"error in add poll");
+            m.addAttribute("error","error in add poll");
 
         return "add-poll";
     }

@@ -2,6 +2,7 @@ package com.classnet.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,12 +31,15 @@ public class PollService {
 	}
         
 	public ArrayList<Poll> getAllMyPoll(){
+        System.out.println("my poll service in");
 		ArrayList<Poll> p = pollDao.getAllMyPoll();
 		return p;		
 	}
 	
-    public void deletePoll(int poll_id) {
-        pollDao.deletePoll(poll_id);
+    public int deletePoll(int poll_id) {
+        if(pollDao.deletePoll(poll_id)==0)
+        	return 0;
+        return 1;
     }
 
 	public int addPoll(String title, Date startDate, Date endDate, ArrayList<String> options){
@@ -51,7 +55,7 @@ public class PollService {
         p.setStartDate(startDate);
         p.setEndDate(endDate);
         p.setPollSsid(id);
-        p.setBatchId(id.substring(0,6));
+        p.setPollBatchId(id.substring(0,6));
 
         poll_id=pollDao.addPoll(p);
         if(poll_id==0)
@@ -81,7 +85,7 @@ public class PollService {
         p.setPollAns(Poll_ans_id);
         p.setPollSsid(id);
 
-        if(PollDao.addPollAns(p) == 0)
+        if(pollDao.addPollAns(p) == 0)
             return 0;
         return 1;
     }        

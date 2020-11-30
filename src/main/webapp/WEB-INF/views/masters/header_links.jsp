@@ -75,6 +75,24 @@
                 else
                     e.style.display = 'block';
             }
+        function timeConversion(start,end){
+            let sDate = new Date(start);
+            let eDate = new Date(end);
+            if(Math.abs(eDate.getFullYear()-sDate.getFullYear()))
+                return  Math.abs(eDate.getFullYear() - sDate.getFullYear()) + " Year";
+            if(Math.abs(eDate.getMonth() - sDate.getMonth()))
+                return Math.abs(eDate.getMonth() - sDate.getMonth()) + " Months";
+            if(Math.abs(eDate.getDay() - sDate.getDay()))
+                return Math.abs(eDate.getDay() - sDate.getDay()) + " Days";
+            if(Math.abs(eDate.getHours() - sDate.getHours()))
+                return Math.abs(eDate.getHours() - sDate.getHours()) + " Hrs.";
+            if(eDate.getMinutes() - sDate.getMinutes()){
+                return Math.abs(eDate.getMinutes() - sDate.getMinutes()) + " Minutes";
+            }
+            if(eDate.getSeconds() - sDate.getSeconds()){
+                return  Math.abs( eDate.getSeconds() - sDate.getSeconds() ) + " Seconds"
+            }
+        }
     </script>
   
   
