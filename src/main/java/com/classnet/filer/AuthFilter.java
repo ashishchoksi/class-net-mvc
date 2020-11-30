@@ -14,21 +14,25 @@ public class AuthFilter extends HandlerInterceptorAdapter {
         String[] page = str.split("/");
         String cur = page[page.length-1];
         
+        Student std = null;
+        std = (Student) req.getSession().getAttribute("studobj");
+        
 //        res.getWriter().println(str);
 //        
 //        for(String p : page)
 //            res.getWriter().println(p);
         
 //        // allow page without login
-        if(cur.equals("login") || cur.equals("registration") || cur.equals("forgot-password"))
+        if(cur.equals("login") || cur.equals("registration") || cur.equals("forgot-password")) {
+            if(std != null) {
+                res.sendRedirect("");
+            }
             return true;
+        }
         
         if( page.length > 2 && page[2].equals("resources") ) {
             return true;
         }
-        
-        Student std = null;
-        std = (Student) req.getSession().getAttribute("studobj");
         
         if(std == null) {
             res.sendRedirect("login");
