@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.classnet.model.Student;
 import com.classnet.service.StudentService;
 import java.util.ArrayList;
+import java.util.HashMap;
 //import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,19 +27,23 @@ public class HomeController {
     
     // index page set
     @RequestMapping("/")
-    public String index(HttpServletRequest req){
-        
+    public String index(HttpServletRequest req, Model model){
         // session created
         String id = (String)req.getSession().getAttribute("ssid");
         System.out.println("id : " + id);
-        
         // stdservice.setStudetSession(req);
         Student std = (Student) req.getSession().getAttribute("studobj");        
         //stdservice.setStudetSession(req);
-        
         System.out.println("student : " + std);
         
-        // serive.getpage(): return
+        //Fetching user data
+        ArrayList<Student> students;
+        students = stdservice.getStudentCount();  //get all the students
+        for(Student s : students){ 
+           System.out.println("student : " + s);
+//            System.out.println(s.getSsid());
+        }
+        model.addAttribute("students" , students);
         return "index";
     }
     

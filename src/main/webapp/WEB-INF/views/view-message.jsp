@@ -82,11 +82,11 @@
                                 </div>
                             </form> -->
                             <h3>${pinned}</h3>
-                            <button type="submit" class="btn btn-danger" style="margin: auto; display: block;">View Deleted Message</button>
+                            
                             </div>
                             <div class="col-2">
                                 <!-- <img src="./asset/icon/pin-empty.svg" alt="pin" style="width: 32px; height: 32px; float: right; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);"> -->
-                                <button type="submit" class="btn btn-primary" style="float: right;">Post Message</button>
+                                <a href="post-message" class="btn btn-primary" style="float: right;">Post Message</a>
                             </div>
                         </div>
                         
@@ -112,7 +112,7 @@
                                             alt="user image">
                                         <span class="username">
                                             <a href="#"><%=m.getTitle()%></a>
-                                            <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                            <!--<a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>-->
                                         </span>
                                         <span class="description">Posted By - <%=m.getPosted_by().getSsid()%> (<%=m.getPosted_by().getStudent_name() %>) on <%=m.getMessage_date() %></span>
                                     </div>
@@ -172,7 +172,7 @@
                                                             <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
                                                             <span class="username">
                                                                 <a href="#"> <%=c.getSsid()%> </a>
-                                                                <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                                                                
                                                             </span>
                                                             <p class="description">
                                                                 <%=c.getComment_content()%>

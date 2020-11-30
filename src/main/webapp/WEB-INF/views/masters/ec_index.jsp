@@ -123,7 +123,7 @@
             </li>
 
             <li class="nav-item active">
-              <a href="./index.html" class="nav-link">
+              <a href="#" class="nav-link">
                 <i class="far fas fa-broadcast-tower nav-icon"></i>
                 <p>
                   Broadcast Message

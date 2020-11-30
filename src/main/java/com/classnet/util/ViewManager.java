@@ -14,7 +14,7 @@ public class ViewManager {
     public static String getSideBar() {
         HttpSession session = SessionResolver.getSession();
         Student std = (Student)session.getAttribute("studobj");
-        int type = std.getType_id();
+        int type = std.getStu_type().getStudent_type_id();
         
         switch (type) {
             case 1:

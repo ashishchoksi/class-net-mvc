@@ -82,4 +82,9 @@ public class StudentService {
         ArrayList<Student> students = sdao.getAssignedStudents();
         return students;		
     }
+    
+    public ArrayList<Student> getStudentCount(){ //get all the students
+        ArrayList<Student> students = sdao.getStudentCount();
+        return students;		
+    }
 }

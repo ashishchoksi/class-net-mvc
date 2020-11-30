@@ -36,4 +36,8 @@
 	</bean>
    
    
+        <mvc:interceptors>
+            <bean class="com.classnet.filer.AuthFilter"></bean>
+        </mvc:interceptors>
+   
 </beans>
