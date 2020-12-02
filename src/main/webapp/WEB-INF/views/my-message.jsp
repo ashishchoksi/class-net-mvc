@@ -59,14 +59,13 @@
                                             alt="user image">
                                         <span class="username">
                                             <a href="#"><%=m.getTitle()%></a>
-                                            <a href="delete-message?msgId=<%=m.getMessage_id()%>" class="float-right btn-tool">
-                                            <% if(m.isStatus()) {%>
-                                            Delete
-                                            <%} else {%>
-                                            Rollback
-                                            <%} %>
                                             
-                                            </a>
+                                            <% if(m.isStatus()) { %>
+                                            <a href="delete-message?msgId=<%=m.getMessage_id()%>" class="float-right btn-tool"> Delete </a>
+                                            <% } else { %>
+                                            <font class="float-right text-danger"> Deleted </font>
+                                            <% } %>
+
                                         </span>
                                         <span class="description">Posted By - <%=m.getPosted_by().getSsid()%> (<%=m.getPosted_by().getStudent_name() %>) on <%=m.getMessage_date() %></span>
                                     </div>
