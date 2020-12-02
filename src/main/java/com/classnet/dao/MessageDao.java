@@ -376,6 +376,7 @@ public class MessageDao {
 		
 	}
         
+        
         //----------------------- ADD PIN ------------------------
         
         public int addPin(String msgID, String ssid) {
@@ -397,6 +398,31 @@ public class MessageDao {
         	}
         	
         	return row;
+        }
+        
+        // -------------------------- Remove PIN -------------------------
+        
+        public int unpin(String msgID, String ssid) {
+        	
+        	int row = 0;
+        	try {
+	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            con = DBConnection.getInstance().getConnection();
+	            
+	            String sql = "delete from student_pin where ssid = ? and message_id = ?";
+	            PreparedStatement pstmt = con.prepareStatement(sql);
+	            pstmt.setString(1, ssid);
+	            pstmt.setString(2, msgID);
+	            
+	             row = pstmt.executeUpdate();
+        	}
+        	catch(Exception e) {
+                        System.out.println("error : " + e.getMessage());
+        		e.printStackTrace();
+        	}
+        	
+        	return row;
+        	
         }
         
         

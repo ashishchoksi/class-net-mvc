@@ -45,6 +45,9 @@
             msg_types.put(5,"Acad Messages");
             msg_types.put(10,"Pinned Messages");
             String msg_type = msg_types.get((Integer)request.getAttribute("msg_type")).toString();
+            
+            
+            Set<String> pins = (Set<String>) request.getAttribute("pins");
             %>
             <div class="col">
                 <div class="card">
@@ -130,9 +133,15 @@
                                     </p>
             
                                     <p>
+                                    	<% if (!pins.contains(m.getMessage_id())) {%>
                                        <a href ="<%= request.getContextPath()%>/pin-message?msgID=<%=m.getMessage_id()%>">
                                         <img src="${mres}/asset/icon/pin-empty.svg" alt="" style="width: 20px; height: 20px; margin-left: 5px; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);">
                                        </a>
+                                       <% } else { %>
+                                       <a href ="<%= request.getContextPath()%>/unpin-message?msgID=<%=m.getMessage_id()%>">
+                                        <img src="${mres}/asset/icon/pin-fill.svg" alt="" style="width: 20px; height: 20px; margin-left: 5px; cursor: pointer;" onmouseover="pinUnhover(this);" onmouseout="pinHover(this);">
+                                       </a>
+                                       <%} %>
                                        
                                         <span class="float-right">
                                             <span class="text-sm blackHover" style="cursor:pointer;" onclick="commentBox_visibility('<%=m.getMessage_id()%>')">
