@@ -21,17 +21,18 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <% ArrayList<Student> studs = (ArrayList<Student>)request.getAttribute("students"); 
-                            String color[]=new String[]{"bg-info","bg-success","bg-warning","bg-danger"};
+                        <% String color[]=new String[]{"bg-info","bg-success","bg-warning","bg-danger"};
                             int i=0;
-                            for(Student s : studs){
+                            HashMap<String,Integer> map = (HashMap<String,Integer>)request.getAttribute("progCount");
+                            for(Map.Entry<String,Integer> entry : map.entrySet()) {
+//                            for(Student s : studs){
                         %>
                                    
                                 <div class="col-lg-3 col-6">
                                     <div class="small-box <%=color[i++%4]%>">
                                         <div class="inner">
-                                            <h3><%=s.getPassword()%></h3>
-                                            <p><%=s.getStudent_name()%> - <%=s.getSsid()%></p>
+                                            <h3><%=entry.getValue()%></h3>
+                                            <p><%=entry.getKey()%></p>
                                         </div>
                                         <div class="icon">
                                             <i class="ion ion-person"></i>
