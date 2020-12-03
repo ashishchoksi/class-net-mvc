@@ -9,6 +9,7 @@ public class Program {
 	private String program_id;
 	private String program_name;
 	private int duration;
+	
 	public String getProgram_id() {
 		return program_id;
 	}
