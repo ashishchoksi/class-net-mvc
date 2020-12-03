@@ -4,10 +4,12 @@
   <div class="wrapper">
 
     <!-- Main Sidebar Container -->
+    <% String sidebar = ViewManager.getSideBar(); %>
+    <% String path = "./masters/"+sidebar+".jsp"; %>
     <%@include file="./masters/ec_index.jsp" %>
-
+    <%--<jsp:include page=${path} />--%>
     <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+    <div class="content-wrapper">                 
       <!-- Content Header (Page header) -->
       <div class="content-header">
         <div class="container-fluid">
