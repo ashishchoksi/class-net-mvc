@@ -206,7 +206,7 @@ public class StudentDao {
         return students;	
     }
 
-    public ArrayList<Student> getStudentCount(){
+    /*public ArrayList<Student> getStudentCount(){
         Connection con;
         ArrayList<Student> students = new ArrayList<Student>();	    
         HttpSession httpSession = SessionResolver.getSession(); 
@@ -231,5 +231,5 @@ public class StudentDao {
                 Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
         }		 
         return students;	
-    }
+    }*/
 }

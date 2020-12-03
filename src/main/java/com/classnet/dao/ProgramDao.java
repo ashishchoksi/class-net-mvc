@@ -12,12 +12,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import com.classnet.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import javafx.util.Pair;
 /**
  *
  * @author dell
@@ -25,8 +28,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ProgramDao {
     
-    @Autowired
+    
     HashMap<String, Integer> type_count;
+    HashMap<Integer, StudentType> stu_types;
+    HashMap<String, Program> programs;
+    
+    @Autowired
+    StudentTypeDao stdao;
     
     public HashMap<String, Integer> setProgramDetail(){
         
@@ -42,8 +50,9 @@ public class ProgramDao {
             type_count = new HashMap<String,Integer>();
             while(rs.next()){
                 System.out.println("In query");
+                String prog_name_key = rs.getString("program_id");
                 int prog_count_value = Integer.parseInt(rs.getString("stud_count"));
-                String prog_name_key = rs.getString("program_name");
+                prog_name_key+= "-" + rs.getString("program_name");
                 System.out.println(prog_name_key+ " " + prog_count_value);
                 type_count.put(prog_name_key, prog_count_value);
             }    
@@ -56,4 +65,120 @@ public class ProgramDao {
         return type_count;
     }
     
+    public HashMap<String,Program> getAllPrograms(){
+    	
+    	HashMap<String,Program> progs = new HashMap<String,Program>();
+    	Connection conn;
+    	try {
+    		Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DBConnection.getInstance().getConnection();
+            
+            String sql = "select * from program";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            
+            while(rs.next()) {
+            	Program p = new Program();
+            	
+            	p.setProgram_id(rs.getString(1));
+            	p.setProgram_name(rs.getString(2));
+            	p.setDuration(rs.getInt(3));
+            	
+            	progs.put(p.getProgram_id(),p);
+            }
+            
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return progs;
+    	
+    }
+    
+    
+    
+    
+    public ArrayList<Student> getStudentsByProgram(String progID,int year){
+    	ArrayList<Student> students = new ArrayList<Student>();
+    	
+    	stu_types = stdao.getAllStudentTypes();
+    	programs = this.getAllPrograms();
+    	
+    	int curr_year =  year == 0 ? Calendar.getInstance().get(Calendar.YEAR) : year;
+    	
+    	Program currProg = programs.get(progID);
+    	Connection con;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DBConnection.getInstance().getConnection();
+            System.out.println("Im above query");
+            //String sql = "SELECT p1.`program_id`,COUNT(p1.`program_id`) as stud_count ,p1.`program_name` FROM `program` p1 JOIN student_detail p2 ON p1.`program_id`=p2.`program_id` GROUP BY p1.`program_id` ";
+            
+            String sql = "select * from student_detail where program_id=? and ssid LIKE ?";
+            
+            
+            PreparedStatement pstmt = con.prepareStatement(sql); 
+            pstmt.setString(1,progID);
+            pstmt.setString(2, ""+curr_year+"%");
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println("Im after query");
+            
+            while(rs.next()){
+                Student s = new Student();
+                
+                s.setSsid(rs.getString(1));
+               s.setStudent_name(rs.getString(2));
+               s.setEmail(rs.getString(3));
+               s.setStu_type(stu_types.get(rs.getInt(4)));
+               //s.setPassword(rs.getString(5));
+               s.setStatus(rs.getInt(6));
+               s.setProgram(currProg);
+               
+               students.add(s);
+            }    
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return students;
+    	
+    }
+
+    
+    public ArrayList<Pair<String,Integer>> getProgramYears(String progID){
+    	
+    	ArrayList<Pair<String,Integer>> progYears = new ArrayList<Pair<String,Integer>>();
+    	HashSet<String> hs = new HashSet<String>();
+    	Connection conn;
+    	try {
+    		Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DBConnection.getInstance().getConnection();
+            
+            String sql = "select SUBSTR(ssid, 1, 4) As BATCH from student_detail where program_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1,progID);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+            	hs.add(rs.getString("BATCH"));
+            }
+            
+            for(String year : hs) {
+            	Pair<String,Integer> p = new Pair<String,Integer>(progID,Integer.parseInt(year));
+            	
+            	progYears.add(p);
+            }
+    	}
+    	catch(Exception e) {
+    		System.out.println("*********************************************** ERROR ********************");
+    		e.printStackTrace();
+    	}
+    	
+    	
+    	return progYears;
+    }
 }

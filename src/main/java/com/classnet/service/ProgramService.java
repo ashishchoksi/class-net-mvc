@@ -5,10 +5,14 @@
  */
 package com.classnet.service;
 import com.classnet.dao.*;
+import com.classnet.model.Program;
+import com.classnet.model.Student;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import javafx.util.Pair;
 /**
  *
  * @author dell
@@ -18,6 +22,7 @@ public class ProgramService {
     
     @Autowired
     ProgramDao proDao;
+    
     HashMap<String,Integer> countMap;
     public HashMap<String,Integer> getStudentCount() {
         System.out.println("***********************");
@@ -26,4 +31,22 @@ public class ProgramService {
         return countMap;
     }
     
+    
+    public ArrayList<Student> getStudentsByProgram(String progID,int year){
+    	
+    	ArrayList<Student> students = new ArrayList<Student>();
+    	
+    	students = proDao.getStudentsByProgram(progID,year);
+    	
+    	return students;
+    	
+    }
+    
+    public ArrayList<Pair<String,Integer>> getProgramYears(String progID){
+    	
+    	ArrayList<Pair<String,Integer>> progYears = proDao.getProgramYears(progID);
+    	
+    	
+    	return progYears;
+    }
 }

@@ -32,12 +32,12 @@
                                     <div class="small-box <%=color[i++%4]%>">
                                         <div class="inner">
                                             <h3><%=entry.getValue()%></h3>
-                                            <p><%=entry.getKey()%></p>
+                                            <p><%=entry.getKey().substring(3)%></p>
                                         </div>
                                         <div class="icon">
                                             <i class="ion ion-person"></i>
                                         </div>
-                                        <a href="/classnet/student-info" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="<%= request.getContextPath()%>/view-program?progID=<%=entry.getKey()%>&year=0" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                         <%   

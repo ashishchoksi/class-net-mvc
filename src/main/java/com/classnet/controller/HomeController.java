@@ -46,6 +46,7 @@ public class HomeController {
         //Fetching user data
         countProMap = new HashMap<String,Integer>();
         countProMap = proService.getStudentCount();
+        
 //        ArrayList<Student> students;
 //        students = stdservice.getStudentCount();  //get all the students
 //        for(Student s : students){ 
