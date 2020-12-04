@@ -46,6 +46,11 @@ public class MessageService {
 		return false;
 	}
 	
+	public boolean unpin(String msgID, String ssid) {
+		if(msgDao.unpin(msgID,ssid) == 1) return true;
+		return false;
+	}
+	
 
         public void delete_message(String msgid) {
             msgDao.delete_message(msgid);

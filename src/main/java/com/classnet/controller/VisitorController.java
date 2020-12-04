@@ -67,6 +67,7 @@ public class VisitorController {
         
         // call service method
         boolean result = visService.login(email, pass);
+        //System.out.println(result);
         if(result) {
             // login success
             

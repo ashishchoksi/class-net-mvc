@@ -17,6 +17,9 @@ import com.classnet.util.SessionResolver;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,14 +38,22 @@ public class MessageController {
     	
     	msgs = msgService.getAllMessages(); //wat abt specific types of messages
     	
-    	
+    	HttpSession sess = SessionResolver.getSession();
     	/*for(Message m : msgs) {
     		System.out.println(m);
     	}*/
     	
     	//ModelAndView mav = new ModelAndView("view-message");
     	//mav.add
-
+    	
+    	ArrayList<Message> pins = msgService.getPinnedMessages((String)sess.getAttribute("ssid"));
+    	
+    	Set<String> pinned = new HashSet<String>();
+    	for(Message m : pins) {
+    		pinned.add(m.getMessage_id());
+    	}
+    	
+    	model.addAttribute("pins",pinned);
     	model.addAttribute("msgs" , msgs);
     	model.addAttribute("msg_type" , 1);
         return "view-message";
@@ -68,16 +79,30 @@ public class MessageController {
     public String view_message(Model model, @RequestParam("msgID") String msgID) {
     	
     	ArrayList<Message> msgs = null;
+    	HttpSession sess = SessionResolver.getSession();
+    	Set<String> pinned = new HashSet<String>();
     	
     	if(msgID.equals("10"))
     	{
-    		HttpSession sess = SessionResolver.getSession();
+    		
     		if(sess!=null)
     		msgs =msgService.getPinnedMessages((String)sess.getAttribute("ssid"));
+    		
+    		for(Message m : msgs) {
+        		pinned.add(m.getMessage_id());
+        	}
+    		
     	}
-    	else
+    	else {
     		msgs = msgService.getMsgsByType(msgID);
+    		ArrayList<Message> pins = msgService.getPinnedMessages((String)sess.getAttribute("ssid"));
+    		for(Message m : pins) {
+        		pinned.add(m.getMessage_id());
+        	}
+    	}
     	
+  
+    	model.addAttribute("pins",pinned);
     	model.addAttribute("msgs" , msgs);
     	model.addAttribute("msg_type",Integer.parseInt(msgID));
     	return "view-message";
@@ -169,5 +194,24 @@ public class MessageController {
     	
     	return "redirect:/view-message";
     }
+    
+    @RequestMapping(value="/unpin-message",params= {"msgID"})
+    public String unpinMessage(@RequestParam("msgID") String msgID,Model model) {
+    	
+    	HttpSession sess = SessionResolver.getSession();
+        String ssid = (String)sess.getAttribute("ssid");
+//    	if(ssid != null)
+    	
+        if(msgService.unpin(msgID , ssid))
+    	{
+    		model.addAttribute("pinned","Message Pinned");
+    	}
+    	else {
+    		model.addAttribute("pinned","Message not Pinned");
+    	}
+    	
+    	return "redirect:/view-message";
+    }
+    
     
 }

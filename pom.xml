@@ -126,13 +126,26 @@
 	  <build>
 	  	<finalName>classnet</finalName>
 	</build>
+        
+        <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>11</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>11</version>
+    </dependency>
+
+    </dependencies>
 
 
-    <!-- 
+     
     <build>
 
             
->>>>>>> 3226a27af742b278429c606117f3975b8d583634
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -140,17 +153,14 @@
                 <version>3.8.1</version>
             </plugin>
         </plugins>
-<<<<<<< HEAD
+
     </build>
-=======
-    
-        <finalName>classnet</finalName>
-    </build>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties> 
     
-    -->
+    
     
 </project>
