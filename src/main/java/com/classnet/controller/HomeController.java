@@ -53,10 +53,17 @@ public class HomeController {
 //           System.out.println("student : " + s);
 //            System.out.println(s.getSsid());
 //        }
-        for(Map.Entry<String,Integer> entry : countProMap.entrySet()) {
-            System.out.println(entry.getKey() + " --  " + entry.getValue() );
+
+        HashMap<String,ArrayList<String>> ECList = proService.getECStudntList();
+        for(Map.Entry<String,ArrayList<String>> entry : ECList.entrySet()) {
+            for(String arrlist : entry.getValue() ) {
+                String[] arr = arrlist.split(":");
+                System.out.println(entry.getKey()+" " + arr[0] + arr[1]);
+            }
         }
+        
         model.addAttribute("progCount",countProMap);
+        model.addAttribute("ECList",ECList);
 //        model.addAttribute("students" , students);
         return "index";
     }

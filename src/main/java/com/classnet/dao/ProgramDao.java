@@ -17,10 +17,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import com.classnet.model.*;
+import com.classnet.util.SessionResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javafx.util.Pair;
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author dell
@@ -105,7 +107,9 @@ public class ProgramDao {
     	stu_types = stdao.getAllStudentTypes();
     	programs = this.getAllPrograms();
     	
-    	int curr_year =  year == 0 ? Calendar.getInstance().get(Calendar.YEAR) : year;
+        HttpSession sess = SessionResolver.getSession();
+        String ssid = (String)sess.getAttribute("ssid");
+    	int curr_year =  year == 0 ? Integer.parseInt(ssid.substring(0,4)) : year;
     	
     	Program currProg = programs.get(progID);
     	Connection con;
@@ -180,5 +184,41 @@ public class ProgramDao {
     	
     	
     	return progYears;
+    }
+    
+     public HashMap<String,ArrayList<String>> getECStudentList(){
+    	
+        HashMap<String,ArrayList<String>> list = new HashMap<>();
+//    	ArrayList<Pair<String,Integer>> progYears = new ArrayList<Pair<String,Integer>>();
+//    	HashSet<String> hs = new HashSet<String>();
+    	Connection conn;
+    	try {
+    		Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DBConnection.getInstance().getConnection();
+            
+            String sql = "SELECT p1.*,p3.`program_name` FROM `student_detail` p1 JOIN `student_type` p2 ON p1.`student_type_id`=p2.`student_type_id` JOIN `program` p3 ON p1.`program_id`=p3.`program_id`WHERE p2.`student_type_id`=3 ORDER BY p3.`program_name`";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()) {
+                String key_id = rs.getString("program_name");
+                if(list.containsKey(key_id)) {
+                    String builderBuild = rs.getString("student_name") + ":" + rs.getString("ssid");
+                    list.get(key_id).add(builderBuild);
+                } else {
+                    ArrayList<String> arr_list = new ArrayList<>();
+                    String builderBuild = rs.getString("student_name") + ":" + rs.getString("ssid");
+                    arr_list.add(builderBuild);
+                    list.put(key_id,arr_list);
+                }
+            }
+    	}
+    	catch(Exception e) {
+    		System.out.println("*********************************************** ERROR ********************");
+    		e.printStackTrace();
+    	}
+    	
+    	
+    	return list;
     }
 }

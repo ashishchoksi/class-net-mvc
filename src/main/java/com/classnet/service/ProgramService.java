@@ -49,4 +49,9 @@ public class ProgramService {
     	
     	return progYears;
     }
+    
+    public HashMap<String,ArrayList<String>> getECStudntList() {
+        HashMap<String,ArrayList<String>> hash_list = proDao.getECStudentList();
+        return  hash_list;
+    }
 }

@@ -117,11 +117,22 @@
 	    <artifactId>spring-context-support</artifactId>
 	    <version>5.2.8.RELEASE</version>
 	</dependency>
+        
+        <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>11</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>11</version>
+    </dependency>
 
     </dependencies>
 
 
-    <!-- 
+     
     <build>
 
             
@@ -140,6 +151,6 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties> 
     
-    -->
+    
     
 </project>
