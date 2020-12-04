@@ -1,6 +1,9 @@
 package com.classnet.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -41,26 +44,45 @@ public class PollService {
         	return 0;
         return 1;
     }
+    
+    public Date StringToDate(String d){
+    	Date date = new Date();
+//    	String dformateString = d.substring(8,10) + "-" + d.substring(5,7) + "-" + d.substring(0,4) + "";
+//    	System.out.println("dformate = "+ dformateString);
+    	SimpleDateFormat dateFormate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"); 
+    	try {
+    		date = dateFormate.parse(d);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+//			System.out.println("eroor dformate = "+ dformateString);
+			e.printStackTrace();
+		}
+//    	date.setHours(Integer.parseInt());
+//    	date.setMinutes(Integer.parseInt(d.substring(14,16)));
+    	return date;
+    }
 
-	public int addPoll(String title, Date startDate, Date endDate, ArrayList<String> options){
-        Poll p = new Poll();
+	public int addPoll(String title, String startDate, String endDate, ArrayList<String> options){
+		
+		Poll p = new Poll();
         int poll_id;
         HashMap<Integer,String> poll_option_data = new HashMap<>();
-
+        
         HttpSession httpSession = SessionResolver.getSession();
         String id =(String) httpSession.getAttribute("ssid");
-
+      
         p.setPollTitle(title);
         p.setStatus(1);
-        p.setStartDate(startDate);
-        p.setEndDate(endDate);
+        p.setStartDate(StringToDate(startDate));
+        p.setEndDate(StringToDate(endDate));
         p.setPollSsid(id);
         p.setPollBatchId(id.substring(0,6));
 
         poll_id=pollDao.addPoll(p);
         if(poll_id==0)
             return 0;
-
+        
+        System.out.println("Start date = "+ startDate );
         for(int i=0; i < options.size(); i++){
             poll_option_data.put(i,options.get(i));
         }
@@ -69,6 +91,7 @@ public class PollService {
         p.setPollid(poll_id);
 
         if(pollDao.addPollOption(p)==0){
+        	
             pollDao.deletePoll(poll_id);
             return 0;
         }

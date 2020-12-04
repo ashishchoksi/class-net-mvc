@@ -38,6 +38,7 @@ public class PollDao {
 	
 	
 	public int addPoll(Poll poll) {
+		System.out.println("add Dao in");
         int poll_id =0;
 		try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -56,8 +57,8 @@ public class PollDao {
             
             pstmt.setString(1, poll.getPollTitle());
             pstmt.setInt(2,poll.getStatus());
-            pstmt.setDate(3,new Date(poll.getStartDate().getTime()));
-            pstmt.setDate(4,new Date(poll.getEndDate().getTime()));
+            pstmt.setTimestamp(3, new java.sql.Timestamp(poll.getStartDate().getTime()));
+            pstmt.setTimestamp(4, new java.sql.Timestamp(poll.getEndDate().getTime()));
             pstmt.setString(5, poll.getPollSsid());
             pstmt.setString(6,poll.getPollBatchId());
             int rows = pstmt.executeUpdate();
@@ -133,8 +134,16 @@ public class PollDao {
             // TODO keep check if session is NULL
             String id =(String) httpSession.getAttribute("ssid");
             System.out.println("id = " + id);
-        
-            String sql = "insert into poll_answer values(?,?,?)";
+            
+            changeStatus();
+            
+            String sql2 = "SELECT * FROM `poll` WHERE poll_id = ? and status=1";
+            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+            pstmt2.setInt(1, poll.getPollid());
+            ResultSet rs2 = pstmt2.executeQuery();
+            
+            if(rs2.next()) {
+            	String sql = "insert into poll_answer values(?,?,?)";
                 PreparedStatement pstmt = con.prepareStatement(sql);
                 pstmt.setInt(1, poll.getPollid());
                 pstmt.setInt(2, poll.getPollAns());
@@ -142,6 +151,7 @@ public class PollDao {
                 int rows = pstmt.executeUpdate();
            
             return rows;
+            }
             
 	
 	 } catch (ClassNotFoundException ex) {
@@ -216,9 +226,10 @@ public class PollDao {
 	            
 	            changeStatus();
 	            
-                String sql = "select * from poll where batch_id = ? and status = 1";
+                String sql = "SELECT * FROM `poll` WHERE batch_id = ? and status = 1 and start_date < CURRENT_TIMESTAMP and poll_id NOT IN (SELECT poll_id FROM poll_answer WHERE ssid=?)";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
+	            pstmt.setString(2, id);
 	            ResultSet rs = pstmt.executeQuery();
 	            
 	            while(rs.next()) {
@@ -227,12 +238,13 @@ public class PollDao {
 	            	
                     p.setPollid(rs.getInt(1));
                     p.setPollTitle(rs.getString(2));
-                    p.setPollDate(rs.getDate(3));
+                    p.setPollDate(rs.getTimestamp(3));
                     p.setStatus(rs.getInt(4));
-                    p.setStartDate(rs.getDate(5));
-                    p.setEndDate(rs.getDate(6));
+                    p.setStartDate(rs.getTimestamp(5));
+                    p.setEndDate(rs.getTimestamp(6));
                     p.setPollSsid(rs.getString(7));
-
+                    p.setPollRemainingTime(p.getEndDate());
+                    
 	            	//get option data of particular poll;
                     String sql2 = "select * from poll_option where poll_id = ?";
 	                PreparedStatement pstmt2 = con.prepareStatement(sql2);
@@ -246,6 +258,14 @@ public class PollDao {
                     }
                     
                     p.setPollOptionData(poll_option_data);
+
+                    String sql3 = "select student_name from student_detail where ssid = ? ;";
+	                PreparedStatement pstmt3 = con.prepareStatement(sql3);
+	                pstmt3.setString(1,p.getPollSsid());
+	                ResultSet rs3 = pstmt3.executeQuery();
+                    if(rs3.next()){
+                        p.setPollStuName(rs3.getString(1));
+                    }
 
 	            	poll.add(p);
 	            }       
@@ -276,23 +296,24 @@ public class PollDao {
 	            con = DBConnection.getInstance().getConnection();
 	            //Statement st = con.createStatement();
 	            
-                String sql = "select * from poll where batch_id = ? and status = 0";
+                String sql = "select * from poll where batch_id = ? and  status = 0 OR poll_id IN (SELECT poll_id FROM poll_answer WHERE ssid=? and status <> 2)";
 	            PreparedStatement pstmt = con.prepareStatement(sql);
 	            pstmt.setString(1, id.substring(0,6));
+	            pstmt.setString(2, id);
 	            ResultSet rs = pstmt.executeQuery();
-	            
+//	            System.out.println("polldao in");
 	            while(rs.next()) {
-
+//	            	System.out.println("while in");
 	            	Poll p = new Poll();
 	            	
                     p.setPollid(rs.getInt(1));
                     p.setPollTitle(rs.getString(2));
-                    p.setPollDate(rs.getDate(3));
+                    p.setPollDate(rs.getTimestamp(3));
                     p.setStatus(rs.getInt(4));
-                    p.setStartDate(rs.getDate(5));
-                    p.setEndDate(rs.getDate(6));
+                    p.setStartDate(rs.getTimestamp(5));
+                    p.setEndDate(rs.getTimestamp(6));
                     p.setPollSsid(rs.getString(7));
-
+                    p.setPollRemainingTime(p.getEndDate());
 	            	//get option data of particular poll;
                     String sql2 = "select * from poll_option where poll_id = ?";
 	                PreparedStatement pstmt2 = con.prepareStatement(sql2);
@@ -300,7 +321,7 @@ public class PollDao {
 	                ResultSet rs2 = pstmt2.executeQuery();
                 
                     HashMap<Integer,String> poll_option_data = new HashMap<>();
-
+//                    System.out.println("while in 1");
                     while(rs2.next()){
                         poll_option_data.put(rs2.getInt(1),rs2.getString(3));    
                     }
@@ -316,18 +337,36 @@ public class PollDao {
                     HashMap<Integer,Integer> poll_ans_count = new HashMap<>();
 
                     while(rs3.next()){
-                        poll_ans_count.put(rs2.getInt(1),rs2.getInt(2));    
+                        poll_ans_count.put(rs3.getInt(1),rs3.getInt(2));    
                     }
-                    
+//                    System.out.println("while in 2");
                     p.setPollAnsCount(poll_ans_count);
-
+                    
+                    String sql4 = "SELECT po.poll_option_data FROM poll_option as po JOIN poll_answer as pa ON (po.poll_option_id = pa.poll_option_id) WHERE pa.poll_id=? and pa.ssid=? ;";
+	                PreparedStatement pstmt4 = con.prepareStatement(sql4);
+	                pstmt4.setInt(1, p.getPollid());
+	                pstmt4.setString(2, id);
+	                ResultSet rs4 = pstmt4.executeQuery();
+	                if(rs4.next())
+	                	p.setPollMyAns(rs4.getString(1));
+	                else
+	                	p.setPollMyAns("Not Given");
+	                
+	                String sql5 = "select student_name from student_detail where ssid = ? ;";
+	                PreparedStatement pstmt5 = con.prepareStatement(sql5);
+	                pstmt5.setString(1,p.getPollSsid());
+	                ResultSet rs5 = pstmt5.executeQuery();
+                    if(rs5.next()){
+                        p.setPollStuName(rs5.getString(1));
+                    }
+	                    
 	            	poll.add(p);
 	            }       
 		
 		 } catch (ClassNotFoundException ex) {
-	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, "NullClass", ex);
 	     } catch (SQLException ex) {
-	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, null, ex);
+	            Logger.getLogger(VisitorDao.class.getName()).log(Level.SEVERE, "nullSQL", ex);
 	     }
 		 
 		 return poll;
@@ -364,12 +403,12 @@ public class PollDao {
 	            	
                     p.setPollid(rs.getInt(1));
                     p.setPollTitle(rs.getString(2));
-                    p.setPollDate(rs.getDate(3));
+                    p.setPollDate(rs.getTimestamp(3));
                     p.setStatus(rs.getInt(4));
-                    p.setStartDate(rs.getDate(5));
-                    p.setEndDate(rs.getDate(6));
+                    p.setStartDate(rs.getTimestamp(5));
+                    p.setEndDate(rs.getTimestamp(6));
                     p.setPollSsid(rs.getString(7));
-
+                    p.setPollRemainingTime(p.getEndDate());
 	            	poll.add(p);
 	            }       
 		

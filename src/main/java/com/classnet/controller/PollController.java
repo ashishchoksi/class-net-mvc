@@ -31,8 +31,8 @@ public class PollController {
     
     @RequestMapping("/view-poll")
     public String view_poll(Model m){
-        ArrayList<Poll> pRemaining;
-        ArrayList<Poll> pFineshed;
+        ArrayList<Poll> pRemaining = null;
+        ArrayList<Poll> pFineshed = null;
 
         pRemaining = pService.getAllRemainingPoll();
         pFineshed = pService.getAllFinshedPoll();
@@ -45,44 +45,83 @@ public class PollController {
 
     @RequestMapping(value="/view-poll",method = RequestMethod.POST)
     public String view_poll(Model m,@RequestParam("poll_id") int poll_id,@RequestParam("poll_option_id") int poll_option_id){
+    	ArrayList<Poll> pRemaining = null;
+        ArrayList<Poll> pFineshed = null;
         
-        if(pService.addPollAns(poll_id,poll_option_id)==0)
-            m.addAttribute("error","error in add answer opertion");
         
-        return "redirect:/view-poll";
+        if(pService.addPollAns(poll_id,poll_option_id)==0) {
+        	m.addAttribute("notCompleteTransction","Your Transction is failed..! May be Poll Time Was Up OR Try Again..");
+        	pRemaining = pService.getAllRemainingPoll();
+            pFineshed = pService.getAllFinshedPoll();
+
+            m.addAttribute("pRemaining" , pRemaining);
+        	m.addAttribute("pFineshed" , pFineshed);
+
+        	return "view-poll";
+        }
+           
+        m.addAttribute("completeTransction","Your Answer Is Successfully Saved...!");
+        pRemaining = pService.getAllRemainingPoll();
+        pFineshed = pService.getAllFinshedPoll();
+
+        m.addAttribute("pRemaining" , pRemaining);
+    	m.addAttribute("pFineshed" , pFineshed);
+
+        return "view-poll";
     }
     
     @RequestMapping("/my-poll")
     public String my_poll(Model m){
         ArrayList<Poll> myPoll=null;
-        System.out.println("my poll controller in");
         myPoll = pService.getAllMyPoll();
-
         m.addAttribute("myPoll",myPoll);
         return "my-poll";
     }
 
     @RequestMapping(value="/my-poll",method = RequestMethod.POST)
     public String my_poll(Model m,@RequestParam("poll_id") int poll_id){
+    	ArrayList<Poll> myPoll=null;
         
-        if(pService.deletePoll(poll_id) == 0)
-            m.addAttribute("error","error in delete poll");
-        
-        return "redirect:/my-poll";
+        if(pService.deletePoll(poll_id) == 0) {
+        	m.addAttribute("notCompleteTransction","Your Transction is failed.! Try Again...!");
+        	myPoll = pService.getAllMyPoll();
+            m.addAttribute("myPoll",myPoll);
+        	
+        	return "my-poll";
+        }
+        	
+        myPoll = pService.getAllMyPoll();
+        m.addAttribute("myPoll",myPoll);
+    	
+        m.addAttribute("completeTransction","Your Poll Delete Transction is Successfull...!");
+        return "my-poll";
     }
 
     
     @RequestMapping("/add-poll")
+    
     public String add_poll(){
-        return "add-poll";
+    	
+    	return "add-poll";
     }
 
     @RequestMapping(value="/add-poll",method = RequestMethod.POST)
-    public String add_poll(Model m, @RequestParam("poll_title") String poll_title, @RequestParam("start_date") Date start_date, @RequestParam("end_date") Date end_date, @RequestParam("options[]") ArrayList<String> poll_options){
-        
+    public String add_poll(Model m, @RequestParam("poll_title") String poll_title, @RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, @RequestParam("title[]") ArrayList<String> poll_options){
+    	if((poll_title.length()<1) || (start_date.length()<1) || (end_date.length()<1)) {
+    		m.addAttribute("notCompleteTransction","Please fill all the Data");
+    		return "add-poll";
+    	}
+    	for(String option : poll_options) {
+    		if(option.length()<1) {
+    			m.addAttribute("notCompleteTransction","Please fill all the Data");
+        		return "add-poll";
+    		}
+    	}
+    		
         if(pService.addPoll(poll_title,start_date,end_date,poll_options)==0)
-            m.addAttribute("error","error in add poll");
-
+            m.addAttribute("completeTransction","Your Transction is failed.! Try Again..");
+        
+        m.addAttribute("completeTransction","Your Poll Record Is Successfully Saved...!");
         return "add-poll";
     }
     
