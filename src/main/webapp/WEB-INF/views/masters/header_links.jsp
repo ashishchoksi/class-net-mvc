@@ -1,6 +1,7 @@
 <%@page contentType="text/html" isELIgnored="false" pageEncoding="windows-1252"%>
+<%--<%@ page contentType="text/html;charset=UTF-8" isELIgnored="false" language="java" %>--%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@page import="com.classnet.util.ViewManager"%>
 <!DOCTYPE html>
 <html>
 

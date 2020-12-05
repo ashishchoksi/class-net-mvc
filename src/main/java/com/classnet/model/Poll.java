@@ -2,7 +2,7 @@ package com.classnet.model;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.lang.ref.Cleaner.Cleanable;
+//import java.lang.ref.Cleaner.Cleanable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
