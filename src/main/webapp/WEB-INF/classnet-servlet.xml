@@ -38,6 +38,7 @@
    
         <mvc:interceptors>
             <bean class="com.classnet.filer.AuthFilter"></bean>
+              <bean class="com.classnet.filer.StudentTypeFilter"></bean>
         </mvc:interceptors>
    
 </beans>
