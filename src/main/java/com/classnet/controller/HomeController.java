@@ -7,9 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.classnet.model.Student;
-import com.classnet.service.StudentService;
+import com.classnet.service.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 //import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,8 +23,13 @@ public class HomeController {
     
     @Autowired
     StudentService stdservice;
+    
+    @Autowired
+    ProgramService proService;
+    
     boolean isError=false;
     int count_page=0;
+    HashMap<String,Integer> countProMap;
     
     // index page set
     @RequestMapping("/")
@@ -36,14 +42,29 @@ public class HomeController {
         //stdservice.setStudetSession(req);
         System.out.println("student : " + std);
         
+        System.out.println("------------------------------------");
         //Fetching user data
-        ArrayList<Student> students;
-        students = stdservice.getStudentCount();  //get all the students
-        for(Student s : students){ 
-           System.out.println("student : " + s);
+        countProMap = new HashMap<String,Integer>();
+        countProMap = proService.getStudentCount();
+        
+//        ArrayList<Student> students;
+//        students = stdservice.getStudentCount();  //get all the students
+//        for(Student s : students){ 
+//           System.out.println("student : " + s);
 //            System.out.println(s.getSsid());
+//        }
+
+        HashMap<String,ArrayList<String>> ECList = proService.getECStudntList();
+        for(Map.Entry<String,ArrayList<String>> entry : ECList.entrySet()) {
+            for(String arrlist : entry.getValue() ) {
+                String[] arr = arrlist.split(":");
+                System.out.println(entry.getKey()+" " + arr[0] + arr[1]);
+            }
         }
-        model.addAttribute("students" , students);
+        
+        model.addAttribute("progCount",countProMap);
+        model.addAttribute("ECList",ECList);
+//        model.addAttribute("students" , students);
         return "index";
     }
     

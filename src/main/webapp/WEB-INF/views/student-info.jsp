@@ -1,4 +1,7 @@
 
+<%@page import="javafx.util.Pair"%>
+<%@page import="com.classnet.model.Student"%>
+<%@page import="java.util.ArrayList"%>
 <%@include file="./masters/header_links.jsp" %>
 
 <body class="hold-transition sidebar-mini">
@@ -18,25 +21,42 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">All students details</li>
+                <li class="breadcrumb-item active">Program Student details</li>
               </ol>
             </div>
           </div>
         </div><!-- /.container-fluid -->
       </section>
-
+		<% ArrayList<Student> students = (ArrayList<Student>)request.getAttribute("students"); 
+			ArrayList<Pair<String,Integer>> progYears = (ArrayList<Pair<String,Integer>>) request.getAttribute("progYears");
+		
+			String name = "-"+(String)request.getAttribute("prog_name");
+		%>
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12">
-
+				
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">All Students (Mscit 2020)</h3>
+                  <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                       <%= name.substring(1)%>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                    	<% for(Pair<String,Integer> p : progYears) {%>
+                                        <a class="dropdown-item" href="<%= request.getContextPath()%>/view-program?progID=<%=p.getKey()%><%=name%>&year=<%=p.getValue()%>"><%=p.getValue() %></a>
+                                        <%}%>
+                                    </div>
+                   </div>
                 </div>
                 <!-- /.card-header -->
+                
+                
                 <div class="card-body">
+                 <h3> Total Students  = <%=students.size() %></h3>
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -46,23 +66,16 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>201912001</td>
-                        <td>ina</td>
-                        <td>CR</td>
-                      </tr>
-                      <tr>
-                        <td>201912002</td>
-                        <td>mina</td>
-                        <td>Acad</td>
-                      </tr>
-                      <tr>
-                        <td>201912003</td>
-                        <td>diga</td>
-                        <td>Student</td>
-                      </tr>
-
+                      	<% for(Student s : students){%>
+                      	
+                      		<tr>
+                      			<td> <%=s.getSsid() %></td>
+                      			<td> <%=s.getStudent_name() %></td>
+                      			<td> <%=s.getStu_type().getStudent_type_name() %></td>
+                      		</tr>
+						<%} %>
                     </tbody>
+                    
                     <tfoot>
                       <tr>
                         <th>Student ID</th>
