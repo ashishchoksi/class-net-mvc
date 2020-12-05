@@ -66,7 +66,7 @@ public class StudentTypeFilter extends HandlerInterceptorAdapter {
 		
 		HashMap<Integer, HashSet<String>> pages = new HashMap<Integer, HashSet<String>>();
 		
-		HashSet<String> stu_pages = new HashSet<String>();
+		HashSet<String> stu_pages = new HashSet<>();
 		stu_pages.add("view-message");
 		//stu_pages.add("index");
 		stu_pages.add("view-poll");

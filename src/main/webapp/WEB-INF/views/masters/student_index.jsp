@@ -1,5 +1,6 @@
 <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <%@page import="com.classnet.model.Student"%>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="#" class="brand-link">
         <img src="${mres}/images/DAIICT_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -14,8 +15,9 @@
           <div class="image">
             <img src="${mres}/dist/img/user3-128x128.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
+          <%Student s = (Student)request.getSession().getAttribute("studobj");%>
           <div class="info">
-            <a href="profile" class="d-block">lopamudra</a>
+            <a href="profile" class="d-block"><%=s.getStudent_name()%></a>
           </div>
         </div>
 
