@@ -34,12 +34,7 @@
             <enabled>false</enabled>
         </snapshots>
         </repository>
-    </repositories>
-     <properties>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
-</properties>    
-		
+    </repositories>    
         
     <dependencies>
         <dependency>
@@ -122,16 +117,13 @@
 	    <artifactId>spring-context-support</artifactId>
 	    <version>5.2.8.RELEASE</version>
 	</dependency>
-	</dependencies>
-	  <build>
-	  	<finalName>classnet</finalName>
-	</build>
         
         <dependency>
-        <groupId>org.openjfx</groupId>
-        <artifactId>javafx-controls</artifactId>
-        <version>11</version>
-    </dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11</version>
+        </dependency>
+
     <dependency>
         <groupId>org.openjfx</groupId>
         <artifactId>javafx-fxml</artifactId>
@@ -145,7 +137,6 @@
     <build>
 
             
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -153,9 +144,9 @@
                 <version>3.8.1</version>
             </plugin>
         </plugins>
-
+    
+        <finalName>classnet</finalName>
     </build>
-
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

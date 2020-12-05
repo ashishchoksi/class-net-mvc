@@ -11,6 +11,13 @@ public class ViewManager {
         return std != null;
     }
     
+    public static int getMyID() {
+        HttpSession session = SessionResolver.getSession();
+        Student std = (Student)session.getAttribute("studobj");
+        int type = std.getStu_type().getStudent_type_id();
+        return type;
+    }
+        
     public static String getSideBar() {
         HttpSession session = SessionResolver.getSession();
         Student std = (Student)session.getAttribute("studobj");
@@ -26,5 +33,6 @@ public class ViewManager {
         }
         
     }
+    
     
 }

@@ -107,6 +107,8 @@ public class PollController {
 
     @RequestMapping(value="/add-poll",method = RequestMethod.POST)
     public String add_poll(Model m, @RequestParam("poll_title") String poll_title, @RequestParam("start_date") String start_date, @RequestParam("end_date") String end_date, @RequestParam("title[]") ArrayList<String> poll_options){
+        
+        
     	if((poll_title.length()<1) || (start_date.length()<1) || (end_date.length()<1)) {
     		m.addAttribute("notCompleteTransction","Please fill all the Data");
     		return "add-poll";
@@ -123,6 +125,7 @@ public class PollController {
         
         m.addAttribute("completeTransction","Your Poll Record Is Successfully Saved...!");
         return "add-poll";
+        
     }
     
 }
