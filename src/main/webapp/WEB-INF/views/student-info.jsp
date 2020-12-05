@@ -29,7 +29,7 @@
       </section>
 		<% ArrayList<Student> students = (ArrayList<Student>)request.getAttribute("students"); 
 			ArrayList<Pair<String,Integer>> progYears = (ArrayList<Pair<String,Integer>>) request.getAttribute("progYears");
-		
+			//out.print(progYears);
 			String name = "-"+(String)request.getAttribute("prog_name");
 		%>
       <!-- Main content -->

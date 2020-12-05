@@ -188,7 +188,7 @@ public class ProgramDao {
     
      public HashMap<String,ArrayList<String>> getECStudentList(){
     	
-        HashMap<String,ArrayList<String>> list = new HashMap<>();
+        HashMap<String,ArrayList<String>> list = new HashMap<String,ArrayList<String>>();
 //    	ArrayList<Pair<String,Integer>> progYears = new ArrayList<Pair<String,Integer>>();
 //    	HashSet<String> hs = new HashSet<String>();
     	Connection conn;
@@ -206,7 +206,7 @@ public class ProgramDao {
                     String builderBuild = rs.getString("student_name") + ":" + rs.getString("ssid");
                     list.get(key_id).add(builderBuild);
                 } else {
-                    ArrayList<String> arr_list = new ArrayList<>();
+                    ArrayList<String> arr_list = new ArrayList<String>();
                     String builderBuild = rs.getString("student_name") + ":" + rs.getString("ssid");
                     arr_list.add(builderBuild);
                     list.put(key_id,arr_list);
