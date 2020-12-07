@@ -3,7 +3,7 @@
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
-        <%@include file="./masters/ec_index.jsp" %>
+         <%@include file="./masters/sidebar.jsp" %>
         <% 
 	        String error = (String)request.getAttribute("notCompleteTransction");
 	        String success = (String)request.getAttribute("completeTransction");
