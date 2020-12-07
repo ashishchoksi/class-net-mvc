@@ -32,13 +32,13 @@
                     <div class="row">
                         <div class="col-12">
                             <!-- interactive chart -->
-
+							<%Student s = (Student)request.getSession().getAttribute("studobj"); %>
                             <!-- <h5>Poll: 1</h5> -->
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
                                     <h3 class="col-5 card-title">
                                         <i class="fa fa-users"></i>
-                                        Batch: Msc.IT
+                                        Batch: <%=s.getProgram().getProgram_name() %>
                                     </h3>
 
                                 </div>

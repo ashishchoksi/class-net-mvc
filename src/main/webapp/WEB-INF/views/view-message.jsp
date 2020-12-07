@@ -89,7 +89,9 @@
                             </div>
                             <div class="col-2">
                                 <!-- <img src="./asset/icon/pin-empty.svg" alt="pin" style="width: 32px; height: 32px; float: right; cursor: pointer;" onmouseover="pinHover(this);" onmouseout="pinUnhover(this);"> -->
+                                <% if (stu.getStu_type().getStudent_type_id()!=1) {%>
                                 <a href="post-message" class="btn btn-primary" style="float: right;">Post Message</a>
+                                <%} %>
                             </div>
                         </div>
                         

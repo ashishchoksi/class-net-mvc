@@ -25,6 +25,9 @@ public class StudentTypeFilter extends HandlerInterceptorAdapter {
 			
 			return true;
 		}
+		if( page.length > 2 && page[2].equals("resources") ) {
+            return true;
+        }
 		if(std == null) {
             res.sendRedirect("login");
             return true;
