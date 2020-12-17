@@ -4,7 +4,7 @@
   <div class="wrapper">
 
     <!-- Main Sidebar Container -->
-    <%@include file="./masters/ec_index.jsp" %>
+    <%@include file="./masters/sidebar.jsp" %>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

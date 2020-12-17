@@ -25,7 +25,9 @@ public class AuthFilter extends HandlerInterceptorAdapter {
 //        // allow page without login
         if(cur.equals("login") || cur.equals("registration") || cur.equals("forgot-password")) {
             if(std != null) {
-                res.sendRedirect("");
+            	//System.out.println(cur);
+                res.sendRedirect("/classnet/");
+               
             }
             return true;
         }

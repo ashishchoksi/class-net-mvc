@@ -43,7 +43,7 @@
 			<div class="w3l_form">
 				<div class="left_grid_info">
 					<h1>Class Net</h1>
-					<p>Bla Bla Bla Bla.</p>
+					<p>Welcome to Classnet</p>
 					<img src="${mres}/images/DAIICT_logo.png" alt="class-net" />
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 	</div>
 	<!-- footer -->
 	<div class="footer">
-		<p>&copy; 2020-21 | Design by Class-Net Developers with the help of <a href="https://w3layouts.com/" target="blank">W3layouts</a></p>
+		<!-- <p>&copy; 2020-21 | Design by Class-Net Developers with the help of <a href="https://w3layouts.com/" target="blank">W3layouts</a></p>-->
 	</div>
 	<!-- footer -->
 </div>

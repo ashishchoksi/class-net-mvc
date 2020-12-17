@@ -7,7 +7,7 @@
 <body class="hold-transition sidebar-mini">
   <div class="wrapper">
      
-      <%@include file="./masters/ec_index.jsp" %>
+      <%@include file="./masters/sidebar.jsp" %>
       
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -29,7 +29,7 @@
       </section>
 		<% ArrayList<Student> students = (ArrayList<Student>)request.getAttribute("students"); 
 			ArrayList<Pair<String,Integer>> progYears = (ArrayList<Pair<String,Integer>>) request.getAttribute("progYears");
-		
+			//out.print(progYears);
 			String name = "-"+(String)request.getAttribute("prog_name");
 		%>
       <!-- Main content -->

@@ -79,7 +79,7 @@
         <script src="${mres}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
         <script src="${mres}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
         <!--<script src="${mres}/plugins/jquery-validation/additional-methods.min.js"></script>-->
-        
+       	
         
         
         <!-- post message JS -->

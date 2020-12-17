@@ -1,9 +1,58 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map.Entry" %>
+<%@page import="com.classnet.model.Poll"%>
+<%@page import="java.util.*"%>
+
 <%@include file="./masters/header_links.jsp" %>
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         
-        <%@include file="./masters/ec_index.jsp" %>
+       <%@include file="./masters/sidebar.jsp" %>
+        <% 
+	        String error = (String)request.getAttribute("notCompleteTransction");
+	        String success = (String)request.getAttribute("completeTransction");
+        %>
+        <!--Error Modal -->
+		<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Error</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <%= error %>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok...</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!--Success Modal -->
+		<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <%= success %>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok...</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+        
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -28,96 +77,98 @@
 
             <section class="content">
                 <div class="container-fluid">
+					<% ArrayList<Poll> pRemaining = (ArrayList<Poll>)request.getAttribute("pRemaining"); 
+                        			Map<Integer,String> optionData = new HashMap<>();
+                        			if(pRemaining.size() == 0){
+                        	%>
+                        	<div class="row">
+                        		<div class="col-12">
+                    
+	                        	<div class="card">
+		                        	<div class="card-body table-responsive p-0">
+		                          		<h3> Oops...! Not Found Any Recored...  </h3>
+		                          	</div>
+	                          	</div>
+	                          	
+	                          	</div>
+							</div>
+                        	<%			
+                        			}
+                        			else{
+                        					for(Poll p : pRemaining){
+                            //out.println(m.getDocuments().size());
+                        %>
                     
                     <div class="row">
                         <div class="col-12">
                             <!-- interactive chart -->
-                            
-                            <h5>Poll: 1</h5>
+                            <!-- <h5>Poll: 1</h5> -->
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
                                     <h3 class="col-5 card-title">
                                         <i class="far fa-user"></i>
-                                        Created by
+                                        Created by :  
+                                        <%= p.getPollStuName() %>
                                     </h3>
 
                                     <span class="col-6">
                                         <i class="far fa-clock"></i>
-                                        5 hour remaining
+                                        End Time :
+                                        <%= p.getEndDate().getHours()%>:<%= p.getEndDate().getMinutes() %>
                                     </span>
 
                                     <div class="card-tools">
-                                        Start/End
-                                        <i class="far fa-calendar"></i>
-                                        :
-                                        10:15 /
-                                        15:15
+										<i class="far fa-calendar"></i>
+										End Date :
+										<%= p.getEndDate().getDay()%>/<%= p.getEndDate().getMonth() +1 %>/<%= p.getEndDate().getYear()-100 %> 
+									</div>
 
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div id="interactive" >
-                                        <h4 class="font-weight-normal "> <i class="far fa-chart-bar"></i> My Poll
-                                            Question Title </h4>
-
+                                        <h4 class="font-weight-normal "> <i class="far fa-chart-bar"></i> 
+                                            <%= p.getPollTitle() %>
+                                        </h4>
+                                        <form action="view-poll" method="post">
                                         <div class="alert alert-light" role="alert">
                                             <div class="form-check">
+                                                <input type="hidden" name="poll_id" value="<%= p.getPollid() %>">
+                                                <%
+                                                    optionData = p.getPollOptionData();
+                                                if(optionData != null)
+                                                for (Map.Entry e : optionData.entrySet()){
+                                            
+                                                %>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">
-                                                            <input type="radio" name="exampleRadios"
-                                                                aria-label="Radio button for following text input">
+                                                            <input type="radio" name="poll_option_id" value="<%= e.getKey() %>"
+                                                                aria-label="Radio button for following text input" required>
                                                         </div>
                                                     </div>
-                                                    <label class="form-control" value="hello">Option 1</label>
+                                                    <label class="form-control" ><%= e.getValue() %></label>
                                                 </div>
-
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <input type="radio" name="exampleRadios"
-                                                                aria-label="Radio button for following text input">
-                                                        </div>
-                                                    </div>
-                                                    <label class="form-control" value="hello">Option 2</label>
-                                                </div>
-
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <input type="radio" name="exampleRadios"
-                                                                aria-label="Radio button for following text input">
-                                                        </div>
-                                                    </div>
-                                                    <label class="form-control" value="hello">Option 3</label>
-                                                </div>
-
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <div class="input-group-text">
-                                                            <input type="radio" name="exampleRadios"
-                                                                aria-label="Radio button for following text input">
-                                                        </div>
-                                                    </div>
-                                                    <label class="form-control" value="hello">Option 4</label>
-                                                </div>
+                                                <% } %>
+                                                
                                             </div>
                                             
-                                            <button type="button" class="ml-3 mt-3 btn btn-primary btn-sm">Submit</button>
+                                            <button type="submit" class="ml-3 mt-3 btn btn-primary btn-sm" style="">Submit</button>
                                             <br/>
                                             
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                                 <!-- /.card-body-->
                             </div>
                             <!-- /.card -->
-
+							
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
-
+                    <% } %>
+				<% } %>
 
                 </div><!-- /.container-fluid -->
             </section>
@@ -125,7 +176,6 @@
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        
                         <div class="col-sm-12">
                             <!-- <div class="card">
                                 <div class="card-header">
@@ -142,23 +192,52 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                	<%
+                            	ArrayList<Poll> pFineshed = (ArrayList<Poll>)request.getAttribute("pFineshed"); 
+                            	
+                                if(pFineshed.size() == 0) {
+                     %>
+                     		<div class="row">
+                        		<div class="col-12">
+                    
+	                        	<div class="card">
+		                        	<div class="card-body table-responsive p-0">
+		                          		<h3> Oops...! Not Found Any Recored...  </h3>
+		                          	</div>
+	                          	</div>
+	                          	
+	                          	</div>
+							</div>
+                        	<%			
+                        			}
+                        			else{
+                            		for(Poll p : pFineshed){
+                            			int tAns=0;
+                            			Map<Integer,Integer> totalAns = new HashMap<>();
+                                    	Map<Integer,String> data = new HashMap<>();
+                            			data = p.getPollOptionData();
+                            			totalAns = p.getPollAnsCount();
+                            			if(totalAns != null){
+                            				for(Map.Entry e : totalAns.entrySet()){
+                            					tAns += (int)e.getValue();
+                            				}
+                            			}
+                            %>
                     <div class="row">
                         <div class="col-12">
-                            <h5>No: 1</h5>
                             <div class="card">
                                 <div class="card-header">
                                     <!-- <h3 class="card-title">Fixed Header Table</h3> -->
-                                    <h4 class="font-weight-normal "> <i class="far fa-chart-bar"></i> My Poll
-                                        Question Title 
-                                        &nbsp
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-sm">
+                                    <h4 class="font-weight-normal "> <i class="far fa-chart-bar"></i>
+                                    	<%= p.getPollTitle() %> 
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#p<%= p.getPollid()%>">
                                             <i class="fas fa-info"></i>
                                           </button>
 <!-- 
                                         <button type="submit" class="btn btn-primary"><i
                                             class="fas fa-info"></i></button>     -->
                                     </h4>
-                                    <div class="modal fade" id="modal-sm">
+                                    <div class="modal fade" id="p<%= p.getPollid()%>">
                                         <div class="modal-dialog modal-sm">
                                           <div class="modal-content">
                                             <div class="modal-header">
@@ -168,11 +247,11 @@
                                               </button>
                                             </div>
                                             <div class="modal-body">
-                                              <p><b>Created By:</b> lopamudra </p>
-                                              <p><b>Start Date/Time:</b> 20/12/2020 - 10:20 </p>
-                                              <p><b>End Date/Time:</b> 20/12/2020 - 15:20 </p>
-                                              <p><b>No of poll count:</b> 150 </p>
-                                              <p><b>Your vote:</b> bhindi 10Kg </p>
+                                              <p><b>Created By:</b> <%= p.getPollStuName() %> </p>
+                                              <p><b>Start Date/Time:</b><%= p.getStartDate().getDay()%>/<%= p.getStartDate().getMonth() +1 %>/<%= p.getStartDate().getYear()-100 %> - <%= p.getStartDate().getHours()%>:<%= p.getStartDate().getMinutes() %> </p>
+                                              <p><b>End Date/Time:</b> <%= p.getEndDate().getDay()%>/<%= p.getEndDate().getMonth() +1 %>/<%= p.getEndDate().getYear()-100 %> - <%= p.getEndDate().getHours()%>:<%= p.getEndDate().getMinutes() %></p>
+                                              <p><b>No of poll count:</b> <%= tAns %> </p>
+                                              <p><b>Your vote:</b> <%= p.getPollMyAns() %> </p>
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -198,46 +277,31 @@
                                         </tr>
                                       </thead>
                                       <tbody>
+                                      <%
+                                      	if(data != null){
+                                      		int temp =1;
+                                      		for(Map.Entry e : data.entrySet()){
+                                         		float pr = 0; 
+                                      			if(totalAns.get(e.getKey()) != null){
+                                      				pr = (totalAns.get(e.getKey())*100)/tAns;
+                                      			}
+                                    
+                                      %>
                                         <tr>
-                                          <td>1.</td>
-                                          <td>Option 1</td>
+                                          <td><%= temp %></td>
+                                          <td><%= e.getValue() %></td>
                                           <td>
                                             <div class="progress progress-xs">
-                                              <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                              <div class="progress-bar progress-bar-danger" style="width: <%= pr %>%"></div>
                                             </div>
                                           </td>
-                                          <td><span class="badge bg-danger">55%</span></td>
+                                          <td><span class="badge bg-danger"><%= pr %>%</span></td>
                                         </tr>
-                                        <tr>
-                                          <td>2.</td>
-                                          <td>Option 1</td>
-                                          <td>
-                                            <div class="progress progress-xs">
-                                              <div class="progress-bar bg-warning" style="width: 70%"></div>
-                                            </div>
-                                          </td>
-                                          <td><span class="badge bg-warning">70%</span></td>
-                                        </tr>
-                                        <tr>
-                                          <td>3.</td>
-                                          <td>Option 1</td>
-                                          <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                              <div class="progress-bar bg-primary" style="width: 30%"></div>
-                                            </div>
-                                          </td>
-                                          <td><span class="badge bg-primary">30%</span></td>
-                                        </tr>
-                                        <tr>
-                                          <td>4.</td>
-                                          <td>Option 1</td>
-                                          <td>
-                                            <div class="progress progress-xs progress-striped active">
-                                              <div class="progress-bar bg-success" style="width: 90%"></div>
-                                            </div>
-                                          </td>
-                                          <td><span class="badge bg-success">90%</span></td>
-                                        </tr>
+                                        <% 
+                                        		temp+=1;
+                                        	} 
+                                      	}
+                                        %>
                                       </tbody>
                                     </table>
                                   </div>
@@ -246,11 +310,30 @@
                             
                         </div>
                     </div>
+                    <% } } %>
                     <!-- /.row -->
                 </div><!-- /.container-fluid -->
-            </section>
+            </section> 
             <!-- /.content -->
         </div>
+        
+         <%
+        	if(error != null){
+        %>
+        
+        <script>
+        	 $('#errorModal').modal('show');
+       	</script>
+        <%
+        	}
+        	if(success != null){
+        %>
+        	<script>
+        	 	$('#successModal').modal('show');
+       		</script>
+        <%		
+        	}
+        %>
         
         
 <%@include file="./masters/footer_links.jsp" %>

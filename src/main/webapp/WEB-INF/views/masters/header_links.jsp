@@ -1,6 +1,7 @@
 <%@page contentType="text/html" isELIgnored="false" pageEncoding="windows-1252"%>
+<%--<%@ page contentType="text/html;charset=UTF-8" isELIgnored="false" language="java" %>--%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@page import="com.classnet.util.ViewManager"%>
 <!DOCTYPE html>
 <html>
 
@@ -48,7 +49,7 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="${mres}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="${mres}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   
   <style>
         .blackHover:hover{
@@ -75,7 +76,25 @@
                 else
                     e.style.display = 'block';
             }
+        function timeConversion(start,end){
+            let sDate = new Date(start);
+            let eDate = new Date(end);
+            console.log("start =" + start);
+            console.log("end =" + end);
+            if(Math.abs(eDate.getFullYear()-sDate.getFullYear()))
+                return  Math.abs(eDate.getFullYear() - sDate.getFullYear()) + " Year";
+            if(Math.abs(eDate.getMonth() - sDate.getMonth()))
+                return Math.abs(eDate.getMonth() - sDate.getMonth()) + " Months";
+            if(Math.abs(eDate.getDay() - sDate.getDay()))
+                return Math.abs(eDate.getDay() - sDate.getDay()) + " Days";
+            if(Math.abs(eDate.getHours() - sDate.getHours()))
+                return Math.abs(eDate.getHours() - sDate.getHours()) + " Hrs.";
+            if(eDate.getMinutes() - sDate.getMinutes()){
+                return Math.abs(eDate.getMinutes() - sDate.getMinutes()) + " Minutes";
+            }
+            if(eDate.getSeconds() - sDate.getSeconds()){
+                return  Math.abs( eDate.getSeconds() - sDate.getSeconds() ) + " Seconds"
+            }
+        }
     </script>
-  
-  
 </head>

@@ -1,11 +1,17 @@
-<%@page import="com.classnet.model.Student"%>
+
 <%@page import="java.util.*"%>
+<%@page import="com.classnet.model.Student" %>
+<%@page import="com.classnet.util.ViewManager" %>
 
 <%@include file="./masters/header_links.jsp" %>
 <body class="hold-transition sidebar-mini layout-fixed">
+
     <div class="wrapper">
-        <%@include file="./masters/ec_index.jsp" %>
+        
+         <%@include file="./masters/sidebar.jsp" %>
+        
         <div class="content-wrapper">
+            
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -16,6 +22,7 @@
                             </ol>
                         </div>
                     </div>
+
                 </div>
             </div>
             <section class="content">

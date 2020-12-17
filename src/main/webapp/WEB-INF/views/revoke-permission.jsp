@@ -4,7 +4,7 @@
 <%@include file="./masters/header_links.jsp" %>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-    <%@include file="./masters/ec_index.jsp" %>
+    <%@include file="./masters/sidebar.jsp" %>
         <div class="content-wrapper">
             <section class="content-header">
                 <div class="container-fluid">
