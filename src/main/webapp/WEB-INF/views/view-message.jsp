@@ -113,7 +113,7 @@
                                 <!-- Post -->
                                 <div class="post">
                                     <div class="user-block">
-                                        <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg"
+                                        <img class="img-circle img-bordered-sm" src="${mres}/images/envelope-open-regular.svg"
                                             alt="user image">
                                         <span class="username">
                                             <a href="#"><%=m.getTitle()%></a>
@@ -180,7 +180,7 @@
                                                         
                                                         <!-- Single comment thread -->
                                                         <div class="user-block" style="padding-left: 5px;">
-                                                            <img class="img-circle img-bordered-sm" src="${mres}/dist/img/user1-128x128.jpg" alt="user image">
+                                                            <img class="img-circle img-bordered-sm" src="${mres}/images/user-ninja-solid.svg" alt="user image">
                                                             <span class="username">
                                                                 <a href="#"> <%=c.getSsid()%> </a>
                                                                 

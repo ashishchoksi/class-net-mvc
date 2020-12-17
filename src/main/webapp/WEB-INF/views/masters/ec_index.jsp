@@ -13,7 +13,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="${mres}/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
+            <img src="${mres}/images/icons8-user-shield-64.png" class="img-circle elevation-2" alt="User Image">
           </div>
           <%Student s = (Student)request.getSession().getAttribute("studobj");%>
           <div class="info">
@@ -125,10 +125,10 @@
             </li>
 
             <li class="nav-item active">
-              <a href="#" class="nav-link">
-                <i class="far fas fa-broadcast-tower nav-icon"></i>
+              <a href="/classnet/logout" class="nav-link">
+                <i class="far fas fa-sign-out-alt nav-icon"></i>
                 <p>
-                  Broadcast Message
+                  Logout
                 </p>
               </a>
             </li>

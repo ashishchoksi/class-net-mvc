@@ -117,6 +117,13 @@ public class VisitorController {
         
     }
     
+    @RequestMapping("/logout")
+    public String logout(){
+        
+//        work here 
+        return "login";
+    }
+    
     @RequestMapping("/error")
     public String error_page(){
         return "error";

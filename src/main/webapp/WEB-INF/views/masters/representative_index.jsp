@@ -91,6 +91,15 @@
                 </li>
               </ul>
             </li>
+            
+            <li class="nav-item active">
+              <a href="/classnet/logout" class="nav-link">
+                <i class="far fas fa-sign-out-alt nav-icon"></i>
+                <p>
+                  Logout
+                </p>
+              </a>
+            </li>
 
             <!-- Add / Revoke Access -->
 
