@@ -14,6 +14,12 @@ public class SessionResolver {
         session.setAttribute(key, obj);
     }
     
+    public static void remove( HttpServletRequest request, String key, Object obj){
+        HttpSession session = request.getSession();  
+        session.setAttribute(key, obj);
+    }
+   
+    
     public static HttpSession getSession() {
     	RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 	    

@@ -20,8 +20,9 @@ public class StudentTypeFilter extends HandlerInterceptorAdapter {
 		Student std=null;
 		std = (Student) req.getSession().getAttribute("studobj");
 		HashMap<Integer, HashSet<String>> pages = getPageSet();
-		System.out.println(uri);
-		if(uri.contains("login") || uri.contains("registration")) {
+		//System.out.println(uri + "---------------- stu filter" + std);
+		
+		if(uri.contains("login") || uri.contains("registration") || uri.contains("logout")) {
 			
 			return true;
 		}

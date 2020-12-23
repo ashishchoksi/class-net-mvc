@@ -5,6 +5,8 @@ import com.classnet.service.StudentService;
 import com.classnet.service.VisitorService;
 import com.classnet.util.SessionResolver;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -118,10 +120,16 @@ public class VisitorController {
     }
     
     @RequestMapping("/logout")
-    public String logout(){
+    public String logout(HttpServletRequest req){
         
 //        work here 
-        return "login";
+    	
+    	HttpSession sess = req.getSession();
+    	SessionResolver.remove(req, "studobj", null);
+    	SessionResolver.remove(req, "ssid", null);
+    	sess.invalidate();
+    	
+        return "redirect:/";
     }
     
     @RequestMapping("/error")
