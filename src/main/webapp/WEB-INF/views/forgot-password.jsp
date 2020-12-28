@@ -42,7 +42,7 @@
                     <div class="w3l_form">
                         <div class="left_grid_info">
                             <h1>Class Net</h1>
-                            <p>Bla Bla Bla Bla.</p>
+                            <p>Oops! Forgot your Password</p>
                             <img src="${mres}/images/DAIICT_logo.png" alt="class-net" />
                         </div>
                     </div>
@@ -60,9 +60,9 @@
 
                             <p style="color: green;">${success_msg}</p>
 
-                            <button class="btn btn-danger btn-block" type="submit">Register</button >                
+                            <button class="btn btn-danger btn-block" type="submit">Get password</button >                
                         </form>
-                        <p class="account">By clicking login, you agree to our <a href="#">Terms & Conditions!</a></p>
+                        
                         <p class="account1">Already have a account ? <a href="./login.html">Login here</a></p>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
             </div>
             <!-- footer -->
             <div class="footer">
-                <p>&copy; 2020-21 | Design by Class-Net Developers with the help of <a href="https://w3layouts.com/" target="blank">W3layouts</a></p>
+                 <p>&copy; 2020-21 | Design by Class-Net Developers with the help of <a href="https://w3layouts.com/" target="blank">W3layouts</a></p> 
             </div>
             <!-- footer -->
         </div>

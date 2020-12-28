@@ -53,7 +53,7 @@
                                                 <select class="form-control select2" style="width: 100%;" id="role_id" name="role_id">
                                                     <option selected="selected" value="2">Class Representative</option>
                                                     <option value="3">Election Representative</option>
-                                                    <option value="4">Student Placement Counsel</option>
+                                                    <option value="4">Student Placement Committee</option>
                                                     <option value="5">Academic Committee</option>
                                                 </select>
                                             </div>

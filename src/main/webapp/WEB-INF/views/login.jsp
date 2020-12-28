@@ -67,7 +67,7 @@
 					</div>						 -->
 						<button class="btn btn-danger btn-block" type="submit">Login</button >                
 				</form>
-				<p class="account">By clicking login, you agree to our <a href="#">Terms & Conditions!</a></p>
+				
 				<p class="account1">Don't have an account? <a href="./registration">Register here</a></p>
 				<p class="account1">Forgot your password? <a href="./forgot-password">Forgot Password</a></p>
 			</div>
@@ -76,7 +76,7 @@
 	</div>
 	<!-- footer -->
 	<div class="footer">
-		<!-- <p>&copy; 2020-21 | Design by Class-Net Developers with the help of <a href="https://w3layouts.com/" target="blank">W3layouts</a></p>-->
+		 <p>&copy; 2020-21 | Design by Class-Net Developers with the help of <a href="https://w3layouts.com/" target="blank">W3layouts</a></p>
 	</div>
 	<!-- footer -->
 </div>

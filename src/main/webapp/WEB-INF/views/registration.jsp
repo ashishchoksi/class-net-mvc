@@ -43,7 +43,7 @@
                     <div class="w3l_form">
                         <div class="left_grid_info">
                             <h1>Class Net</h1>
-                            <p>Bla Bla Bla Bla.</p>
+                            <p>Perhaps Join us</p>
                             <img src="${mres}/images/DAIICT_logo.png" alt="class-net" />
                         </div>
                     </div>
@@ -69,7 +69,7 @@
 
                             <button class="btn btn-danger btn-block" type="submit">Register</button >                
                         </form>
-                        <p class="account">By clicking login, you agree to our <a href="#">Terms & Conditions!</a></p>
+                        
                         <p class="account1">Already have a account ? <a href="./login">Login here</a></p>
                     </div>
                 </div>

@@ -20,10 +20,10 @@ public class StudentTypeFilter extends HandlerInterceptorAdapter {
 		Student std=null;
 		std = (Student) req.getSession().getAttribute("studobj");
 		HashMap<Integer, HashSet<String>> pages = getPageSet();
-		//System.out.println(uri + "---------------- stu filter" + std);
+		System.out.println(uri + "---------------- stu filter" + std);
 		
-		if(uri.contains("login") || uri.contains("registration") || uri.contains("logout")) {
-			
+		if(uri.contains("forgot-password") || uri.contains("login") || uri.contains("registration") || uri.contains("logout") ) {
+			//System.out.println("here");
 			return true;
 		}
 		if( page.length > 2 && page[2].equals("resources") ) {
@@ -72,10 +72,15 @@ public class StudentTypeFilter extends HandlerInterceptorAdapter {
 		
 		HashSet<String> stu_pages = new HashSet<>();
 		stu_pages.add("view-message");
-		//stu_pages.add("index");
+		stu_pages.add("comment");
 		stu_pages.add("view-poll");
 		stu_pages.add("profile");
 		stu_pages.add("forgot-password");
+		stu_pages.add("pin-message");
+		stu_pages.add("profileUpdate");
+		stu_pages.add("profile");
+		stu_pages.add("profilePassword");
+		
 		pages.put(1,stu_pages);
 		
 		HashSet<String> cr_pages = (HashSet<String>) stu_pages.clone();

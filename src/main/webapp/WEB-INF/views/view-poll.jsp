@@ -86,7 +86,7 @@
                     
 	                        	<div class="card">
 		                        	<div class="card-body table-responsive p-0">
-		                          		<h3> Oops...! Not Found Any Recored...  </h3>
+		                          		<h3> Oops...! No active / votable poll found  </h3>
 		                          	</div>
 	                          	</div>
 	                          	
@@ -202,7 +202,7 @@
                     
 	                        	<div class="card">
 		                        	<div class="card-body table-responsive p-0">
-		                          		<h3> Oops...! Not Found Any Recored...  </h3>
+		                          		<h3> Oops...! No active polls voted </h3>
 		                          	</div>
 	                          	</div>
 	                          	
